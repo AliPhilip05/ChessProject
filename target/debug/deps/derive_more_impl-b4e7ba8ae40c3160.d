@@ -1,0 +1,9 @@
+/Users/aliphilip/Documents/GitHub/ChessProject/target/debug/deps/derive_more_impl-b4e7ba8ae40c3160.d: /Users/aliphilip/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/derive_more-impl-2.1.1/src/lib.rs /Users/aliphilip/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/derive_more-impl-2.1.1/src/utils.rs /Users/aliphilip/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/derive_more-impl-2.1.1/src/is_variant.rs /Users/aliphilip/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/derive_more-impl-2.1.1/src/../README.md /Users/aliphilip/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/derive_more-impl-2.1.1/src/../doc/is_variant.md
+
+/Users/aliphilip/Documents/GitHub/ChessProject/target/debug/deps/libderive_more_impl-b4e7ba8ae40c3160.dylib: /Users/aliphilip/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/derive_more-impl-2.1.1/src/lib.rs /Users/aliphilip/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/derive_more-impl-2.1.1/src/utils.rs /Users/aliphilip/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/derive_more-impl-2.1.1/src/is_variant.rs /Users/aliphilip/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/derive_more-impl-2.1.1/src/../README.md /Users/aliphilip/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/derive_more-impl-2.1.1/src/../doc/is_variant.md
+
+/Users/aliphilip/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/derive_more-impl-2.1.1/src/lib.rs:
+/Users/aliphilip/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/derive_more-impl-2.1.1/src/utils.rs:
+/Users/aliphilip/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/derive_more-impl-2.1.1/src/is_variant.rs:
+/Users/aliphilip/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/derive_more-impl-2.1.1/src/../README.md:
+/Users/aliphilip/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/derive_more-impl-2.1.1/src/../doc/is_variant.md:
