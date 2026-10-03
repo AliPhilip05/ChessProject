@@ -13,7 +13,7 @@ Follow these steps to pull the code cleanly from GitHub and get your local works
 ### 1. Clone the Repository
 Open your terminal and clone the project:
 ```bash
-git clone https://github.com
+git clone [https://github.com](https://github.com/AliPhilip05/ChessProject/)
 cd ChessProject
 ```
 
