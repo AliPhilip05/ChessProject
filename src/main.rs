@@ -1,8 +1,14 @@
-mod libs;
+mod api;
+mod chess;
+mod cli;
+mod lessons;
+mod web;
 
 fn main() {
-    //NOTE: This is how we are importing
-    //the values from libs to main.
-    //
-    libs::menu();
+    let args: Vec<String> = std::env::args().collect();
+    if args.iter().any(|arg| arg == "--web") {
+        web::serve();
+    } else {
+        cli::run();
+    }
 }

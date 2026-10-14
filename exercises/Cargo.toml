@@ -1,0 +1,8 @@
+[package]
+name = "chessproject-learning"
+version = "0.1.0"
+edition = "2024"
+
+# This is a separate exercise crate so learners can edit lesson code without
+# affecting the runnable app in the repository root.
+[dependencies]
