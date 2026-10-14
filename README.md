@@ -48,3 +48,16 @@ output/pdf/           Bookmarkable 104-function appendix
 ```
 
 The built-in sample game supports both app modes without network access. The browser server listens on `127.0.0.1:7878`.
+
+## Host the browser app
+
+The `render.yaml` Blueprint runs the Rust server as a Render web service at its
+own `onrender.com` address. Connect this repository to Render and create a
+Blueprint from `render.yaml`. Render sets `PORT`, and the Blueprint sets
+`BIND_ADDRESS=0.0.0.0` so the service accepts external traffic. Local runs keep
+using `127.0.0.1:7878`.
+
+The free service sleeps when idle, so the first request after a pause can take
+longer. Game sessions are stored in memory and reset whenever the service
+restarts. A custom domain can be added through Render's domain settings and
+the domain's DNS provider.
