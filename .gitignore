@@ -1,3 +1,5 @@
 Documents/Makefile
 Documents/Makefile
 target/
+.gte-state.txt
+.gte-backup/

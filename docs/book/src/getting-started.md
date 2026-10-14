@@ -1,15 +1,15 @@
 # Getting Started
 
-The repository contains one main Cargo package and a second, dependency-light package for learner exercises.
+GTE has two entry points in one Rust binary: the interactive terminal lessons and the browser chess app. The first time you start the terminal interface, it runs Question 0, whose implementation is already filled in.
 
 ## Requirements
 
 - A current Rust toolchain with Cargo.
-- A terminal for the learning UI.
-- A browser for the web app and book.
-- Internet access only when requesting Chess.com public archives.
+- A terminal for the keyboard-driven curriculum.
+- A browser for the game and Guidebook.
+- Network access only for public Chess.com archive lookups.
 
-## Run the terminal lessons
+## Start the terminal curriculum
 
 From the repository root, run:
 
@@ -17,24 +17,39 @@ From the repository root, run:
 cargo run
 ```
 
-Use the arrow keys to select a lesson and press Enter. Inside a lesson, `H` shows a hint, `C` opens a concept check, `T` runs that lesson's focused Rust exercise tests, `S` shows the solution, and `G` prints the local Guidebook URL. Edit the file shown at the top of the lesson before running its tests.
+The terminal shows the GTE logo and current question. It checks the first incomplete exercise on launch and watches the active file for changes. Question 0 starts complete in source, so its first run gives you a green result without editing anything.
 
-## Run the browser app
+The main keys follow the Rustlings-style loop:
+
+- `R` runs the current exercise check. On success, the matching reference implementation loads automatically alongside the passing test output.
+- `N` advances after the current exercise is complete; `P` returns to the previous exercise.
+- `H` shows a hint. `L` opens the exercise list. Arrow keys move through that list, and Enter runs the selected check.
+- `C` runs all exercise targets. `X` asks before restoring the current exercise from Git and saves a backup in `.gte-backup/`.
+- `Q` exits. `?` shows the available shortcuts.
+
+If you want the short command after installing the binary, run `cargo install --path . --bin gte` once and then type `gte` in this repository. `cargo run` is the direct development command and does not require a separate installation.
+
+## Start the browser app
+
+Run the local Rust server:
 
 ```bash
 cargo run -- --web
 ```
 
-Open [http://127.0.0.1:7878](http://127.0.0.1:7878) for the app and [http://127.0.0.1:7878/guide](http://127.0.0.1:7878/guide) for this book. The built-in demo game works without a network request. Public archive modes contact Chess.com's Published-Data API.
+Open `http://127.0.0.1:7878/` for the app or `http://127.0.0.1:7878/guide` for this book. Select **Download Markdown** in the Guidebook header or open `/guide/download` to download the chapters and full codebase walkthrough. The server listens on localhost and handles one connection at a time.
+
+Use the included demo game to explore either mode without a network call. The public archive forms use Chess.com's read-only Published-Data API.
 
 ## Run a focused exercise
 
-The exercise package is separate from the browser app. A focused test can be run from the repository root:
+Each integration-test target imports its associated source file directly. For example:
 
 ```bash
+cargo test --manifest-path exercises/Cargo.toml --test intro_0
 cargo test --manifest-path exercises/Cargo.toml --test rust_basics
 ```
 
-The learner files begin with `TODO!()` placeholders, so the tests fail until you implement the requested behavior. Copying the corresponding file from `solutions/` is a way to inspect a completed version.
+Question 0 is already complete. Later stubs contain `todo!()` until you implement the requested behavior. A compiler error is useful feedback: for instance, the Rust-basics test compares two `GameMode` values, so the enum needs `PartialEq` before the test can compile.
 
-Continue to [Project Architecture](/guide/architecture) to see how the two Cargo packages fit together.
+Continue to [Project Architecture](/guide/architecture) to see why the app and exercises live in separate Cargo packages.

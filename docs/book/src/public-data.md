@@ -1,23 +1,51 @@
 # Chess.com Public Data
 
-The app uses Chess.com's public, read-only Published-Data API. It does not sign into an account or submit moves.
+`src/api.rs` is the network boundary between GTE and Chess.com. It reads public game archives through Chess.com's Published-Data API. It does not sign in, change profiles, or submit moves.
 
-## Archive request flow
+## Why archives come before games
 
-1. The user enters a Chess.com username.
-2. `api.rs` requests `/pub/player/{username}/games/archives`.
-3. The response lists monthly archive URLs. The app requests one archive URL at a time.
-4. Game records are filtered to standard chess and converted from PGN and metadata.
-5. A candidate is selected for a round. If the request fails, the app explains the error and loads its demo game.
+The API exposes monthly archives for one player. It does not expose a global “random game” endpoint. GTE therefore asks for a username, fetches that player's archive index, and samples a game from one of the returned months.
 
-The API exposes archives by player, not a global random-game feed. “Random game” therefore means a game sampled from a selected player's public archives.
+The request flow in `random_public_game` is:
 
-## Pasted game links
+1. `validate_username` trims and lowercases the name and allows 1–25 ASCII letters, digits, or underscores.
+2. `archive_urls` requests `/pub/player/{username}/games/archives`.
+3. The code looks through up to four newest archive URLs, newest first.
+4. `get_json` requests one archive at a time. Each returned game is passed through `to_chess_game`, which ignores nonstandard variants and records without PGN.
+5. The first archive with usable candidates ends the search. A time-derived index selects one candidate from that set.
+6. The function returns `Ok(ChessGame)` or a readable `Err(String)`.
 
-A public game URL is resolved by scanning recent monthly archives for that selected username and comparing the game URL or its final path segment. Enter a username associated with the game. If the game is not in the scanned archives, the page explains that and offers the demo path.
+The candidate index is a lightweight prototype choice, not cryptographic randomness. Choosing among one recent month also favors recent games, which makes loading quick.
 
-## Data and failure handling
+## Resolve a pasted game URL
 
-The game record may provide a PGN, usernames, ratings, opening metadata, result, time control, and a URL. Missing optional fields remain unknown. The interface does not invent ratings. Invalid usernames, unsupported links, missing archives, HTTP errors, and unreadable JSON become readable messages.
+`game_from_archive_link` first validates the username and checks that the supplied URL begins with the public Chess.com game URL prefix. It then scans up to twelve returned monthly archives. `same_game_id` compares the final path segment after removing a query string, so equivalent URL forms can identify the same archive record.
 
-The serial request flow is deliberate: it avoids launching a burst of archive requests when one result will do. For the official endpoint details, read the [Chess.com Published-Data API documentation](https://www.chess.com/news/view/published-data-api).
+A link must appear in the selected player's archive. If it does not, GTE returns an explanation and the web layer offers its built-in demo game so the learner can continue.
+
+## Decode the JSON record
+
+`get_json` sets a descriptive `User-Agent`, performs the GET request with `ureq`, and decodes a `serde_json::Value`. It turns request and JSON failures into error messages rather than panicking.
+
+`to_chess_game` uses `Value` accessors such as `get`, `as_str`, and `as_i64` to read optional fields. It gets the PGN, ratings, names, opening/ECO, URL, time control, and variant. Missing ratings remain `None`; they are not silently converted to zero. The parser in `ChessGame::with_metadata` can use metadata from either the JSON fields or PGN headers.
+
+If `opening` is absent, the API converter may turn an ECO URL such as `.../C50-Italian-Game` into an approximate readable label with `opening_from_eco`. If the API loader fails, `web::load_game` keeps the message and uses `ChessGame::demo()`.
+
+## Error path examples
+
+```rust
+match api::random_public_game("erik") {
+    Ok(game) => println!("Loaded {} plies", game.ply_count()),
+    Err(message) => eprintln!("Could not load a public game: {message}"),
+}
+```
+
+The production web route uses the same result but renders a notice and a demo fallback. Errors include invalid usernames, absent archive lists, empty public archives, HTTP failures, unreadable JSON, and no usable chess games.
+
+## Privacy and limits
+
+The API client sends only the requested public username and URL to Chess.com's public endpoint. No account credentials are needed. The implementation is serial to keep the request flow small and avoid launching an unnecessary burst of requests.
+
+The archive endpoint can be stale or unavailable; the prototype has no cache. It only accepts standard chess records with PGN. Recent-archive link lookup can miss older games. The exercise `archive_api` tests the list slicing and username rules with local strings, while the full app uses the network functions in `api.rs`.
+
+For the rest of the record-to-board path, continue to [PGN and Board State](/guide/board-state). For exact function responsibilities, see [the API section of reference.md](/guide/reference#chesscom-archive-data).

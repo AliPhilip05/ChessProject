@@ -71,7 +71,7 @@ The app and terminal UI use **GTE** as the product mark.
 ### Interaction
 
 - `cargo run` launches a keyboard-driven terminal learning interface.
-- Arrow keys navigate lessons; Enter opens a lesson; `h` shows a hint; `s` opens its reference solution; `t` runs the lesson's focused Rust tests; `c` opens its concept check; `g` prints the matching Guidebook reference URL; Esc returns; `q` exits.
+- The terminal opens with the GTE logo on Question 0, runs that prefilled orientation exercise, and shows the passing test output. `r` runs the selected exercise's focused Rust tests; `n` advances after a pass; `p` moves to the previous exercise; `h` shows a hint; `s` opens its reference solution; `c` opens its concept check; `g` prints the matching Guidebook reference URL; `l` opens the exercise list; `x` confirms restoring the current exercise from Git; `q` exits.
 - Include a lesson picker so learners can jump directly to a chosen app component.
 - Display a concise status for each lesson: not started, in progress, or complete.
 - Keep the TUI accessible in plain terminals with a readable text fallback if raw terminal mode cannot start.
@@ -81,6 +81,7 @@ The app and terminal UI use **GTE** as the product mark.
 - Store lesson prompts under `exercises/` and worked reference examples under `solutions/`.
 - Keep learner-editable Rust stubs in `exercises/src/` and focused Rust integration tests in `exercises/tests/`.
 - Organize lessons around Rust fundamentals used in the project:
+  0. A prefilled project map and passing test run that introduces the app entry points and main modules.
   1. Rust types, enums, and the mode menu.
   2. Chess.com archive records and error handling.
   3. PGN parsing and move-by-move board state.
@@ -89,7 +90,7 @@ The app and terminal UI use **GTE** as the product mark.
   6. Server-rendered page/UI flow and the Guidebook.
   7. Capstone: implement a compact playable guessing flow from scratch.
 - Each exercise source function includes a `NOTE:` comment describing its expected behavior and a `TODO:` comment marking where code belongs. Each lesson also has a hint, a concrete check, a focused test target, and a matching reference solution.
-- `T` runs the selected target with Cargo. A failed target displays compiler/test output; passing tests mark the lesson complete and automatically load its matching file from `solutions/`. `S` can open that solution at any time. `C` opens a short project-understanding check. The Rust basics test uses `assert_eq!` to exercise the compiler feedback for a missing `PartialEq` derive.
+- `R` runs the selected target with Cargo (`T` is also accepted). A failed target displays compiler/test output; passing tests mark the lesson complete and automatically load its matching file from `solutions/`. `S` can open that solution at any time. `C` opens a short project-understanding check. The Rust basics test uses `assert_eq!` to exercise the compiler feedback for a missing `PartialEq` derive.
 
 ### Guidebook
 

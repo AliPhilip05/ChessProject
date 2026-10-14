@@ -1,15 +1,21 @@
 # Introduction
 
-GTE is a Rust chess practice prototype and a guided tour of the code that powers it. The browser app offers two short challenges: estimate a player's rating from a game, or recognize an opening from its first moves. The terminal program turns the app's components into small Rust exercises.
+The GTE Book is a guided reading of the Rust code behind GTE, a chess-game practice app with a terminal curriculum. Its purpose is broader than explaining how to click through the two game modes: it follows the data, state, and tests through the complete repository.
 
-This book explains how to run the project, follow a game through the Rust modules, and complete the exercises. It is organized as a walkthrough: each chapter builds on the terms and file paths introduced before it.
+## Start at Question 0
 
-## Who this book is for
+The terminal opens with the GTE mark and Question 0. That exercise is intentionally filled in. Run its check, read the two passing test names, and use the component map to find the real source files. You can start with [Question 0: Start with GTE](/guide/question-zero).
 
-You should be comfortable opening a terminal and editing a text file. You do not need a Chess.com account to use the built-in demo game. The live archive mode uses public data and a network connection.
+After that, each practice item isolates one behavior from the app. Its `NOTE:` explains the expected behavior, its `TODO:` identifies the code to complete, and its test names the behavior being checked. Every exercise links to the matching section in the complete [Codebase Walkthrough — reference.md](/guide/reference).
 
-## Read in order or jump to a topic
+## What is in this book
 
-Use the chapter list on the left to jump directly to a component. Each exercise also links to [reference.md](/guide/reference), the complete codebase walkthrough.
+The book begins with Cargo packages and Rust types, then follows a game from a public Chess.com archive through PGN parsing and board snapshots. It explains how the web server handles requests, stores a game session, renders pages, and scores answers. It also covers the terminal interface, progress tracking, focused exercise tests, solutions, and capstone.
 
-To start with the commands, read [Getting Started](/guide/getting-started). To learn how the files connect, read [Project Architecture](/guide/architecture).
+Read it in order to follow the data path, or use the chapter list to jump directly to a module. The reference chapter includes the source files, helper functions, tests, and known limits so that you can trace any exercise back to the running app.
+
+## Requirements
+
+You need Rust and Cargo to run the application and its tests. The built-in demo game works offline. Public archive challenges need a network connection but do not require a Chess.com login. The exercises are local and do not make API requests.
+
+Continue to [Getting Started](/guide/getting-started) for commands, or open the [project map](/guide/architecture) before reading the implementation chapters.

@@ -1,8 +1,12 @@
 # The GTE Book
 
-The GTE Book is the project walkthrough served at `/guide`. It uses a chapter list, a reading pane, and previous/next navigation so learners can read the app like a small programming book.
+The GTE Book is the project walkthrough served at `/guide`. It uses a chapter list, a reading pane, and previous/next navigation so learners can read the app like a small programming book. The revised chapters follow the complete app flow from Question 0 through Rust types, Chess.com data, PGN parsing, game sessions, rendered pages, and the terminal exercise system.
 
-The book explains the Rust app and the Rustlings-style terminal exercises. The complete file-by-file walkthrough is [exercises/reference.md](../../exercises/reference.md); every exercise links to the relevant section of that file.
+The book explains the Rust app and the Rustlings-style terminal exercises. Begin with the prefilled [Question 0 chapter](src/question-zero.md) for a passing test and a map of the repository. The codebase walkthrough at [exercises/reference.md](../../exercises/reference.md) explains the project flow. The function appendix adds one navigable page for every production function, including its source, signature, responsibility, and implementation. Every exercise links to the relevant reference section.
+
+When the app is running, use **Download Function Appendix PDF** to save the function reference as a PDF you can open in a PDF reader. Use **Download Markdown** or `/guide/download` to save the full Guidebook and walkthrough as `GTE-Guidebook.md`.
+
+The function-page source is generated from the Rust files by `tools/generate_function_pages.py`. `tools/build_function_appendix_pdf.py` turns those same pages into `output/pdf/GTE-Function-Appendix.pdf`; the web app embeds that artifact at compile time.
 
 ## Contents
 

@@ -22,8 +22,11 @@ pub fn parse_san_moves(pgn: &str) -> Vec<String> {
             }
             continue;
         }
+        if matches!(token, "1-0" | "0-1" | "1/2-1/2" | "*") {
+            continue;
+        }
         let san = token.trim_start_matches(|character: char| character.is_ascii_digit() || character == '.');
-        if san.is_empty() || matches!(san, "1-0" | "0-1" | "1/2-1/2" | "*") {
+        if san.is_empty() {
             continue;
         }
         moves.push(san.trim_end_matches(|character| matches!(character, '!' | '?')).to_owned());

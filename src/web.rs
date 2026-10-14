@@ -76,6 +76,8 @@ fn handle_connection(mut stream: TcpStream) {
         HttpResponse::Page(body) => {
             write_response(&mut stream, 200, "text/html; charset=utf-8", &body)
         }
+        HttpResponse::Download(body) => write_download(&mut stream, "GTE-Guidebook.md", &body),
+        HttpResponse::Pdf(body) => write_pdf(&mut stream, &body),
         HttpResponse::Redirect(location) => {
             let head = format!(
                 "HTTP/1.1 303 See Other\r\nLocation: {location}\r\nContent-Length: 0\r\nConnection: close\r\n\r\n"
@@ -93,6 +95,8 @@ fn handle_connection(mut stream: TcpStream) {
 
 enum HttpResponse {
     Page(String),
+    Download(String),
+    Pdf(Vec<u8>),
     Redirect(String),
     NotFound,
 }
@@ -103,6 +107,10 @@ fn route(target: &str) -> HttpResponse {
     match path {
         "/" => HttpResponse::Page(render_home("")),
         "/guide" => HttpResponse::Page(render_book("introduction")),
+        "/guide/download" => HttpResponse::Download(download_book_markdown()),
+        "/guide/functions.pdf" => {
+            HttpResponse::Pdf(include_bytes!("../output/pdf/GTE-Function-Appendix.pdf").to_vec())
+        }
         "/load" => load_game(&params),
         "/play" => render_session(&params),
         "/move" => update_move(&params),
@@ -112,7 +120,7 @@ fn route(target: &str) -> HttpResponse {
         _ => path
             .strip_prefix("/guide/")
             .and_then(book_chapter_index)
-            .map(|index| HttpResponse::Page(render_book(BOOK_CHAPTERS[index].slug)))
+            .map(|index| HttpResponse::Page(render_book(&book_chapters()[index].slug)))
             .unwrap_or(HttpResponse::NotFound),
     }
 }
@@ -681,61 +689,114 @@ fn piece_name(piece: char) -> &'static str {
 }
 
 struct BookChapter {
-    slug: &'static str,
-    title: &'static str,
-    source: &'static str,
+    slug: String,
+    title: String,
+    source: String,
 }
 
-const BOOK_CHAPTERS: &[BookChapter] = &[
-    BookChapter {
-        slug: "introduction",
-        title: "Introduction",
-        source: include_str!("../docs/book/src/introduction.md"),
-    },
-    BookChapter {
-        slug: "getting-started",
-        title: "Getting Started",
-        source: include_str!("../docs/book/src/getting-started.md"),
-    },
-    BookChapter {
-        slug: "architecture",
-        title: "Project Architecture",
-        source: include_str!("../docs/book/src/architecture.md"),
-    },
-    BookChapter {
-        slug: "public-data",
-        title: "Chess.com Public Data",
-        source: include_str!("../docs/book/src/public-data.md"),
-    },
-    BookChapter {
-        slug: "board-state",
-        title: "PGN and Board State",
-        source: include_str!("../docs/book/src/board-state.md"),
-    },
-    BookChapter {
-        slug: "game-modes",
-        title: "The Two Game Modes",
-        source: include_str!("../docs/book/src/game-modes.md"),
-    },
-    BookChapter {
-        slug: "terminal-learning",
-        title: "Terminal Lessons",
-        source: include_str!("../docs/book/src/terminal-learning.md"),
-    },
-    BookChapter {
-        slug: "capstone",
-        title: "Capstone",
-        source: include_str!("../docs/book/src/capstone.md"),
-    },
-    BookChapter {
-        slug: "reference",
-        title: "Codebase Walkthrough — reference.md",
-        source: include_str!("../exercises/reference.md"),
-    },
+const BASE_BOOK_CHAPTERS: &[(&str, &str, &str)] = &[
+    (
+        "introduction",
+        "Introduction",
+        include_str!("../docs/book/src/introduction.md"),
+    ),
+    (
+        "question-zero",
+        "Question 0: Start with GTE",
+        include_str!("../docs/book/src/question-zero.md"),
+    ),
+    (
+        "getting-started",
+        "Getting Started",
+        include_str!("../docs/book/src/getting-started.md"),
+    ),
+    (
+        "architecture",
+        "Project Architecture",
+        include_str!("../docs/book/src/architecture.md"),
+    ),
+    (
+        "rust-entry-point",
+        "Rust Entry Points and Types",
+        include_str!("../docs/book/src/rust-entry-point.md"),
+    ),
+    (
+        "public-data",
+        "Chess.com Public Data",
+        include_str!("../docs/book/src/public-data.md"),
+    ),
+    (
+        "board-state",
+        "PGN and Board State",
+        include_str!("../docs/book/src/board-state.md"),
+    ),
+    (
+        "game-modes",
+        "The Two Game Modes",
+        include_str!("../docs/book/src/game-modes.md"),
+    ),
+    (
+        "web-server",
+        "The Web Server and Rendered Pages",
+        include_str!("../docs/book/src/web-server.md"),
+    ),
+    (
+        "terminal-learning",
+        "Terminal Lessons",
+        include_str!("../docs/book/src/terminal-learning.md"),
+    ),
+    (
+        "capstone",
+        "Capstone",
+        include_str!("../docs/book/src/capstone.md"),
+    ),
+    (
+        "reference",
+        "Codebase Walkthrough — reference.md",
+        include_str!("../exercises/reference.md"),
+    ),
 ];
 
+const FUNCTION_PAGE_SOURCE: &str = include_str!("../docs/book/src/function-pages.md");
+
+fn book_chapters() -> &'static [BookChapter] {
+    static CHAPTERS: OnceLock<Vec<BookChapter>> = OnceLock::new();
+    CHAPTERS.get_or_init(|| {
+        let mut chapters: Vec<BookChapter> = BASE_BOOK_CHAPTERS
+            .iter()
+            .map(|(slug, title, source)| BookChapter {
+                slug: (*slug).to_owned(),
+                title: (*title).to_owned(),
+                source: (*source).to_owned(),
+            })
+            .collect();
+        let mut page: Option<(String, String, String)> = None;
+        for line in FUNCTION_PAGE_SOURCE.lines() {
+            if let Some(metadata) = line
+                .strip_prefix("<!-- GTE_FUNCTION_PAGE: ")
+                .and_then(|line| line.strip_suffix(" -->"))
+            {
+                let (slug, title) = metadata.split_once('|').unwrap_or((metadata, metadata));
+                page = Some((slug.to_owned(), title.to_owned(), String::new()));
+            } else if line == "<!-- END_GTE_FUNCTION_PAGE -->" {
+                if let Some((slug, title, source)) = page.take() {
+                    chapters.push(BookChapter {
+                        slug,
+                        title: format!("Function: {title}"),
+                        source: source.trim().to_owned(),
+                    });
+                }
+            } else if let Some((_, _, source)) = page.as_mut() {
+                source.push_str(line);
+                source.push('\n');
+            }
+        }
+        chapters
+    })
+}
+
 fn book_chapter_index(slug: &str) -> Option<usize> {
-    BOOK_CHAPTERS
+    book_chapters()
         .iter()
         .position(|chapter| chapter.slug == slug)
 }
@@ -744,9 +805,10 @@ fn render_book(slug: &str) -> String {
     let Some(index) = book_chapter_index(slug) else {
         return String::new();
     };
-    let chapter = &BOOK_CHAPTERS[index];
+    let chapters = book_chapters();
+    let chapter = &chapters[index];
     let mut sidebar = String::new();
-    for (chapter_index, item) in BOOK_CHAPTERS.iter().enumerate() {
+    for (chapter_index, item) in chapters.iter().enumerate() {
         let active = if chapter_index == index {
             " class=\"active\" aria-current=\"page\""
         } else {
@@ -756,36 +818,47 @@ fn render_book(slug: &str) -> String {
             "<a{active} href=\"/guide/{}\"><span class=\"chapter-number\">{:02}</span>{}</a>",
             item.slug,
             chapter_index + 1,
-            html_escape(item.title)
+            html_escape(&item.title)
         ));
     }
     let previous = index.checked_sub(1).map(|previous_index| {
-        let item = &BOOK_CHAPTERS[previous_index];
+        let item = &chapters[previous_index];
         format!(
             "<a class=\"chapter-card previous\" href=\"/guide/{}\"><small>PREVIOUS</small><span>← {}</span></a>",
             item.slug,
-            html_escape(item.title)
+            html_escape(&item.title)
         )
     }).unwrap_or_else(|| "<span></span>".to_owned());
-    let next = BOOK_CHAPTERS.get(index + 1).map(|item| {
+    let next = chapters.get(index + 1).map(|item| {
         format!(
             "<a class=\"chapter-card next\" href=\"/guide/{}\"><small>NEXT</small><span>{} →</span></a>",
             item.slug,
-            html_escape(item.title)
+            html_escape(&item.title)
         )
     }).unwrap_or_default();
     let body = format!(
-        "<header class=\"book-header\"><a class=\"book-brand\" href=\"/guide\"><span class=\"book-mark\">GTE</span><span><strong>The GTE Book</strong><small>Rust app walkthrough</small></span></a><div class=\"book-header-title\">{}</div><a class=\"book-app-link\" href=\"/\">Open the app <span>↗</span></a></header><div class=\"book-shell\"><aside class=\"book-sidebar\"><div class=\"sidebar-heading\">THE GTE BOOK</div><div class=\"sidebar-chapters\">{sidebar}</div><a class=\"sidebar-reference\" href=\"/guide/reference\">Open reference.md <span>↗</span></a></aside><main class=\"book-main\"><div class=\"book-breadcrumb\"><a href=\"/guide\">The GTE Book</a><span>/</span><span>{}</span></div><article class=\"book-content\">{}</article><nav class=\"chapter-navigation\" aria-label=\"Chapter navigation\">{}{}</nav><footer class=\"book-footer\"><span>GTE · A Rust chess app and learning project</span><a href=\"/\">Return to the app</a></footer></main></div>",
-        html_escape(chapter.title),
-        html_escape(chapter.title),
-        render_markdown(chapter.source),
+        "<header class=\"book-header\"><a class=\"book-brand\" href=\"/guide\"><span class=\"book-mark\">GTE</span><span><strong>The GTE Book</strong><small>Rust app walkthrough</small></span></a><div class=\"book-header-title\">{}</div><a class=\"book-download pdf-download\" href=\"/guide/functions.pdf\" download>Download Function Appendix PDF ↓</a><a class=\"book-download\" href=\"/guide/download\" download>Download Markdown ↓</a><a class=\"book-app-link\" href=\"/\">Open the app <span>↗</span></a></header><div class=\"book-shell\"><aside class=\"book-sidebar\"><div class=\"sidebar-heading\">THE GTE BOOK</div><div class=\"sidebar-chapters\">{sidebar}</div><a class=\"sidebar-reference\" href=\"/guide/reference\">Open reference.md <span>↗</span></a></aside><main class=\"book-main\"><div class=\"book-breadcrumb\"><a href=\"/guide\">The GTE Book</a><span>/</span><span>{}</span></div><article class=\"book-content\">{}</article><nav class=\"chapter-navigation\" aria-label=\"Chapter navigation\">{}{}</nav><footer class=\"book-footer\"><span>GTE · A Rust chess app and learning project</span><a href=\"/\">Return to the app</a></footer></main></div>",
+        html_escape(&chapter.title),
+        html_escape(&chapter.title),
+        render_markdown(&chapter.source),
         previous,
         next
     );
     format!(
         "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><meta name=\"theme-color\" content=\"#f7f7f5\"><title>{} · The GTE Book</title><style>{BOOK_STYLE}</style></head><body class=\"book-page\">{body}</body></html>",
-        html_escape(chapter.title)
+        html_escape(&chapter.title)
     )
+}
+
+fn download_book_markdown() -> String {
+    let mut markdown =
+        String::from("# The GTE Book\n\nA Rust chess app and terminal learning project.\n");
+    for chapter in book_chapters() {
+        markdown.push_str("\n\n---\n\n");
+        markdown.push_str(chapter.source.trim());
+        markdown.push('\n');
+    }
+    markdown
 }
 
 fn render_markdown(source: &str) -> String {
@@ -1018,6 +1091,24 @@ fn write_response(stream: &mut TcpStream, status: u16, content_type: &str, body:
     let _ = stream.write_all(body.as_bytes());
 }
 
+fn write_download(stream: &mut TcpStream, filename: &str, body: &str) {
+    let head = format!(
+        "HTTP/1.1 200 OK\r\nContent-Type: text/markdown; charset=utf-8\r\nContent-Disposition: attachment; filename=\"{filename}\"\r\nContent-Length: {}\r\nConnection: close\r\nX-Content-Type-Options: nosniff\r\n\r\n",
+        body.len()
+    );
+    let _ = stream.write_all(head.as_bytes());
+    let _ = stream.write_all(body.as_bytes());
+}
+
+fn write_pdf(stream: &mut TcpStream, body: &[u8]) {
+    let head = format!(
+        "HTTP/1.1 200 OK\r\nContent-Type: application/pdf\r\nContent-Disposition: attachment; filename=\"GTE-Function-Appendix.pdf\"\r\nContent-Length: {}\r\nConnection: close\r\nX-Content-Type-Options: nosniff\r\n\r\n",
+        body.len()
+    );
+    let _ = stream.write_all(head.as_bytes());
+    let _ = stream.write_all(body);
+}
+
 fn parse_query(query: &str) -> HashMap<String, String> {
     query
         .split('&')
@@ -1095,6 +1186,8 @@ fn normalize_target(value: &str) -> String {
 const BOOK_STYLE: &str = r#"
 :root{color-scheme:light;--ink:#22242a;--muted:#666b74;--line:#d7dadd;--paper:#fff;--canvas:#f5f6f7;--accent:#b7410e;--link:#0969a2;--code:#f1f3f5}*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:82px}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.book-page a{color:var(--link);text-decoration:none}.book-page a:hover{text-decoration:underline}.book-header{height:62px;position:sticky;top:0;z-index:4;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 25px;gap:24px}.book-brand{display:flex;align-items:center;gap:11px;min-width:260px;color:var(--ink)!important}.book-brand:hover{text-decoration:none!important}.book-mark{display:grid;place-items:center;width:34px;height:34px;border-radius:7px;background:#81b64c;color:#172012;font-size:11px;font-weight:900;letter-spacing:-.04em}.book-brand strong,.book-brand small{display:block;line-height:1.35}.book-brand strong{font-size:13px}.book-brand small{font-size:10px;color:var(--muted)}.book-header-title{font-family:Georgia,"Times New Roman",serif;font-size:16px;font-weight:600;color:#474b52}.book-app-link{margin-left:auto;font-size:12px;font-weight:650}.book-app-link span{color:var(--accent);margin-left:5px}.book-shell{display:grid;grid-template-columns:276px minmax(0,1fr);min-height:calc(100vh - 62px)}.book-sidebar{position:sticky;top:62px;height:calc(100vh - 62px);overflow:auto;background:var(--canvas);border-right:1px solid var(--line);padding:28px 15px 25px 22px}.sidebar-heading{padding:0 10px 13px;color:#777c84;font-size:10px;font-weight:800;letter-spacing:.13em}.sidebar-chapters{display:grid;gap:2px}.sidebar-chapters a{display:grid;grid-template-columns:25px 1fr;align-items:start;gap:5px;border-radius:5px;padding:8px 9px;color:#3b4048;font-size:12px;line-height:1.45}.sidebar-chapters a.active{background:#e8ebed;color:#17191d;font-weight:700;border-left:3px solid var(--accent);padding-left:6px}.chapter-number{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#8a9097;font-size:10px;padding-top:1px}.sidebar-reference{display:block;margin:21px 9px 0;padding:11px 0;border-top:1px solid var(--line);font-size:11px;font-weight:700}.sidebar-reference span{color:var(--accent);padding-left:4px}.book-main{width:min(100%,1050px);padding:30px clamp(24px,6vw,82px) 38px;margin:0 auto}.book-breadcrumb{display:flex;gap:10px;align-items:center;color:#8a8e95;font-size:11px;margin:0 0 25px}.book-breadcrumb a{color:#6b727a}.book-content{max-width:790px}.book-content h1,.book-content h2,.book-content h3,.book-content h4{font-family:Georgia,"Times New Roman",serif;line-height:1.25;color:#1c1f24}.book-content h1{font-size:36px;letter-spacing:-.025em;margin:0 0 24px;padding-bottom:14px;border-bottom:1px solid var(--line)}.book-content h2{font-size:26px;margin:39px 0 12px}.book-content h3{font-size:20px;margin:30px 0 10px}.book-content h4{font-size:16px;margin:25px 0 8px}.book-content p{margin:0 0 17px}.book-content strong{font-weight:700}.book-content a{color:var(--link);text-decoration:underline;text-decoration-color:#a8c5d6;text-underline-offset:2px}.book-content code{font: .88em ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--code);border:1px solid #e3e5e8;border-radius:3px;padding:2px 5px}.book-content pre{overflow:auto;background:#f6f7f8;border:1px solid #d9dde1;border-radius:5px;padding:15px 17px;margin:20px 0 24px;line-height:1.55}.book-content pre code{background:transparent;border:0;padding:0;font-size:13px;color:#282c34}.book-content ul,.book-content ol{padding-left:26px;margin:0 0 19px}.book-content li{padding:2px 0}.book-content blockquote{border-left:3px solid #c6cbd0;margin:18px 0;padding:2px 16px;color:#555b63}.book-content hr{border:0;border-top:1px solid var(--line);margin:30px 0}.book-content table{border-collapse:collapse;width:100%;margin:19px 0 24px;font-size:14px}.book-content th,.book-content td{text-align:left;padding:8px 10px;border:1px solid var(--line)}.book-content th{background:#f4f5f6}.chapter-navigation{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:790px;margin:48px 0 32px}.chapter-card{border:1px solid var(--line);border-radius:5px;padding:12px 14px;display:grid;gap:5px;color:#343941!important}.chapter-card:hover{background:#fafafa;text-decoration:none!important;border-color:#aeb4bb}.chapter-card small{font-size:9px;letter-spacing:.1em;color:#777d85}.chapter-card span{font-size:13px;font-weight:650}.chapter-card.next{text-align:right}.book-footer{max-width:790px;border-top:1px solid var(--line);padding-top:17px;display:flex;justify-content:space-between;gap:15px;color:#777d85;font-size:10px}.book-footer a{color:#6b727a}.book-footer:empty{display:none}
 @media(max-width:760px){.book-header{padding:0 15px;gap:13px}.book-brand{min-width:0}.book-brand small{display:none}.book-header-title{font-size:13px}.book-app-link{font-size:11px}.book-shell{display:block}.book-sidebar{position:static;height:auto;max-height:250px;padding:12px 12px;border-right:0;border-bottom:1px solid var(--line)}.sidebar-heading{padding-bottom:7px}.sidebar-chapters{grid-template-columns:1fr 1fr;gap:0 4px}.sidebar-chapters a{font-size:10px;padding:6px}.sidebar-reference{margin-top:8px;padding-top:9px}.book-main{padding:24px 19px 30px}.book-content h1{font-size:30px}.book-content h2{font-size:23px}.book-content table{font-size:12px}}
+.book-download{font-size:11px;font-weight:700;border:1px solid var(--line);border-radius:4px;padding:6px 9px;white-space:nowrap}.book-download:hover{background:var(--canvas);text-decoration:none!important}
+@media(max-width:520px){.book-header-title{display:none}.book-download{font-size:9px;padding:5px 6px}}
 "#;
 
 const STYLE: &str = r#"
