@@ -1,1 +1,2 @@
 path/to/folder/* linguist-vendored
+*.pdf binary

@@ -10,7 +10,7 @@ The first terminal exercise is `intro-0`, shown as Question 0. Its source at `ex
 cargo test --manifest-path exercises/Cargo.toml --test intro_0
 ```
 
-The passing test names establish three facts: GTE's product mark is `GTE`, `main` can select `cli::run` or `web::serve`, and the component map names the six main application modules. The exercises are intentionally prefilled for this introduction so the learner sees a successful test before encountering a compiler error.
+The passing test names establish three facts: GTE's product mark is `GTE`, `main` can select `cli::run` or `web::serve`, and the component map introduces the six main application subsystems. The exercise retains its original broad file labels; the current physical paths are listed below. The exercises are intentionally prefilled for this introduction so the learner sees a successful test before encountering a compiler error.
 
 Question 0's `Component` struct has `path` and `purpose` fields. Its `COMPONENTS` array provides a small map. `product_mark` returns the mark, `entrypoint` models the branch from `main.rs`, and `component` searches the array. The tests check both present and missing paths. `Component` derives `PartialEq`/`Eq` so `assert_eq!` can compare records; this previews the equality trait in `rust_basics`.
 
@@ -19,9 +19,9 @@ Question 0's `Component` struct has `path` and `purpose` fields. Its `COMPONENTS
 The root contains the actual GTE application. The important tracked source paths are:
 
 - `Cargo.toml` and `Cargo.lock` configure and lock the `gte` binary and its runtime dependencies.
-- `src/main.rs`, `src/cli.rs`, `src/lessons.rs`, `src/api.rs`, `src/chess.rs`, and `src/web.rs` implement the program.
+- `src/main.rs` selects the front door. The small `src/cli.rs`, `src/api.rs`, and `src/chess.rs` facades expose focused child modules. `src/lessons/mod.rs` exposes the curriculum and `src/web.rs` exposes the browser server.
 - `exercises/Cargo.toml` starts a separate exercise package. Its `src/` files are learner work, its `tests/` files are independent checks, and the root `solutions/` folder contains reference implementations.
-- `exercises/reference.md` is this walkthrough. `docs/book/README.md`, `SUMMARY.md`, and `docs/book/src/*.md` contain the Guidebook chapters. `src/web.rs` embeds those Markdown files at compile time.
+- `exercises/reference.md` is this walkthrough. `docs/book/README.md`, `SUMMARY.md`, and `docs/book/src/*.md` contain the Guidebook chapters. `src/web/book/catalog.rs` embeds those Markdown files at compile time.
 - `README.md` is the command-oriented project introduction. `docs/APP_AND_TERMINAL_PROTOTYPE.md` records the product scope and intended behavior. `.gitignore` excludes build output, local exercise progress, and reset backups.
 - `target/` and `exercises/target/` are Cargo output, not source inputs.
 
@@ -40,17 +40,19 @@ The function runs synchronously. The chosen front door owns the process until th
 
 ## Rust types and mode selection
 
-`web.rs` uses a `GameMode` enum with `Elo` and `Opening` variants. This is a closed set of choices: invalid strings cannot be stored as a mode. The enum derives `Clone`, `Copy`, `PartialEq`, and `Eq`; comparisons in route handlers use `==` and `!=`.
+`src/web/session.rs` defines a `GameMode` enum with `Elo` and `Opening` variants. This is a closed set of choices: invalid strings cannot be stored as a mode. The enum derives `Clone`, `Copy`, `PartialEq`, and `Eq`; comparisons in route handlers use `==` and `!=`.
 
 The practice file `exercises/src/rust_basics.rs` repeats the idea with `GuessElo` and `GuessOpening`. Its tests use `assert_eq!` and `assert_ne!`, which require `PartialEq`. `Eq` is the marker trait for an equality relation that is reflexive for all values. `Component` in Question 0 also derives these traits so a test can compare records.
 
 Across the app, `String` owns request or parsed text, while `&str` borrows text for a function call. `Option<i32>` represents a rating that may be missing; it is safer than a magic zero. `Result<ChessGame, String>` represents a successful archive lookup or a user-readable failure. These types make normal and exceptional data explicit at call sites.
 
-## `src/lessons.rs`: curriculum data
+## Curriculum data
 
-`Lesson` stores the data displayed for one exercise: a stable `id`, track and title strings, concept explanation, task prompt, hint, multiple-choice question, three choices, correct-choice index, solution filename, and reference anchor.
+`src/lessons/model.rs` defines `Lesson`, the data displayed for one exercise: a stable `id`, track and title strings, concept explanation, task prompt, hint, multiple-choice question, three choices, correct-choice index, solution filename, and reference anchor.
 
-`LESSONS` is the ordered fixed-size array of 24 entries. Eight codebase topics have Easy, Medium, and Hard variants. Project orientation starts with the already-complete Question 0, followed by a mode-to-module exercise and a full route lookup. The other seven topics each have three code exercises. The order affects the progress bar and next/previous navigation.
+`src/lessons/catalog.rs` assembles `LESSONS`, the ordered fixed-size array of 24 entries, from eight topic files. Each topic file owns exactly its Easy, Medium, and Hard records. `src/lessons/mod.rs` re-exports `Lesson` and `LESSONS`, so callers use the same public paths as before.
+
+The array contains 24 entries. Eight codebase topics have Easy, Medium, and Hard variants. Project orientation starts with the already-complete Question 0, followed by a mode-to-module exercise and a full route lookup. The other seven topics each have three code exercises. The order affects the progress bar and next/previous navigation.
 
 The id links several systems. `intro-0` becomes `intro_0` for the Rust test target and source path. `run_lesson_test` uses that transformed id after `cargo test --test`. The matching solution path is stored explicitly. The reference anchor in the lesson data is used by the `G` action to open the corresponding section in the book.
 
@@ -58,7 +60,7 @@ The lesson array is static because the curriculum is compiled into the binary. A
 
 ## Chess.com archive data
 
-The production archive boundary is implemented in `src/api.rs`.
+The production archive boundary is exposed by `src/api.rs`, which re-exports two loaders from `src/api/archives.rs`. The children separate archive orchestration (`archives.rs`), HTTP/JSON (`client.rs`), API-to-game conversion (`mapping.rs`), and username/URL rules (`urls.rs`). Only the loaders are public to other subsystems; helpers use narrower visibility.
 
 `USER_AGENT` identifies the prototype to the public API. The public functions return `Result<ChessGame, String>` so network failures, empty data, and invalid input become user-visible outcomes rather than panics.
 
@@ -90,7 +92,7 @@ The API client is read-only. It needs no account secret and does not send a move
 
 ## PGN parsing and board positions
 
-The production game model and parser are implemented in `src/chess.rs`.
+The `src/chess.rs` facade exposes the shared game model and answer helpers. `src/chess/game.rs` owns `ChessGame`; `pgn.rs` parses headers and tokens; `board.rs` creates the initial board; `san.rs` handles supported SAN movement; and `answers.rs` owns opening normalization and Elo tolerances. These modules depend on chess data, not browser or network code.
 
 ### `ChessGame` data
 
@@ -142,7 +144,16 @@ This is intentionally a teaching renderer, not a full rules engine. It does not 
 
 ## Web server and rendered pages
 
-All route handling and HTML generation are in `src/web.rs`.
+The browser facade is `src/web.rs`. Its focused child modules divide work by the data they own:
+
+- `http.rs`: TCP connections and response bytes; `router.rs`: route selection; `request.rs`: query decoding and normalized settings.
+- `session.rs`: game modes, session records, in-memory storage, ids, and maximum visible ply.
+- `handlers/setup.rs`: game loading and session creation; `handlers/navigation.rs`: session lookup and move navigation; `handlers/guesses.rs`: Elo and opening submissions.
+- `render/home.rs`, `game.rs`, `panels.rs`, and `board.rs`: the corresponding page parts; `render/html.rs`: shared escaping and HTML shell.
+- `book/catalog.rs`: chapter sources and generated function pages; `book/reader.rs`: book layout and downloads; `book/markdown.rs`: Markdown blocks; `book/inline.rs`: inline text and safe links.
+- `assets/templates/` and `assets/styles/`: fixed HTML and CSS embedded by the Rust renderers.
+
+A handler receives decoded request data and updates a session. A renderer borrows existing state and returns HTML. The HTTP layer writes the resulting response; the router decides which handler receives it.
 
 ### Shared state
 
@@ -154,7 +165,7 @@ All route handling and HTML generation are in `src/web.rs`.
 
 - `serve` binds only `127.0.0.1:7878`, reports the app and Guidebook URLs, and handles accepted connections serially.
 - `handle_connection` applies a short read timeout, reads one request buffer, parses the first request line, rejects non-GET methods with 405, calls `route`, and writes a page, download, redirect, or 404.
-- `HttpResponse` distinguishes HTML pages, Markdown downloads, redirects, and not-found responses.
+- `HttpResponse` distinguishes HTML pages, Markdown downloads, PDF downloads, redirects, and not-found responses.
 - `route` separates a request target into path/query, calls `parse_query`, and dispatches known routes. Unknown `/guide/{slug}` paths are checked against the Guidebook chapter list.
 
 ### Game setup and session handlers
@@ -182,7 +193,7 @@ The forms use GET query parameters to keep the prototype simple. Answers and use
 - `render_board` builds all 64 squares, alternating light/dark classes and giving occupied squares accessible labels. `mini_board` shares the same character-to-piece mapping for a compact board.
 - `chess_symbol` maps FEN-like letters to Unicode white/black piece glyphs. `piece_name` maps the type to an accessibility label.
 
-`page` adds the HTML document shell and app `STYLE`. The home/game style uses the chess-inspired charcoal, cream, and green palette. `BOOK_STYLE` separately gives the documentation reader a light paper-like page, sticky chapter menu, readable code, and responsive layout.
+`render/html.rs::page` adds the HTML document shell. Templates in `assets/templates/` and styles in `assets/styles/` are embedded with `include_str!`. App styles provide the chess-inspired charcoal, cream, and green palette. Book styles provide the light reading page, chapter menu, code formatting, and responsive layout.
 
 ### Guidebook and Markdown renderer
 
@@ -211,7 +222,15 @@ This is a small subset of Markdown rather than a full CommonMark parser. It inte
 - `normalize_difficulty` accepts Easy, Medium, Hard, and the typo `harm`; unknown input defaults to Medium.
 - `normalize_target` accepts White or Black; other values default to Both.
 
-## `src/cli.rs`: Rustlings-style terminal curriculum
+## Rustlings-style terminal curriculum
+
+The small `src/cli.rs` facade owns terminal lifetime and the event loop. Its children have one responsibility each:
+
+- `state.rs` owns `Screen` and `UiState`; `writer.rs` owns raw-terminal newline conversion.
+- `source.rs` resolves learner files and modification times; `progress.rs` persists completion ids; `reset.rs` backs up and restores an exercise.
+- `runner.rs` executes Cargo checks and loads successful reference solutions; `navigation.rs` moves between catalog entries.
+- `input/` separates key handling for home/list, lesson/check, and result/solution screens.
+- `render/` has a shared frame renderer and one file for each screen.
 
 ### Terminal setup and writer
 
@@ -278,7 +297,11 @@ The matching files under `solutions/` are readable complete examples. They are l
 
 ## Documentation files and generated book
 
-`docs/book/src/` is the source for each Guidebook chapter. `docs/book/SUMMARY.md` is the human-readable chapter order. `docs/book/README.md` explains the local book and downloads. The actual web server chapter catalog is assembled from `BASE_BOOK_CHAPTERS` and the generated function pages in `src/web.rs`; source is embedded with `include_str!` at compile time. `render_book` turns entries into chapter pages, `/guide/download` concatenates them into Markdown, and `/guide/functions.pdf` serves the generated appendix.
+`tools/generate_function_pages.py` recursively discovers production functions in `src/**/*.rs`. It derives each full module path from its source file, ignores comments and string literals when scanning, and records a distinct owner for trait implementations. For example, a writer constructor and its `Write::write` implementation have separate qualified names. Each generated page points at the function's current source file and line, so moving code into a child module changes the reference automatically.
+
+After changing source modules, regenerate `docs/book/src/function-pages.md`, then run `tools/build_function_appendix_pdf.py` before building the app. The PDF derives function and module counts from that same source inventory and checks that its generated Markdown is current. It includes bookmarks for the function entries; long implementations can span more than one printed page. The book keeps at least 92 function pages and adds the overview chapters on top.
+
+`docs/book/src/` is the source for each Guidebook chapter. `docs/book/SUMMARY.md` is the human-readable chapter order. `docs/book/README.md` explains the local book and downloads. The actual web server chapter catalog is assembled from `BASE_BOOK_CHAPTERS` and the generated function pages in `src/web/book/catalog.rs`; source is embedded with `include_str!` at compile time. `render_book` turns entries into chapter pages, `/guide/download` concatenates them into Markdown, and `/guide/functions.pdf` serves the generated appendix.
 
 The Markdown renderer supports headings, paragraphs, lists, horizontal rules, blockquotes, fenced code, inline code, strong text, and safe links. It does not implement all Markdown extensions. For new Guidebook material, keep syntax within that supported set.
 

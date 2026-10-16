@@ -1,6 +1,6 @@
 # PGN and Board State
 
-Chess.com returns a PGN string for an archived game. `src/chess.rs` converts that string into metadata, accepted SAN moves, and a position snapshot after every accepted half-move. The web layer selects one of those snapshots instead of replaying from the beginning on every page request.
+Chess.com returns a PGN string for an archived game. `src/chess/game.rs` coordinates that conversion into metadata, accepted SAN moves, and a position snapshot after every accepted half-move. The web layer selects one of those snapshots instead of replaying from the beginning on every page request.
 
 ## `ChessGame` is the shared model
 

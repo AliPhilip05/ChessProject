@@ -1,50 +1,70 @@
 # Project Architecture
 
-GTE is intentionally one binary with two front doors. The default command enters the terminal curriculum; `--web` starts the browser app and the book. The two front doors share the same Rust project but have separate responsibilities.
+GTE is one binary with two entry points. The default command enters the terminal curriculum; `--web` starts the browser app and this book. `src/main.rs` chooses between `cli::run()` and `web::serve()`.
+
+Each subsystem has a small public facade. Its private child modules own a specific job, so request parsing, chess rules, terminal rendering, and lesson data can be read independently. A `mod` declaration adds a child module; `pub use` exposes the few names that callers need without making every helper public.
 
 ## Follow the process branches
 
 ```text
 src/main.rs
 ├── default launch
-│   └── src/cli.rs ── src/lessons.rs ── exercises/ and solutions/
+│   └── src/cli.rs ── src/cli/ ── src/lessons/
+│                                  └── exercises/ and solutions/
 └── --web
-    └── src/web.rs ── src/api.rs ── Chess.com Published-Data API
-                 └── src/chess.rs ── metadata, moves, positions, answers
+    └── src/web.rs ── src/web/handlers/ and render/
+                       ├── src/api.rs ── src/api/ ── Chess.com
+                       ├── src/chess.rs ── src/chess/
+                       └── src/web/book/ ── docs/book/ and reference.md
 ```
 
-`src/main.rs` reads command-line arguments. With `--web`, it calls `web::serve()`; otherwise it calls `cli::run()`. The `mod` declarations make the five source modules available to the binary.
+## Network and chess modules
 
-## What each module owns
+- `src/api.rs` exposes the two archive-loading operations. `api/archives.rs` orchestrates archive selection and game-link lookup; `client.rs` owns HTTP and JSON requests; `mapping.rs` converts API records; `urls.rs` validates usernames and compares game URLs.
+- `src/chess.rs` exposes the shared game type and answer rules. `chess/game.rs` owns `ChessGame` and snapshots; `pgn.rs` extracts headers and SAN tokens; `board.rs` creates the starting position; `san.rs` applies supported moves; `answers.rs` normalizes opening guesses and scores rating errors.
 
-- `src/cli.rs` owns terminal mode, keyboard events, the current exercise screen, progress, file watching, Cargo child processes, and reset confirmation.
-- `src/lessons.rs` is the curriculum data: ids, track names, task text, hints, concept questions, solution filenames, and reference anchors.
-- `src/api.rs` owns Chess.com HTTP requests, JSON decoding, username and game-link validation, and conversion of a game record.
-- `src/chess.rs` owns the game model, PGN parsing, supported SAN application, board snapshots, rating tolerance, and opening-answer normalization.
-- `src/web.rs` owns HTTP request routing, in-memory sessions, answer handlers, HTML generation, CSS, and the Guidebook Markdown renderer.
-- `exercises/src/` contains small learner-editable implementations; `exercises/tests/` contains the checks; `solutions/` contains completed examples.
+The dependency direction is API conversion toward the chess model. The chess modules do not fetch network data or build browser HTML.
 
-## Two Cargo packages and why they are separate
+## Browser modules and assets
 
-The root `Cargo.toml` builds the app binary named `gte`. Its runtime dependencies are Crossterm for terminal behavior, `ureq` for HTTP, and `serde_json` for JSON.
+- `src/web.rs` is the browser facade. `http.rs` owns TCP and response bytes, `router.rs` chooses a handler, and `request.rs` decodes and normalizes request fields.
+- `src/web/session.rs` owns `GameMode`, `Session`, the process-wide store, and the visible-ply rule.
+- `src/web/handlers/setup.rs` loads games and creates sessions. `navigation.rs` renders a saved session or updates its ply. `guesses.rs` validates answers and updates feedback.
+- `src/web/render/` contains separate home, game, answer-panel, board, and shared HTML helpers. Renderers borrow data and produce strings; handlers decide how a request changes state.
+- `src/web/book/` separates chapter data, reader layout, block Markdown, and inline Markdown. It reuses HTML escaping from the shared renderer.
+- `assets/templates/` stores fixed HTML templates. `assets/styles/` stores the app and book stylesheets. Rust embeds these assets when compiling the binary.
 
-`exercises/Cargo.toml` is a separate package. Each test in `exercises/tests/` imports exactly one source file with a `#[path = "../src/...rs"]` attribute. That makes a learner's incomplete `todo!()` function fail its focused test without making the root web app fail to compile. The exercise tests use local inputs; they do not make network requests.
+## Terminal modules and curriculum
 
-Question 0 has a complete component map and two passing checks. Start there to see the names of the two entry points before tracing a single game through the app. The more detailed path is in [Rust Entry Points and Types](/guide/rust-entry-point).
+- `src/cli.rs` owns terminal setup, the polling loop, source watching, and cleanup.
+- `src/cli/state.rs` defines screens and current lesson state; `writer.rs` adapts newlines for raw terminals; `progress.rs` reads and writes completion ids.
+- `src/cli/source.rs` resolves exercise files, `reset.rs` restores a backed-up starter, `runner.rs` executes Cargo checks, and `navigation.rs` selects lessons.
+- `src/cli/input/` handles keyboard events by screen. `src/cli/render/` draws each screen in a separate file.
+- `src/lessons/mod.rs` exposes `Lesson` and `LESSONS`. `model.rs` defines a lesson record, `catalog.rs` assembles the ordered course, and eight topic files each own the Easy, Medium, and Hard records for one concept.
+
+The terminal consumes the catalog through `lessons::{Lesson, LESSONS}`. It does not need to know which topic file defines a particular record.
+
+## Two Cargo packages
+
+The root `Cargo.toml` builds the app binary named `gte`. Its runtime dependencies are Crossterm for the terminal, `ureq` for HTTP, and `serde_json` for JSON.
+
+`exercises/Cargo.toml` is a separate package. Each test in `exercises/tests/` imports one learner file with `#[path = "../src/...rs"]`. An unfinished practice function therefore fails its focused test without making the browser app fail to compile. Exercise tests use local data and do not make network requests. Reference implementations live under `solutions/`.
+
+Question 0 starts with complete code and two passing checks. Its compact component map introduces subsystem names; this chapter shows their current physical module layout.
 
 ## Data flow through the browser app
 
-1. The home form sends a mode, difficulty, player target, username, and optional game link to `/load`.
-2. `web::load_game` chooses the demo fixture or calls an API loader.
-3. `api.rs` converts a public record and its PGN into a `ChessGame`.
-4. `chess.rs` creates the move list and a board snapshot for each accepted ply.
-5. `web.rs` stores the game and settings in a `Session` and redirects to `/play?sid=...`.
-6. Move links select a snapshot. Guess forms update feedback and reveal the answer.
+1. The home form sends settings and a game source to `/load`.
+2. `web::router` dispatches to `web::handlers::setup::load_game`.
+3. `api::archives` obtains a public record; `api::mapping` builds the shared `ChessGame`.
+4. `chess::game` combines metadata, PGN tokens, and a saved board after each accepted ply.
+5. The setup handler stores a `Session` and redirects to `/play?sid=...`.
+6. Navigation selects a snapshot. Guess handlers update feedback. Render modules turn the saved state into HTML.
 
 ## Browser sessions and lifetimes
 
-`web.rs` stores active rounds in a process-local `Mutex<HashMap<String, Session>>`. The map is initialized once, and an atomic counter creates session ids. A route that only renders borrows a session; a route that changes the selected ply or feedback takes a mutable borrow under the mutex.
+`web::session` stores rounds in a process-local `Mutex<HashMap<String, Session>>`. The map is initialized once, and an atomic counter creates ids. Renderers borrow a session; handlers that change its ply or feedback take a mutable borrow under the mutex.
 
-There is no account model, durable database, or persistence across server restarts. This keeps the prototype's state path easy to read and gives the capstone a bounded data model.
+Sessions are not persisted across server restarts. The process owns each loaded game and its settings until shutdown.
 
-Continue with [Chess.com Public Data](/guide/public-data) to inspect the API boundary, or go directly to [the complete walkthrough](/guide/reference#project-at-a-glance).
+Continue with [Chess.com Public Data](/guide/public-data), or use [the complete walkthrough](/guide/reference#project-files-and-cargo-packages) and the generated function pages to inspect an individual function at its current source path.

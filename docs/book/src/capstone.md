@@ -14,9 +14,9 @@ The capstone asks you to connect the ideas from the previous exercises in `exerc
 
 The capstone is intentionally a small pure-Rust model, not a second copy of the application. Once the functions work, trace their production counterparts:
 
-- `api.rs` turns a public record into a `ChessGame`;
-- `chess.rs` parses the game and owns the shared matching and scoring rules;
-- `web.rs` stores the selected mode and answers in a session;
+- `api::mapping` turns a public record into a `ChessGame`;
+- `chess::game` parses the game and owns the shared matching and scoring rules;
+- `web::session` stores the selected mode and answers in a session;
 - `render_game` updates the board and feedback after each GET route.
 
 To build a larger version from scratch, add an archive loader, a sequence of board snapshots, a move index, a selected side, an answer form, and a result view. Keep those pieces separate so each function can be tested.

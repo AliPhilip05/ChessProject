@@ -1,6 +1,6 @@
 # The Web Server and Rendered Pages
 
-`src/web.rs` owns the local HTTP interface. The prototype uses Rust-generated HTML and CSS with ordinary links and forms; it has no JavaScript application bundle or database.
+`src/web.rs` exposes the local HTTP interface, with focused child modules for transport, routing, sessions, handlers, rendering, and the book. The prototype uses Rust-generated HTML and CSS with ordinary links and forms; it has no JavaScript application bundle or database.
 
 ## Accepting a request
 
@@ -14,13 +14,15 @@ The route function splits the target at `?`. `parse_query` turns the query strin
 - `/move?sid=…&ply=…` — change the visible position;
 - `/guess-elo` and `/guess-opening` — accept an answer and return to the session;
 - `/guide` and `/guide/{chapter}` — render the Guidebook;
-- `/guide/download` — return all chapter Markdown as a download.
+- `/guide/download` — return all chapter Markdown as a download;
+- `/guide/functions.pdf` — download the function appendix;
+- `/new` — show the setup page for another round.
 
 Unknown routes return 404. A missing or expired session id returns the home page with an explanation.
 
 The route table is deliberately a function call rather than a framework router. `route` returns an `HttpResponse`, so handlers do not write bytes to the socket themselves. That keeps the game rules testable as ordinary functions and leaves one place (`handle_connection`) responsible for translating a response value into HTTP.
 
-The browser uses the Post/Redirect/Get shape with GET forms in this prototype:
+Action handlers redirect to the session page after processing a GET form:
 
 ```text
 GET /load?mode=elo&source=demo
@@ -64,7 +66,7 @@ The `target` value is normalized when the game is loaded. For `both`, both calls
 
 `render_board` makes 64 labeled squares from a `[char; 64]` position. Its `aria-label` describes each occupied square. `chess_symbol` maps the internal piece letter to a Unicode chess character, and `piece_name` supplies an accessible name. `mini_board` uses the same piece mapping for the overview illustration.
 
-The CSS in the `STYLE` constant defines the charcoal, green, and cream chess-app layout, board-square colors, navigation, forms, and responsive columns. `BOOK_STYLE` is separate because book pages need a readable paper-like reading surface rather than the game palette.
+The CSS embedded from `assets/styles/` defines the charcoal, green, and cream chess-app layout, board-square colors, navigation, forms, and responsive columns. The book stylesheet is separate because book pages need a readable paper-like reading surface rather than the game palette.
 
 `page` is the shared document wrapper. It escapes the title, inserts the fixed stylesheet, and inserts a notice that handlers have already escaped when they construct it. A renderer should treat every dynamic value as text: player names, PGN metadata, and API error messages can come from outside the program. `render_move_list` escapes each SAN token; player rows escape names and ratings; game metadata is escaped before interpolation.
 
@@ -82,6 +84,6 @@ The Guidebook parser first escapes ordinary Markdown text, then adds only the ma
 
 `parse_query` splits on ampersands, then splits each pair once at `=`. It URL-decodes both the key and value and inserts them into a `HashMap`; if a key repeats, the last insertion wins. `normalize_difficulty` accepts Easy, Medium, Hard, and the historical spelling `harm`, then defaults unknown values to Medium. `normalize_target` accepts White and Black and treats all other inputs as Both. Those normalization functions are the boundary between untrusted URL text and a small set of values used by session logic.
 
-When adding a route, follow the same four-step path: parse the URL field in `route`, validate and normalize incoming values in a handler, update or create one `Session`, and render the resulting state. Keep output writing in `handle_connection` and use `HttpResponse` for redirects, page bodies, downloads, and missing routes. For exact helper responsibilities, jump to [the `src/web.rs` walkthrough](/guide/reference#web-server-and-rendered-pages).
+When adding a route, follow the same four-step path: parse the URL field in `route`, validate and normalize incoming values in a handler, update or create one `Session`, and render the resulting state. Keep output writing in `handle_connection` and use `HttpResponse` for redirects, page bodies, downloads, and missing routes. For exact helper responsibilities, jump to [the web module walkthrough](/guide/reference#web-server-and-rendered-pages).
 
 For the code map and route-by-route details, see [Codebase Walkthrough — reference.md](/guide/reference#web-server-and-rendered-pages). The next topic is [Terminal Lessons](/guide/terminal-learning).

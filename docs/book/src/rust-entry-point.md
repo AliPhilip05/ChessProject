@@ -37,7 +37,7 @@ The `mod` declarations at the top of `main.rs` compile `api`, `chess`, `cli`, `l
 
 ## Model known choices with enums
 
-`web.rs` uses a `GameMode` enum with two variants: `Elo` and `Opening`. That prevents the session from needing to treat arbitrary strings such as `"openng"` as a valid mode.
+`src/web/session.rs` defines a `GameMode` enum with two variants: `Elo` and `Opening`. That prevents the session from needing to treat arbitrary strings such as `"openng"` as a valid mode.
 
 ```rust
 #[derive(Clone, Copy, PartialEq, Eq)]

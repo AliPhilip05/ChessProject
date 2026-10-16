@@ -9,7 +9,7 @@ import textwrap
 from pathlib import Path
 
 from reportlab.lib import colors
-from reportlab.lib.enums import TA_CENTER, TA_LEFT
+from reportlab.lib.enums import TA_LEFT
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import inch
@@ -23,6 +23,8 @@ from reportlab.platypus import (
     SimpleDocTemplate,
     Spacer,
 )
+
+from generate_function_pages import collect_functions
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "docs/book/src/function-pages.md"
@@ -46,8 +48,8 @@ def register_fonts() -> None:
 
 def extract_pages(markdown: str) -> list[tuple[str, str]]:
     pattern = re.compile(
-        r"<!-- GTE_FUNCTION_PAGE: ([^|]+)\|([^>]+) -->\n(.*?)\n<!-- END_GTE_FUNCTION_PAGE -->",
-        re.S,
+        r"^<!-- GTE_FUNCTION_PAGE: ([^|\n]+)\|([^\n]+) -->\n(.*?)^<!-- END_GTE_FUNCTION_PAGE -->$",
+        re.S | re.M,
     )
     pages = [(slug.strip(), body.strip()) for slug, _title, body in pattern.findall(markdown)]
     if len(pages) < 92:
@@ -245,7 +247,15 @@ def build() -> None:
     global FUNCTION_COUNT
     register_fonts()
     pages = extract_pages(SOURCE.read_text(encoding="utf-8"))
+    functions = collect_functions()
+    if [slug for slug, _body in pages] != [function["slug"] for function in functions]:
+        raise ValueError("Function inventory has changed; run tools/generate_function_pages.py first")
+    for function, (_slug, body) in zip(functions, pages):
+        location = f"**Source:** `{function['source_path']}:{function['line']}`"
+        if location not in body or function["snippet"] not in body:
+            raise ValueError(f"Stale function page for {function['qualified']}; regenerate the function pages first")
     FUNCTION_COUNT = len(pages)
+    module_count = len({function["module"] for function in functions})
     style = styles()
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     document = GtePdf(
@@ -257,11 +267,11 @@ def build() -> None:
     story = [Spacer(1, 0.92 * inch), Paragraph("GTE Function Appendix", style["cover_title"]),
         HRFlowable(width="100%", thickness=3, color=GREEN, spaceBefore=1, spaceAfter=17),
         Paragraph("A readable, function-by-function guide to the Rust application behind Guess the Elo.", style["cover_subtitle"]),
-        Paragraph(f"{FUNCTION_COUNT} functions · 5 Rust modules · one navigable PDF", style["cover_subtitle"]),
+        Paragraph(f"{FUNCTION_COUNT} functions · {module_count} focused Rust modules · one navigable PDF", style["cover_subtitle"]),
         Spacer(1, 0.22 * inch), Paragraph("How to use this appendix", style["cover_heading"]),
         Paragraph("Each function begins on a fresh page and has a PDF bookmark. Open the document outline in your PDF reader to jump directly to a function. Each entry includes its source location, responsibility, signature, implementation excerpt, and a note about how it fits into the larger codebase.", style["body"]),
         Paragraph("Coverage", style["cover_heading"]),
-        Paragraph("main.rs: application entry point · api.rs: Chess.com archive integration · chess.rs: PGN, positions, and scoring · cli.rs: terminal lessons and navigation · lessons.rs: 24-exercise catalog · web.rs: sessions, routes, forms, and rendered pages.", style["body"]),
+        Paragraph("main.rs selects an entry point. The api/ modules handle Chess.com archives; chess/ owns PGN, positions, and scoring; cli/ separates terminal input, screens, progress, and exercise checks; lessons/ defines the 24-exercise catalog; and web/ handles HTTP, sessions, game pages, and the book reader. HTML templates and stylesheets live under assets/.", style["body"]),
         Paragraph("The code examples are taken from the current application source. The companion browser book provides the same function pages with chapter navigation and the surrounding project walkthrough.", style["body"]),
         PageBreak()]
     for page_index, (slug, body) in enumerate(pages):

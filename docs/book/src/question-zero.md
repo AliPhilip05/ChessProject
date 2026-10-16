@@ -20,14 +20,14 @@ Question 0 should report two passing tests. The first checks that GTE has two en
 
 ## Read the project map
 
-The exercise's `Component` struct pairs a repository path with a short purpose. The `COMPONENTS` array describes the six modules that form the main application:
+The exercise's `Component` struct pairs a repository path with a short purpose. The `COMPONENTS` array introduces six subsystem labels. The starter keeps its original broad labels so that the exercise contract stays stable; the implementation is now split into focused child files:
 
 - `src/main.rs` selects the terminal or web entry point.
-- `src/cli.rs` draws the terminal interface, tracks progress, and runs exercise checks.
-- `src/lessons.rs` supplies the titles, prompts, hints, answers, solution paths, and reference anchors.
-- `src/api.rs` fetches public Chess.com archive data and converts a game record.
-- `src/chess.rs` parses game metadata and moves, saves board positions, and implements answer checks.
-- `src/web.rs` serves the browser app and this book.
+- The `cli` subsystem starts in `src/cli.rs`; its `input/`, `render/`, runner, state, and progress modules each own one terminal concern.
+- The `lessons` subsystem starts in `src/lessons/mod.rs`; its model, catalog, and topic files supply prompts, hints, answers, solution paths, and reference anchors.
+- `src/api.rs` exposes archive loading, with HTTP, URL validation, archive orchestration, and conversion under `src/api/`.
+- `src/chess.rs` exposes the game model and answer rules; `src/chess/` separates game state, PGN parsing, SAN moves, board setup, and scoring.
+- The `web` subsystem starts in `src/web.rs`; its handlers, renderers, HTTP helpers, sessions, and book reader serve the browser app.
 
 The two entry-point assertions mirror `main`:
 

@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Generate one Guidebook page for every Rust function in the GTE app."""
+"""Generate one Guidebook page per production Rust function, across nested modules.
+
+The scanner masks comments and literals before recognizing Rust items. This is
+not a general Rust parser: it deliberately covers the application source, while
+keeping source excerpts byte-for-byte faithful to the checked-in implementation.
+"""
 
 from __future__ import annotations
 
@@ -7,133 +12,127 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCES = [
-    ROOT / "src/main.rs",
-    ROOT / "src/api.rs",
-    ROOT / "src/chess.rs",
-    ROOT / "src/cli.rs",
-    ROOT / "src/lessons.rs",
-    ROOT / "src/web.rs",
-]
 OUTPUT = ROOT / "docs/book/src/function-pages.md"
 
 
-def raw_string_end(source: str, index: int) -> tuple[int, str] | None:
-    match = re.match(r"(?:br|r)(#*)\"", source[index:])
-    if not match:
-        return None
-    hashes = match.group(1)
-    delimiter = '"' + hashes
-    content_start = index + match.end()
-    content_end = source.find(delimiter, content_start)
-    if content_end < 0:
-        return len(source), ""
-    return content_end + len(delimiter), "raw"
+def source_paths() -> list[Path]:
+    """Discover source modules, including functions moved into module folders."""
+    paths = (path for path in (ROOT / "src").rglob("*.rs")
+             if "tests" not in path.relative_to(ROOT / "src").with_suffix("").parts)
+    return sorted(paths, key=lambda path: (path.name != "main.rs", path.relative_to(ROOT).as_posix()))
 
 
-def function_end(source: str, start: int) -> tuple[int, int]:
-    """Return the body opening brace and the matching closing-brace offset."""
-    index = start
-    body_start = -1
-    depth = 0
-    state = "normal"
-    block_depth = 0
-    raw_end = ""
+def module_path(path: Path) -> str:
+    parts = list(path.relative_to(ROOT / "src").with_suffix("").parts)
+    if parts[-1] == "mod":
+        parts.pop()
+    return "::".join(parts)
+
+
+def mask_non_code(source: str) -> str:
+    """Replace comments and literals with spaces, preserving offsets/newlines."""
+    masked = list(source)
+    index = 0
+
+    def erase(start: int, end: int) -> None:
+        for offset in range(start, end):
+            if source[offset] != "\n":
+                masked[offset] = " "
 
     while index < len(source):
-        if state == "line-comment":
-            if source[index] == "\n":
-                state = "normal"
-            index += 1
-            continue
-        if state == "block-comment":
-            if source.startswith("/*", index):
-                block_depth += 1
-                index += 2
-            elif source.startswith("*/", index):
-                block_depth -= 1
-                index += 2
-                if block_depth == 0:
-                    state = "normal"
-            else:
-                index += 1
-            continue
-        if state == "string":
-            if source[index] == "\\":
-                index += 2
-            elif source[index] == '"':
-                state = "normal"
-                index += 1
-            else:
-                index += 1
-            continue
-        if state == "raw":
-            if source.startswith(raw_end, index):
-                index += len(raw_end)
-                state = "normal"
-            else:
-                index += 1
-            continue
-        if state == "char":
-            if source[index] == "\\":
-                index += 2
-            elif source[index] == "'":
-                state = "normal"
-                index += 1
-            else:
-                index += 1
-            continue
-
+        start = index
         if source.startswith("//", index):
-            state = "line-comment"
+            index = source.find("\n", index)
+            if index < 0:
+                index = len(source)
+        elif source.startswith("/*", index):
+            depth = 1
             index += 2
-            continue
-        if source.startswith("/*", index):
-            state = "block-comment"
-            block_depth = 1
-            index += 2
-            continue
-        raw = raw_string_end(source, index)
-        if raw:
-            index, raw_end = raw
-            state = "normal"
-            continue
-        if source[index] == '"':
-            state = "string"
-            index += 1
-            continue
-        if source[index] == "'":
-            # A lifetime has no nearby closing quote; a character literal does.
-            closing = source.find("'", index + 1, min(index + 16, len(source)))
-            newline = source.find("\n", index + 1, min(index + 16, len(source)))
-            if closing >= 0 and (newline < 0 or closing < newline):
-                state = "char"
+            while index < len(source) and depth:
+                if source.startswith("/*", index):
+                    depth += 1
+                    index += 2
+                elif source.startswith("*/", index):
+                    depth -= 1
+                    index += 2
+                else:
+                    index += 1
+        else:
+            raw = re.match(r'(?:br|cr|r)(#*)"', source[index:])
+            if raw:
+                delimiter = '"' + raw.group(1)
+                end = source.find(delimiter, index + raw.end())
+                index = len(source) if end < 0 else end + len(delimiter)
+            elif source[index] == '"':
+                index += 1
+                while index < len(source):
+                    if source[index] == "\\":
+                        index += 2
+                    elif source[index] == '"':
+                        index += 1
+                        break
+                    else:
+                        index += 1
+            elif source[index] == "'":
+                char = re.match(r"'(?:\\(?:u\{[0-9a-fA-F_]+\}|x[0-9a-fA-F]{2}|.)|[^'\\\n])'", source[index:])
+                if char:
+                    index += char.end()
+                else:
+                    index += 1
+                    continue
+            else:
                 index += 1
                 continue
-        if source[index] == "{":
-            if body_start < 0:
-                body_start = index
+        erase(start, min(index, len(source)))
+    return "".join(masked)
+
+
+def body_span(masked: str, start: int) -> tuple[int, int]:
+    opening = masked.find("{", start)
+    if opening < 0:
+        raise ValueError(f"Missing function body after offset {start}")
+    depth = 1
+    index = opening + 1
+    while index < len(masked):
+        if masked[index] == "{":
             depth += 1
-        elif source[index] == "}" and body_start >= 0:
+        elif masked[index] == "}":
             depth -= 1
             if depth == 0:
-                return body_start, index + 1
+                return opening, index + 1
         index += 1
+    raise ValueError(f"Unclosed function body after offset {start}")
 
-    raise ValueError(f"Could not find end of function starting at byte {start}")
+
+def without_generics(value: str) -> str:
+    return re.sub(r"<[^<>]*>", "", value).strip()
 
 
-def owner_before(source: str, function_start: int) -> str | None:
-    candidates = list(re.finditer(r"\bimpl(?:\s*<[^>]+>)?\s+([A-Za-z_][A-Za-z0-9_]*)[^\n{]*\{", source[:function_start]))
-    for candidate in reversed(candidates):
-        opening = candidate.end() - 1
-        try:
-            _, end = function_end(source, opening)
-        except ValueError:
-            continue
-        if end > function_start:
-            return candidate.group(1)
-    return None
+def impl_owner(declaration: str) -> tuple[str, str]:
+    declaration = " ".join(declaration.split())
+    if declaration.startswith("<"):
+        depth = 0
+        for index, char in enumerate(declaration):
+            depth += char == "<"
+            depth -= char == ">"
+            if depth == 0:
+                declaration = declaration[index + 1:].strip()
+                break
+    declaration = declaration.split(" where ", 1)[0].strip()
+    if " for " in declaration:
+        trait, target = declaration.split(" for ", 1)
+        return f"<{target} as {trait}>", without_generics(target).rsplit("::", 1)[-1]
+    return declaration, without_generics(declaration).rsplit("::", 1)[-1]
+
+
+def containers(masked: str) -> list[dict[str, str | int]]:
+    result = []
+    pattern = re.compile(r"(?m)^[ \t]*(?:unsafe[ \t]+)?impl\b([^{}]*?)\{")
+    for match in pattern.finditer(masked):
+        opening, end = body_span(masked, match.start())
+        owner, lookup_owner = impl_owner(match.group(1))
+        result.append({"start": opening, "end": end, "owner": owner, "lookup_owner": lookup_owner})
+    return result
 
 
 def slug_piece(value: str) -> str:
@@ -178,6 +177,13 @@ ROLE = {
     "cli::UiState::lesson": "Looks up the static lesson currently selected by the UI state.",
     "cli::run": "Owns the terminal lifecycle: raw mode, first check, input polling, redraws, and cleanup.",
     "cli::handle_key": "Routes a key press according to the current screen and changes navigation or exercise state.",
+    "cli::handle_home": "Dispatches the home screen's navigation, hint, focused check, all-check, and Guidebook shortcuts.",
+    "cli::handle_list": "Moves the exercise picker selection, opens the selected exercise, and returns to the home screen.",
+    "cli::handle_lesson": "Handles one exercise's hint, concept check, solution, Guidebook, and navigation shortcuts.",
+    "cli::handle_check": "Selects and validates a concept-check answer while keeping exercise navigation available.",
+    "cli::handle_solution": "Scrolls a reference solution and routes rerun, previous/next exercise, and screen navigation keys.",
+    "cli::handle_test_result": "Scrolls captured diagnostics and handles reruns, solution access, and exercise navigation.",
+    "cli::handle_reset_confirm": "Accepts a source reset, cancels back to the home screen, or exits the terminal UI.",
     "cli::open_lesson_list": "Copies the active lesson into the picker selection and opens the list screen.",
     "cli::advance_next": "Blocks forward navigation until the current exercise passes, then selects and runs the next incomplete lesson.",
     "cli::advance_previous": "Moves one lesson backward and immediately checks that lesson.",
@@ -248,41 +254,54 @@ ROLE = {
 }
 
 
-def collect_functions() -> list[dict[str, str]]:
-    functions: list[dict[str, str]] = []
-    pattern = re.compile(r"(?m)^\s*(?:pub\s+)?(?:(?:async|const|unsafe)\s+)*fn\s+([A-Za-z_][A-Za-z0-9_]*)\b")
-    for path in SOURCES:
-        source = path.read_text()
-        module = path.stem
-        matches = list(pattern.finditer(source))
-        for match in matches:
-            body_start, end = function_end(source, match.start())
-            line_start = source.rfind("\n", 0, match.start()) + 1
-            snippet = source[line_start:end].strip()
-            signature = source[line_start:body_start].strip()
-            name = match.group(1)
-            owner = owner_before(source, match.start())
-            qualified = f"{module}::{owner}::{name}" if owner else f"{module}::{name}"
-            line_number = source.count("\n", 0, match.start()) + 1
-            slug = f"function-{slug_piece(module)}-"
-            if owner:
-                slug += f"{slug_piece(owner)}-"
-            slug += slug_piece(name)
-            functions.append(
-                {
-                    "module": module,
-                    "owner": owner or "",
-                    "name": name,
-                    "qualified": qualified,
-                    "slug": slug,
-                    "source_path": path.relative_to(ROOT).as_posix(),
-                    "line": str(line_number),
-                    "signature": signature,
-                    "snippet": snippet,
-                    "role": ROLE.get(qualified, f"Implements part of the {module} module. Its exact branches and data changes are shown below.")
-                }
-            )
+def responsibility(module: str, name: str, lookup_owner: str) -> str:
+    # Responsibility follows a function when its module is split. Trait owners
+    # remain distinct in the qualified title, but share their target type's role.
+    family = module.split("::", 1)[0]
+    stable = f"{family}::{lookup_owner}::{name}" if lookup_owner else f"{family}::{name}"
+    return ROLE.get(stable, f"Implements `{name}` in `{module}`. Read its parameters, branches, and return value alongside the neighboring functions in this focused module.")
+
+
+def functions_in_source(path: Path, source: str) -> list[dict[str, str]]:
+    functions = []
+    module = module_path(path)
+    masked = mask_non_code(source)
+    owners = containers(masked)
+    inline_modules = []
+    for match in re.finditer(r"(?m)^[ \t]*(?:pub(?:\([^)]*\))?[ \t]+)?mod[ \t]+([A-Za-z_][A-Za-z0-9_]*)[ \t]*\{", masked):
+        opening, end = body_span(masked, match.start())
+        inline_modules.append((opening, end, match.group(1)))
+    pattern = re.compile(r"\b(?:pub(?:[ \t]*\([^)]*\))?[ \t]+)?(?:(?:async|const|unsafe|extern)[ \t]+)*fn[ \t]+([A-Za-z_][A-Za-z0-9_]*)\b")
+    for match in pattern.finditer(masked):
+        enclosing_modules = [name for opening, end, name in inline_modules if opening < match.start() < end]
+        if "tests" in enclosing_modules:
+            continue
+        function_module = "::".join([module, *enclosing_modules])
+        body_start, end = body_span(masked, match.start())
+        line_start = source.rfind("\n", 0, match.start()) + 1
+        if source[line_start:match.start()].strip():
+            line_start = match.start()
+        owner = next((entry for entry in reversed(owners) if entry["start"] < match.start() < entry["end"]), None)
+        owner_name = str(owner["owner"]) if owner else ""
+        name = match.group(1)
+        qualified = f"{function_module}::{owner_name}::{name}" if owner_name else f"{function_module}::{name}"
+        functions.append({
+            "module": function_module,
+            "owner": owner_name,
+            "name": name,
+            "qualified": qualified,
+            "slug": f"function-{slug_piece(qualified)}",
+            "source_path": path.relative_to(ROOT).as_posix(),
+            "line": str(source.count("\n", 0, line_start) + 1),
+            "signature": source[line_start:body_start].strip(),
+            "snippet": source[line_start:end].strip(),
+            "role": responsibility(function_module, name, str(owner["lookup_owner"]) if owner else ""),
+        })
     return functions
+
+
+def collect_functions() -> list[dict[str, str]]:
+    return [function for path in source_paths() for function in functions_in_source(path, path.read_text())]
 
 
 def main() -> None:
@@ -291,13 +310,19 @@ def main() -> None:
         raise SystemExit(f"Expected at least 92 functions; found {len(functions)}")
     slugs = [function["slug"] for function in functions]
     if len(slugs) != len(set(slugs)):
-        raise SystemExit("Function page slugs must be unique")
+        duplicates = sorted({slug for slug in slugs if slugs.count(slug) > 1})
+        raise SystemExit(f"Function page slugs must be unique: {duplicates}")
 
     pages = []
     total = len(functions)
     for number, function in enumerate(functions, start=1):
         title = f"{function['module']} · {function['owner'] + '::' if function['owner'] else ''}{function['name']}"
-        signature = function["signature"].replace("\n", "\n    ")
+        signature = function["signature"]
+        family = function["module"].split("::", 1)[0]
+        chapter = {"main": "rust-entry-point", "api": "public-data", "chess": "board-state", "cli": "terminal-learning", "lessons": "terminal-learning", "web": "web-server"}.get(family, "architecture")
+        siblings = [other for other in functions if other["module"] == function["module"] and other["qualified"] != function["qualified"]]
+        related = ", ".join(f"[`{other['name']}`](/guide/{other['slug']})" for other in siblings)
+        related = f"Other functions in this module: {related}." if related else "This module has one function; its supporting types and constants live alongside it."
         body = f'''<!-- GTE_FUNCTION_PAGE: {function['slug']}|{title} -->
 # Function page {number:03} of {total:03}: `{function['qualified']}`
 
@@ -313,11 +338,11 @@ def main() -> None:
 {signature}
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
 {function['snippet']}
@@ -325,12 +350,17 @@ The excerpt is copied from the production source. Follow it from the first branc
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `{function['module']}` module at the source path above. Read the [related architecture chapter](/guide/{chapter}) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+{related}
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 '''
         pages.append(f"{body}\n<!-- END_GTE_FUNCTION_PAGE -->")
 
     OUTPUT.write_text("\n\n".join(pages) + "\n")
-    print(f"Generated {len(functions)} function pages in {OUTPUT.relative_to(ROOT)}")
+    modules = {function["module"] for function in functions}
+    print(f"Generated {len(functions)} function pages across {len(modules)} Rust modules in {OUTPUT.relative_to(ROOT)}")
 
 
 if __name__ == "__main__":

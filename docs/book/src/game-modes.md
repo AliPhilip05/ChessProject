@@ -4,7 +4,7 @@ Both modes use the same `ChessGame`, session store, board, move controls, and ga
 
 ## Session state
 
-In `src/web.rs`, a `Session` contains:
+In `src/web/session.rs`, a `Session` contains:
 
 - the parsed `ChessGame`;
 - `mode`, `difficulty`, and target side;

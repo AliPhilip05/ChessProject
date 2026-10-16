@@ -1,7 +1,7 @@
 <!-- GTE_FUNCTION_PAGE: function-main-main|main · main -->
-# Function page 001 of 104: `main::main`
+# Function page 001 of 111: `main::main`
 
-**Source:** `src/main.rs:6`
+**Source:** `src/main.rs:7`
 
 ## Responsibility
 
@@ -13,11 +13,11 @@ Selects the terminal curriculum or browser app from the process arguments.
 fn main()
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
 fn main() {
@@ -32,14 +32,18 @@ fn main() {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `main` module at the source path above. Read the [related architecture chapter](/guide/rust-entry-point) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+This module has one function; its supporting types and constants live alongside it.
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-api-random-public-game|api · random_public_game -->
-# Function page 002 of 104: `api::random_public_game`
+<!-- GTE_FUNCTION_PAGE: function-api-archives-random-public-game|api::archives · random_public_game -->
+# Function page 002 of 111: `api::archives::random_public_game`
 
-**Source:** `src/api.rs:5`
+**Source:** `src/api/archives.rs:10`
 
 ## Responsibility
 
@@ -51,11 +55,11 @@ Loads a player's archive index, checks recent monthly archives, filters usable c
 pub fn random_public_game(username: &str) -> Result<ChessGame, String>
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
 pub fn random_public_game(username: &str) -> Result<ChessGame, String> {
@@ -87,14 +91,18 @@ pub fn random_public_game(username: &str) -> Result<ChessGame, String> {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `api::archives` module at the source path above. Read the [related architecture chapter](/guide/public-data) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`game_from_archive_link`](/guide/function-api-archives-game-from-archive-link), [`archive_urls`](/guide/function-api-archives-archive-urls).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-api-game-from-archive-link|api · game_from_archive_link -->
-# Function page 003 of 104: `api::game_from_archive_link`
+<!-- GTE_FUNCTION_PAGE: function-api-archives-game-from-archive-link|api::archives · game_from_archive_link -->
+# Function page 003 of 111: `api::archives::game_from_archive_link`
 
-**Source:** `src/api.rs:31`
+**Source:** `src/api/archives.rs:36`
 
 ## Responsibility
 
@@ -106,11 +114,11 @@ Resolves a pasted public game URL by searching the selected player's recent arch
 pub fn game_from_archive_link(username: &str, game_url: &str) -> Result<ChessGame, String>
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
 pub fn game_from_archive_link(username: &str, game_url: &str) -> Result<ChessGame, String> {
@@ -144,58 +152,18 @@ pub fn game_from_archive_link(username: &str, game_url: &str) -> Result<ChessGam
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `api::archives` module at the source path above. Read the [related architecture chapter](/guide/public-data) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`random_public_game`](/guide/function-api-archives-random-public-game), [`archive_urls`](/guide/function-api-archives-archive-urls).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-api-validate-username|api · validate_username -->
-# Function page 004 of 104: `api::validate_username`
+<!-- GTE_FUNCTION_PAGE: function-api-archives-archive-urls|api::archives · archive_urls -->
+# Function page 004 of 111: `api::archives::archive_urls`
 
-**Source:** `src/api.rs:59`
-
-## Responsibility
-
-Normalizes and validates a public Chess.com username before it becomes part of a request URL.
-
-## Signature and data contract
-
-```rust
-fn validate_username(username: &str) -> Result<String, String>
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn validate_username(username: &str) -> Result<String, String> {
-    let username = username.trim().to_ascii_lowercase();
-    if username.is_empty()
-        || username.len() > 25
-        || !username
-            .chars()
-            .all(|character| character.is_ascii_alphanumeric() || character == '_')
-    {
-        return Err(
-            "Enter a Chess.com username using letters, numbers, or underscores.".to_owned(),
-        );
-    }
-    Ok(username)
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-api-archive-urls|api · archive_urls -->
-# Function page 005 of 104: `api::archive_urls`
-
-**Source:** `src/api.rs:74`
+**Source:** `src/api/archives.rs:64`
 
 ## Responsibility
 
@@ -207,11 +175,11 @@ Requests and extracts the monthly archive URLs returned for a player.
 fn archive_urls(username: &str) -> Result<Vec<String>, String>
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
 fn archive_urls(username: &str) -> Result<Vec<String>, String> {
@@ -234,14 +202,18 @@ fn archive_urls(username: &str) -> Result<Vec<String>, String> {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `api::archives` module at the source path above. Read the [related architecture chapter](/guide/public-data) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`random_public_game`](/guide/function-api-archives-random-public-game), [`game_from_archive_link`](/guide/function-api-archives-game-from-archive-link).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-api-get-json|api · get_json -->
-# Function page 006 of 104: `api::get_json`
+<!-- GTE_FUNCTION_PAGE: function-api-client-get-json|api::client · get_json -->
+# Function page 005 of 111: `api::client::get_json`
 
-**Source:** `src/api.rs:91`
+**Source:** `src/api/client.rs:7`
 
 ## Responsibility
 
@@ -250,17 +222,17 @@ Performs a public GET request and turns either JSON or transport errors into a R
 ## Signature and data contract
 
 ```rust
-fn get_json(url: &str) -> Result<Value, String>
+pub(super) fn get_json(url: &str) -> Result<Value, String>
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-fn get_json(url: &str) -> Result<Value, String> {
+pub(super) fn get_json(url: &str) -> Result<Value, String> {
     let response = ureq::get(url)
         .set("User-Agent", USER_AGENT)
         .call()
@@ -273,14 +245,18 @@ fn get_json(url: &str) -> Result<Value, String> {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `api::client` module at the source path above. Read the [related architecture chapter](/guide/public-data) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+This module has one function; its supporting types and constants live alongside it.
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-api-to-chess-game|api · to_chess_game -->
-# Function page 007 of 104: `api::to_chess_game`
+<!-- GTE_FUNCTION_PAGE: function-api-mapping-to-chess-game|api::mapping · to_chess_game -->
+# Function page 006 of 111: `api::mapping::to_chess_game`
 
-**Source:** `src/api.rs:101`
+**Source:** `src/api/mapping.rs:8`
 
 ## Responsibility
 
@@ -289,17 +265,17 @@ Converts one archive JSON value into the app's shared chess model, preserving ab
 ## Signature and data contract
 
 ```rust
-fn to_chess_game(record: &Value) -> Option<ChessGame>
+pub(super) fn to_chess_game(record: &Value) -> Option<ChessGame>
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-fn to_chess_game(record: &Value) -> Option<ChessGame> {
+pub(super) fn to_chess_game(record: &Value) -> Option<ChessGame> {
     if record
         .get("rules")
         .and_then(Value::as_str)
@@ -354,14 +330,66 @@ fn to_chess_game(record: &Value) -> Option<ChessGame> {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `api::mapping` module at the source path above. Read the [related architecture chapter](/guide/public-data) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+This module has one function; its supporting types and constants live alongside it.
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-api-same-game-id|api · same_game_id -->
-# Function page 008 of 104: `api::same_game_id`
+<!-- GTE_FUNCTION_PAGE: function-api-urls-validate-username|api::urls · validate_username -->
+# Function page 007 of 111: `api::urls::validate_username`
 
-**Source:** `src/api.rs:153`
+**Source:** `src/api/urls.rs:3`
+
+## Responsibility
+
+Normalizes and validates a public Chess.com username before it becomes part of a request URL.
+
+## Signature and data contract
+
+```rust
+pub(super) fn validate_username(username: &str) -> Result<String, String>
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub(super) fn validate_username(username: &str) -> Result<String, String> {
+    let username = username.trim().to_ascii_lowercase();
+    if username.is_empty()
+        || username.len() > 25
+        || !username
+            .chars()
+            .all(|character| character.is_ascii_alphanumeric() || character == '_')
+    {
+        return Err(
+            "Enter a Chess.com username using letters, numbers, or underscores.".to_owned(),
+        );
+    }
+    Ok(username)
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `api::urls` module at the source path above. Read the [related architecture chapter](/guide/public-data) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`same_game_id`](/guide/function-api-urls-same-game-id), [`game_id`](/guide/function-api-urls-game-id), [`opening_from_eco`](/guide/function-api-urls-opening-from-eco).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-api-urls-same-game-id|api::urls · same_game_id -->
+# Function page 008 of 111: `api::urls::same_game_id`
+
+**Source:** `src/api/urls.rs:18`
 
 ## Responsibility
 
@@ -370,17 +398,17 @@ Compares the stable final game id instead of requiring two URLs to have identica
 ## Signature and data contract
 
 ```rust
-fn same_game_id(first: &str, second: &str) -> bool
+pub(super) fn same_game_id(first: &str, second: &str) -> bool
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-fn same_game_id(first: &str, second: &str) -> bool {
+pub(super) fn same_game_id(first: &str, second: &str) -> bool {
     let first_id = game_id(first);
     !first_id.is_empty() && first_id == game_id(second)
 }
@@ -388,14 +416,18 @@ fn same_game_id(first: &str, second: &str) -> bool {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `api::urls` module at the source path above. Read the [related architecture chapter](/guide/public-data) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`validate_username`](/guide/function-api-urls-validate-username), [`game_id`](/guide/function-api-urls-game-id), [`opening_from_eco`](/guide/function-api-urls-opening-from-eco).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-api-game-id|api · game_id -->
-# Function page 009 of 104: `api::game_id`
+<!-- GTE_FUNCTION_PAGE: function-api-urls-game-id|api::urls · game_id -->
+# Function page 009 of 111: `api::urls::game_id`
 
-**Source:** `src/api.rs:158`
+**Source:** `src/api/urls.rs:23`
 
 ## Responsibility
 
@@ -407,11 +439,11 @@ Extracts the last nonempty URL segment and removes any query string.
 fn game_id(url: &str) -> &str
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
 fn game_id(url: &str) -> &str {
@@ -427,14 +459,18 @@ fn game_id(url: &str) -> &str {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `api::urls` module at the source path above. Read the [related architecture chapter](/guide/public-data) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`validate_username`](/guide/function-api-urls-validate-username), [`same_game_id`](/guide/function-api-urls-same-game-id), [`opening_from_eco`](/guide/function-api-urls-opening-from-eco).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-api-opening-from-eco|api · opening_from_eco -->
-# Function page 010 of 104: `api::opening_from_eco`
+<!-- GTE_FUNCTION_PAGE: function-api-urls-opening-from-eco|api::urls · opening_from_eco -->
+# Function page 010 of 111: `api::urls::opening_from_eco`
 
-**Source:** `src/api.rs:168`
+**Source:** `src/api/urls.rs:33`
 
 ## Responsibility
 
@@ -443,31 +479,370 @@ Builds a readable opening label from the final path segment of an ECO URL.
 ## Signature and data contract
 
 ```rust
-fn opening_from_eco(url: &str) -> String
+pub(super) fn opening_from_eco(url: &str) -> String
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-fn opening_from_eco(url: &str) -> String {
+pub(super) fn opening_from_eco(url: &str) -> String {
     url.rsplit('/').next().unwrap_or(url).replace('-', " ")
 }
 ```
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `api::urls` module at the source path above. Read the [related architecture chapter](/guide/public-data) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`validate_username`](/guide/function-api-urls-validate-username), [`same_game_id`](/guide/function-api-urls-same-game-id), [`game_id`](/guide/function-api-urls-game-id).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-chess-chessgame-from-pgn|chess · ChessGame::from_pgn -->
-# Function page 011 of 104: `chess::ChessGame::from_pgn`
+<!-- GTE_FUNCTION_PAGE: function-chess-answers-normalize-answer|chess::answers · normalize_answer -->
+# Function page 011 of 111: `chess::answers::normalize_answer`
 
-**Source:** `src/chess.rs:21`
+**Source:** `src/chess/answers.rs:3`
+
+## Responsibility
+
+Canonicalizes answer text by collapsing whitespace and lowercasing it.
+
+## Signature and data contract
+
+```rust
+pub fn normalize_answer(text: &str) -> String
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub fn normalize_answer(text: &str) -> String {
+    text.split_whitespace()
+        .collect::<Vec<_>>()
+        .join(" ")
+        .to_lowercase()
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `chess::answers` module at the source path above. Read the [related architecture chapter](/guide/board-state) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`opening_matches`](/guide/function-chess-answers-opening-matches), [`rating_tolerance`](/guide/function-chess-answers-rating-tolerance), [`rating_is_close`](/guide/function-chess-answers-rating-is-close).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-chess-answers-opening-matches|chess::answers · opening_matches -->
+# Function page 012 of 111: `chess::answers::opening_matches`
+
+**Source:** `src/chess/answers.rs:10`
+
+## Responsibility
+
+Rejects blank guesses and compares normalized opening names.
+
+## Signature and data contract
+
+```rust
+pub fn opening_matches(guess: &str, expected: &str) -> bool
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub fn opening_matches(guess: &str, expected: &str) -> bool {
+    !normalize_answer(guess).is_empty() && normalize_answer(guess) == normalize_answer(expected)
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `chess::answers` module at the source path above. Read the [related architecture chapter](/guide/board-state) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`normalize_answer`](/guide/function-chess-answers-normalize-answer), [`rating_tolerance`](/guide/function-chess-answers-rating-tolerance), [`rating_is_close`](/guide/function-chess-answers-rating-is-close).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-chess-answers-rating-tolerance|chess::answers · rating_tolerance -->
+# Function page 013 of 111: `chess::answers::rating_tolerance`
+
+**Source:** `src/chess/answers.rs:14`
+
+## Responsibility
+
+Maps Easy, Medium, and Hard difficulty names to their rating-error thresholds.
+
+## Signature and data contract
+
+```rust
+pub fn rating_tolerance(difficulty: &str) -> i32
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub fn rating_tolerance(difficulty: &str) -> i32 {
+    match difficulty.to_ascii_lowercase().as_str() {
+        "easy" => 200,
+        "hard" => 50,
+        _ => 100,
+    }
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `chess::answers` module at the source path above. Read the [related architecture chapter](/guide/board-state) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`normalize_answer`](/guide/function-chess-answers-normalize-answer), [`opening_matches`](/guide/function-chess-answers-opening-matches), [`rating_is_close`](/guide/function-chess-answers-rating-is-close).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-chess-answers-rating-is-close|chess::answers · rating_is_close -->
+# Function page 014 of 111: `chess::answers::rating_is_close`
+
+**Source:** `src/chess/answers.rs:22`
+
+## Responsibility
+
+Applies an inclusive absolute-error comparison using the selected tolerance.
+
+## Signature and data contract
+
+```rust
+pub fn rating_is_close(guess: i32, actual: i32, difficulty: &str) -> bool
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub fn rating_is_close(guess: i32, actual: i32, difficulty: &str) -> bool {
+    (guess - actual).abs() <= rating_tolerance(difficulty)
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `chess::answers` module at the source path above. Read the [related architecture chapter](/guide/board-state) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`normalize_answer`](/guide/function-chess-answers-normalize-answer), [`opening_matches`](/guide/function-chess-answers-opening-matches), [`rating_tolerance`](/guide/function-chess-answers-rating-tolerance).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-chess-board-starting-position|chess::board · starting_position -->
+# Function page 015 of 111: `chess::board::starting_position`
+
+**Source:** `src/chess/board.rs:3`
+
+## Responsibility
+
+Creates the row-major 64-square starting board used before the first ply.
+
+## Signature and data contract
+
+```rust
+pub(super) fn starting_position() -> [char; 64]
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub(super) fn starting_position() -> [char; 64] {
+    let rows = [
+        "rnbqkbnr", "pppppppp", "........", "........", "........", "........", "PPPPPPPP",
+        "RNBQKBNR",
+    ];
+    let mut board = ['.'; 64];
+    for (rank, row) in rows.iter().enumerate() {
+        for (file, piece) in row.chars().enumerate() {
+            board[rank * 8 + file] = piece;
+        }
+    }
+    board
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `chess::board` module at the source path above. Read the [related architecture chapter](/guide/board-state) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`piece_can_move`](/guide/function-chess-board-piece-can-move), [`path_is_clear`](/guide/function-chess-board-path-is-clear).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-chess-board-piece-can-move|chess::board · piece_can_move -->
+# Function page 016 of 111: `chess::board::piece_can_move`
+
+**Source:** `src/chess/board.rs:17`
+
+## Responsibility
+
+Checks movement shape, pawn direction, captures, and sliding-piece obstruction for one candidate origin.
+
+## Signature and data contract
+
+```rust
+pub(super) fn piece_can_move(
+    board: &[char; 64],
+    from_x: i32,
+    from_y: i32,
+    to_x: i32,
+    to_y: i32,
+    piece: char,
+    white: bool,
+    capture: bool,
+) -> bool
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub(super) fn piece_can_move(
+    board: &[char; 64],
+    from_x: i32,
+    from_y: i32,
+    to_x: i32,
+    to_y: i32,
+    piece: char,
+    white: bool,
+    capture: bool,
+) -> bool {
+    let dx = to_x - from_x;
+    let dy = to_y - from_y;
+    if dx == 0 && dy == 0 {
+        return false;
+    }
+    match piece {
+        'N' => (dx.abs() == 1 && dy.abs() == 2) || (dx.abs() == 2 && dy.abs() == 1),
+        'K' => dx.abs() <= 1 && dy.abs() <= 1,
+        'R' if dx == 0 || dy == 0 => path_is_clear(board, from_x, from_y, to_x, to_y),
+        'B' if dx.abs() == dy.abs() => path_is_clear(board, from_x, from_y, to_x, to_y),
+        'Q' if dx == 0 || dy == 0 || dx.abs() == dy.abs() => {
+            path_is_clear(board, from_x, from_y, to_x, to_y)
+        }
+        'P' => {
+            let direction = if white { -1 } else { 1 };
+            if capture {
+                dx.abs() == 1 && dy == direction
+            } else if dx != 0 {
+                false
+            } else if dy == direction {
+                board[(to_y * 8 + to_x) as usize] == '.'
+            } else {
+                let start_rank = if white { 6 } else { 1 };
+                dy == direction * 2
+                    && from_y == start_rank
+                    && board[((from_y + direction) * 8 + from_x) as usize] == '.'
+                    && board[(to_y * 8 + to_x) as usize] == '.'
+            }
+        }
+        _ => false,
+    }
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `chess::board` module at the source path above. Read the [related architecture chapter](/guide/board-state) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`starting_position`](/guide/function-chess-board-starting-position), [`path_is_clear`](/guide/function-chess-board-path-is-clear).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-chess-board-path-is-clear|chess::board · path_is_clear -->
+# Function page 017 of 111: `chess::board::path_is_clear`
+
+**Source:** `src/chess/board.rs:60`
+
+## Responsibility
+
+Walks intermediate squares and rejects a sliding move when a piece blocks the path.
+
+## Signature and data contract
+
+```rust
+fn path_is_clear(board: &[char; 64], from_x: i32, from_y: i32, to_x: i32, to_y: i32) -> bool
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+fn path_is_clear(board: &[char; 64], from_x: i32, from_y: i32, to_x: i32, to_y: i32) -> bool {
+    let step_x = (to_x - from_x).signum();
+    let step_y = (to_y - from_y).signum();
+    let mut x = from_x + step_x;
+    let mut y = from_y + step_y;
+    while x != to_x || y != to_y {
+        if board[(y * 8 + x) as usize] != '.' {
+            return false;
+        }
+        x += step_x;
+        y += step_y;
+    }
+    true
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `chess::board` module at the source path above. Read the [related architecture chapter](/guide/board-state) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`starting_position`](/guide/function-chess-board-starting-position), [`piece_can_move`](/guide/function-chess-board-piece-can-move).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-chess-game-chessgame-from-pgn|chess::game · ChessGame::from_pgn -->
+# Function page 018 of 111: `chess::game::ChessGame::from_pgn`
+
+**Source:** `src/chess/game.rs:27`
 
 ## Responsibility
 
@@ -479,11 +854,11 @@ Provides the simple constructor when no API metadata overrides are available.
 pub fn from_pgn(pgn: &str) -> Self
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
 pub fn from_pgn(pgn: &str) -> Self {
@@ -493,14 +868,18 @@ pub fn from_pgn(pgn: &str) -> Self {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `chess::game` module at the source path above. Read the [related architecture chapter](/guide/board-state) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`with_metadata`](/guide/function-chess-game-chessgame-with-metadata), [`demo`](/guide/function-chess-game-chessgame-demo), [`position_at`](/guide/function-chess-game-chessgame-position-at), [`ply_count`](/guide/function-chess-game-chessgame-ply-count).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-chess-chessgame-with-metadata|chess · ChessGame::with_metadata -->
-# Function page 012 of 104: `chess::ChessGame::with_metadata`
+<!-- GTE_FUNCTION_PAGE: function-chess-game-chessgame-with-metadata|chess::game · ChessGame::with_metadata -->
+# Function page 019 of 111: `chess::game::ChessGame::with_metadata`
 
-**Source:** `src/chess.rs:24`
+**Source:** `src/chess/game.rs:31`
 
 ## Responsibility
 
@@ -510,21 +889,21 @@ Combines API overrides and PGN headers, applies accepted SAN moves, and stores a
 
 ```rust
 pub fn with_metadata(
-            pgn: &str,
-            white_rating: Option<i32>,
-            black_rating: Option<i32>,
-            opening_override: Option<String>,
-            eco_override: Option<String>,
-            url_override: Option<String>,
-            demo: bool,
-        ) -> Self
+        pgn: &str,
+        white_rating: Option<i32>,
+        black_rating: Option<i32>,
+        opening_override: Option<String>,
+        eco_override: Option<String>,
+        url_override: Option<String>,
+        demo: bool,
+    ) -> Self
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
 pub fn with_metadata(
@@ -596,14 +975,18 @@ pub fn with_metadata(
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `chess::game` module at the source path above. Read the [related architecture chapter](/guide/board-state) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`from_pgn`](/guide/function-chess-game-chessgame-from-pgn), [`demo`](/guide/function-chess-game-chessgame-demo), [`position_at`](/guide/function-chess-game-chessgame-position-at), [`ply_count`](/guide/function-chess-game-chessgame-ply-count).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-chess-chessgame-demo|chess · ChessGame::demo -->
-# Function page 013 of 104: `chess::ChessGame::demo`
+<!-- GTE_FUNCTION_PAGE: function-chess-game-chessgame-demo|chess::game · ChessGame::demo -->
+# Function page 020 of 111: `chess::game::ChessGame::demo`
 
-**Source:** `src/chess.rs:90`
+**Source:** `src/chess/game.rs:97`
 
 ## Responsibility
 
@@ -615,11 +998,11 @@ Creates the offline Italian Game fixture used by the app when no archive request
 pub fn demo() -> Self
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
 pub fn demo() -> Self {
@@ -647,14 +1030,18 @@ pub fn demo() -> Self {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `chess::game` module at the source path above. Read the [related architecture chapter](/guide/board-state) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`from_pgn`](/guide/function-chess-game-chessgame-from-pgn), [`with_metadata`](/guide/function-chess-game-chessgame-with-metadata), [`position_at`](/guide/function-chess-game-chessgame-position-at), [`ply_count`](/guide/function-chess-game-chessgame-ply-count).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-chess-chessgame-position-at|chess · ChessGame::position_at -->
-# Function page 014 of 104: `chess::ChessGame::position_at`
+<!-- GTE_FUNCTION_PAGE: function-chess-game-chessgame-position-at|chess::game · ChessGame::position_at -->
+# Function page 021 of 111: `chess::game::ChessGame::position_at`
 
-**Source:** `src/chess.rs:112`
+**Source:** `src/chess/game.rs:119`
 
 ## Responsibility
 
@@ -666,11 +1053,11 @@ Returns a saved board snapshot while clamping an oversized ply to the final posi
 pub fn position_at(&self, ply: usize) -> &[char; 64]
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
 pub fn position_at(&self, ply: usize) -> &[char; 64] {
@@ -681,14 +1068,18 @@ pub fn position_at(&self, ply: usize) -> &[char; 64] {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `chess::game` module at the source path above. Read the [related architecture chapter](/guide/board-state) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`from_pgn`](/guide/function-chess-game-chessgame-from-pgn), [`with_metadata`](/guide/function-chess-game-chessgame-with-metadata), [`demo`](/guide/function-chess-game-chessgame-demo), [`ply_count`](/guide/function-chess-game-chessgame-ply-count).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-chess-chessgame-ply-count|chess · ChessGame::ply_count -->
-# Function page 015 of 104: `chess::ChessGame::ply_count`
+<!-- GTE_FUNCTION_PAGE: function-chess-game-chessgame-ply-count|chess::game · ChessGame::ply_count -->
+# Function page 022 of 111: `chess::game::ChessGame::ply_count`
 
-**Source:** `src/chess.rs:117`
+**Source:** `src/chess/game.rs:124`
 
 ## Responsibility
 
@@ -700,11 +1091,11 @@ Reports the number of board transitions without underflowing an empty snapshot l
 pub fn ply_count(&self) -> usize
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
 pub fn ply_count(&self) -> usize {
@@ -714,153 +1105,18 @@ pub fn ply_count(&self) -> usize {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `chess::game` module at the source path above. Read the [related architecture chapter](/guide/board-state) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`from_pgn`](/guide/function-chess-game-chessgame-from-pgn), [`with_metadata`](/guide/function-chess-game-chessgame-with-metadata), [`demo`](/guide/function-chess-game-chessgame-demo), [`position_at`](/guide/function-chess-game-chessgame-position-at).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-chess-normalize-answer|chess · normalize_answer -->
-# Function page 016 of 104: `chess::normalize_answer`
+<!-- GTE_FUNCTION_PAGE: function-chess-pgn-pgn-headers|chess::pgn · pgn_headers -->
+# Function page 023 of 111: `chess::pgn::pgn_headers`
 
-**Source:** `src/chess.rs:122`
-
-## Responsibility
-
-Canonicalizes answer text by collapsing whitespace and lowercasing it.
-
-## Signature and data contract
-
-```rust
-pub fn normalize_answer(text: &str) -> String
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-pub fn normalize_answer(text: &str) -> String {
-    text.split_whitespace()
-        .collect::<Vec<_>>()
-        .join(" ")
-        .to_lowercase()
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-chess-opening-matches|chess · opening_matches -->
-# Function page 017 of 104: `chess::opening_matches`
-
-**Source:** `src/chess.rs:129`
-
-## Responsibility
-
-Rejects blank guesses and compares normalized opening names.
-
-## Signature and data contract
-
-```rust
-pub fn opening_matches(guess: &str, expected: &str) -> bool
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-pub fn opening_matches(guess: &str, expected: &str) -> bool {
-    !normalize_answer(guess).is_empty() && normalize_answer(guess) == normalize_answer(expected)
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-chess-rating-tolerance|chess · rating_tolerance -->
-# Function page 018 of 104: `chess::rating_tolerance`
-
-**Source:** `src/chess.rs:133`
-
-## Responsibility
-
-Maps Easy, Medium, and Hard difficulty names to their rating-error thresholds.
-
-## Signature and data contract
-
-```rust
-pub fn rating_tolerance(difficulty: &str) -> i32
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-pub fn rating_tolerance(difficulty: &str) -> i32 {
-    match difficulty.to_ascii_lowercase().as_str() {
-        "easy" => 200,
-        "hard" => 50,
-        _ => 100,
-    }
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-chess-rating-is-close|chess · rating_is_close -->
-# Function page 019 of 104: `chess::rating_is_close`
-
-**Source:** `src/chess.rs:141`
-
-## Responsibility
-
-Applies an inclusive absolute-error comparison using the selected tolerance.
-
-## Signature and data contract
-
-```rust
-pub fn rating_is_close(guess: i32, actual: i32, difficulty: &str) -> bool
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-pub fn rating_is_close(guess: i32, actual: i32, difficulty: &str) -> bool {
-    (guess - actual).abs() <= rating_tolerance(difficulty)
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-chess-pgn-headers|chess · pgn_headers -->
-# Function page 020 of 104: `chess::pgn_headers`
-
-**Source:** `src/chess.rs:145`
+**Source:** `src/chess/pgn.rs:5`
 
 ## Responsibility
 
@@ -872,11 +1128,11 @@ Reads bracketed PGN header records into a key/value map and unescapes quoted val
 pub fn pgn_headers(pgn: &str) -> HashMap<String, String>
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
 pub fn pgn_headers(pgn: &str) -> HashMap<String, String> {
@@ -904,14 +1160,18 @@ pub fn pgn_headers(pgn: &str) -> HashMap<String, String> {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `chess::pgn` module at the source path above. Read the [related architecture chapter](/guide/board-state) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`pgn_move_tokens`](/guide/function-chess-pgn-pgn-move-tokens), [`header`](/guide/function-chess-pgn-header), [`parse_rating`](/guide/function-chess-pgn-parse-rating), [`is_result`](/guide/function-chess-pgn-is-result), [`strip_move_number`](/guide/function-chess-pgn-strip-move-number).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-chess-pgn-move-tokens|chess · pgn_move_tokens -->
-# Function page 021 of 104: `chess::pgn_move_tokens`
+<!-- GTE_FUNCTION_PAGE: function-chess-pgn-pgn-move-tokens|chess::pgn · pgn_move_tokens -->
+# Function page 024 of 111: `chess::pgn::pgn_move_tokens`
 
-**Source:** `src/chess.rs:167`
+**Source:** `src/chess/pgn.rs:27`
 
 ## Responsibility
 
@@ -923,11 +1183,11 @@ Removes header lines, comments, and variations before returning whitespace-separ
 pub fn pgn_move_tokens(pgn: &str) -> Vec<String>
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
 pub fn pgn_move_tokens(pgn: &str) -> Vec<String> {
@@ -971,14 +1231,18 @@ pub fn pgn_move_tokens(pgn: &str) -> Vec<String> {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `chess::pgn` module at the source path above. Read the [related architecture chapter](/guide/board-state) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`pgn_headers`](/guide/function-chess-pgn-pgn-headers), [`header`](/guide/function-chess-pgn-header), [`parse_rating`](/guide/function-chess-pgn-parse-rating), [`is_result`](/guide/function-chess-pgn-is-result), [`strip_move_number`](/guide/function-chess-pgn-strip-move-number).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-chess-header|chess · header -->
-# Function page 022 of 104: `chess::header`
+<!-- GTE_FUNCTION_PAGE: function-chess-pgn-header|chess::pgn · header -->
+# Function page 025 of 111: `chess::pgn::header`
 
-**Source:** `src/chess.rs:205`
+**Source:** `src/chess/pgn.rs:65`
 
 ## Responsibility
 
@@ -987,31 +1251,35 @@ Returns one borrowed metadata value without copying the header string.
 ## Signature and data contract
 
 ```rust
-fn header<'a>(headers: &'a HashMap<String, String>, key: &str) -> Option<&'a str>
+pub(super) fn header<'a>(headers: &'a HashMap<String, String>, key: &str) -> Option<&'a str>
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-fn header<'a>(headers: &'a HashMap<String, String>, key: &str) -> Option<&'a str> {
+pub(super) fn header<'a>(headers: &'a HashMap<String, String>, key: &str) -> Option<&'a str> {
     headers.get(key).map(String::as_str)
 }
 ```
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `chess::pgn` module at the source path above. Read the [related architecture chapter](/guide/board-state) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`pgn_headers`](/guide/function-chess-pgn-pgn-headers), [`pgn_move_tokens`](/guide/function-chess-pgn-pgn-move-tokens), [`parse_rating`](/guide/function-chess-pgn-parse-rating), [`is_result`](/guide/function-chess-pgn-is-result), [`strip_move_number`](/guide/function-chess-pgn-strip-move-number).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-chess-parse-rating|chess · parse_rating -->
-# Function page 023 of 104: `chess::parse_rating`
+<!-- GTE_FUNCTION_PAGE: function-chess-pgn-parse-rating|chess::pgn · parse_rating -->
+# Function page 026 of 111: `chess::pgn::parse_rating`
 
-**Source:** `src/chess.rs:209`
+**Source:** `src/chess/pgn.rs:69`
 
 ## Responsibility
 
@@ -1020,31 +1288,35 @@ Parses a positive integer rating and represents invalid or nonpositive input as 
 ## Signature and data contract
 
 ```rust
-fn parse_rating(text: &str) -> Option<i32>
+pub(super) fn parse_rating(text: &str) -> Option<i32>
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-fn parse_rating(text: &str) -> Option<i32> {
+pub(super) fn parse_rating(text: &str) -> Option<i32> {
     text.parse::<i32>().ok().filter(|rating| *rating > 0)
 }
 ```
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `chess::pgn` module at the source path above. Read the [related architecture chapter](/guide/board-state) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`pgn_headers`](/guide/function-chess-pgn-pgn-headers), [`pgn_move_tokens`](/guide/function-chess-pgn-pgn-move-tokens), [`header`](/guide/function-chess-pgn-header), [`is_result`](/guide/function-chess-pgn-is-result), [`strip_move_number`](/guide/function-chess-pgn-strip-move-number).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-chess-is-result|chess · is_result -->
-# Function page 024 of 104: `chess::is_result`
+<!-- GTE_FUNCTION_PAGE: function-chess-pgn-is-result|chess::pgn · is_result -->
+# Function page 027 of 111: `chess::pgn::is_result`
 
-**Source:** `src/chess.rs:213`
+**Source:** `src/chess/pgn.rs:73`
 
 ## Responsibility
 
@@ -1053,31 +1325,35 @@ Recognizes the four PGN result markers so they are not mistaken for moves.
 ## Signature and data contract
 
 ```rust
-fn is_result(token: &str) -> bool
+pub(super) fn is_result(token: &str) -> bool
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-fn is_result(token: &str) -> bool {
+pub(super) fn is_result(token: &str) -> bool {
     matches!(token, "1-0" | "0-1" | "1/2-1/2" | "*")
 }
 ```
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `chess::pgn` module at the source path above. Read the [related architecture chapter](/guide/board-state) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`pgn_headers`](/guide/function-chess-pgn-pgn-headers), [`pgn_move_tokens`](/guide/function-chess-pgn-pgn-move-tokens), [`header`](/guide/function-chess-pgn-header), [`parse_rating`](/guide/function-chess-pgn-parse-rating), [`strip_move_number`](/guide/function-chess-pgn-strip-move-number).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-chess-strip-move-number|chess · strip_move_number -->
-# Function page 025 of 104: `chess::strip_move_number`
+<!-- GTE_FUNCTION_PAGE: function-chess-pgn-strip-move-number|chess::pgn · strip_move_number -->
+# Function page 028 of 111: `chess::pgn::strip_move_number`
 
-**Source:** `src/chess.rs:217`
+**Source:** `src/chess/pgn.rs:77`
 
 ## Responsibility
 
@@ -1086,17 +1362,17 @@ Removes numeric and period prefixes such as 1. or 12... from a PGN token.
 ## Signature and data contract
 
 ```rust
-fn strip_move_number(token: &str) -> String
+pub(super) fn strip_move_number(token: &str) -> String
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-fn strip_move_number(token: &str) -> String {
+pub(super) fn strip_move_number(token: &str) -> String {
     let mut index = 0;
     for byte in token.bytes() {
         if byte.is_ascii_digit() || byte == b'.' {
@@ -1111,57 +1387,18 @@ fn strip_move_number(token: &str) -> String {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `chess::pgn` module at the source path above. Read the [related architecture chapter](/guide/board-state) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`pgn_headers`](/guide/function-chess-pgn-pgn-headers), [`pgn_move_tokens`](/guide/function-chess-pgn-pgn-move-tokens), [`header`](/guide/function-chess-pgn-header), [`parse_rating`](/guide/function-chess-pgn-parse-rating), [`is_result`](/guide/function-chess-pgn-is-result).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-chess-starting-position|chess · starting_position -->
-# Function page 026 of 104: `chess::starting_position`
+<!-- GTE_FUNCTION_PAGE: function-chess-san-apply-san|chess::san · apply_san -->
+# Function page 029 of 111: `chess::san::apply_san`
 
-**Source:** `src/chess.rs:229`
-
-## Responsibility
-
-Creates the row-major 64-square starting board used before the first ply.
-
-## Signature and data contract
-
-```rust
-fn starting_position() -> [char; 64]
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn starting_position() -> [char; 64] {
-    let rows = [
-        "rnbqkbnr", "pppppppp", "........", "........", "........", "........", "PPPPPPPP",
-        "RNBQKBNR",
-    ];
-    let mut board = ['.'; 64];
-    for (rank, row) in rows.iter().enumerate() {
-        for (file, piece) in row.chars().enumerate() {
-            board[rank * 8 + file] = piece;
-        }
-    }
-    board
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-chess-apply-san|chess · apply_san -->
-# Function page 027 of 104: `chess::apply_san`
-
-**Source:** `src/chess.rs:243`
+**Source:** `src/chess/san.rs:5`
 
 ## Responsibility
 
@@ -1170,17 +1407,17 @@ Interprets common SAN, finds a plausible origin square, mutates the board, and r
 ## Signature and data contract
 
 ```rust
-fn apply_san(board: &mut [char; 64], raw_san: &str, white_to_move: bool) -> bool
+pub(super) fn apply_san(board: &mut [char; 64], raw_san: &str, white_to_move: bool) -> bool
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-fn apply_san(board: &mut [char; 64], raw_san: &str, white_to_move: bool) -> bool {
+pub(super) fn apply_san(board: &mut [char; 64], raw_san: &str, white_to_move: bool) -> bool {
     let mut san = raw_san.to_owned();
     while san
         .chars()
@@ -1302,14 +1539,18 @@ fn apply_san(board: &mut [char; 64], raw_san: &str, white_to_move: bool) -> bool
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `chess::san` module at the source path above. Read the [related architecture chapter](/guide/board-state) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`disambiguation_matches`](/guide/function-chess-san-disambiguation-matches).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-chess-disambiguation-matches|chess · disambiguation_matches -->
-# Function page 028 of 104: `chess::disambiguation_matches`
+<!-- GTE_FUNCTION_PAGE: function-chess-san-disambiguation-matches|chess::san · disambiguation_matches -->
+# Function page 030 of 111: `chess::san::disambiguation_matches`
 
-**Source:** `src/chess.rs:362`
+**Source:** `src/chess/san.rs:124`
 
 ## Responsibility
 
@@ -1321,11 +1562,11 @@ Filters possible SAN origins by a specified source file or rank.
 fn disambiguation_matches(disambiguation: &str, from_x: i32, from_y: i32) -> bool
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
 fn disambiguation_matches(disambiguation: &str, from_x: i32, from_y: i32) -> bool {
@@ -1339,335 +1580,18 @@ fn disambiguation_matches(disambiguation: &str, from_x: i32, from_y: i32) -> boo
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `chess::san` module at the source path above. Read the [related architecture chapter](/guide/board-state) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
 
-<!-- END_GTE_FUNCTION_PAGE -->
+Other functions in this module: [`apply_san`](/guide/function-chess-san-apply-san).
 
-<!-- GTE_FUNCTION_PAGE: function-chess-piece-can-move|chess · piece_can_move -->
-# Function page 029 of 104: `chess::piece_can_move`
-
-**Source:** `src/chess.rs:370`
-
-## Responsibility
-
-Checks movement shape, pawn direction, captures, and sliding-piece obstruction for one candidate origin.
-
-## Signature and data contract
-
-```rust
-fn piece_can_move(
-        board: &[char; 64],
-        from_x: i32,
-        from_y: i32,
-        to_x: i32,
-        to_y: i32,
-        piece: char,
-        white: bool,
-        capture: bool,
-    ) -> bool
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn piece_can_move(
-    board: &[char; 64],
-    from_x: i32,
-    from_y: i32,
-    to_x: i32,
-    to_y: i32,
-    piece: char,
-    white: bool,
-    capture: bool,
-) -> bool {
-    let dx = to_x - from_x;
-    let dy = to_y - from_y;
-    if dx == 0 && dy == 0 {
-        return false;
-    }
-    match piece {
-        'N' => (dx.abs() == 1 && dy.abs() == 2) || (dx.abs() == 2 && dy.abs() == 1),
-        'K' => dx.abs() <= 1 && dy.abs() <= 1,
-        'R' if dx == 0 || dy == 0 => path_is_clear(board, from_x, from_y, to_x, to_y),
-        'B' if dx.abs() == dy.abs() => path_is_clear(board, from_x, from_y, to_x, to_y),
-        'Q' if dx == 0 || dy == 0 || dx.abs() == dy.abs() => {
-            path_is_clear(board, from_x, from_y, to_x, to_y)
-        }
-        'P' => {
-            let direction = if white { -1 } else { 1 };
-            if capture {
-                dx.abs() == 1 && dy == direction
-            } else if dx != 0 {
-                false
-            } else if dy == direction {
-                board[(to_y * 8 + to_x) as usize] == '.'
-            } else {
-                let start_rank = if white { 6 } else { 1 };
-                dy == direction * 2
-                    && from_y == start_rank
-                    && board[((from_y + direction) * 8 + from_x) as usize] == '.'
-                    && board[(to_y * 8 + to_x) as usize] == '.'
-            }
-        }
-        _ => false,
-    }
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-chess-path-is-clear|chess · path_is_clear -->
-# Function page 030 of 104: `chess::path_is_clear`
-
-**Source:** `src/chess.rs:413`
-
-## Responsibility
-
-Walks intermediate squares and rejects a sliding move when a piece blocks the path.
-
-## Signature and data contract
-
-```rust
-fn path_is_clear(board: &[char; 64], from_x: i32, from_y: i32, to_x: i32, to_y: i32) -> bool
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn path_is_clear(board: &[char; 64], from_x: i32, from_y: i32, to_x: i32, to_y: i32) -> bool {
-    let step_x = (to_x - from_x).signum();
-    let step_y = (to_y - from_y).signum();
-    let mut x = from_x + step_x;
-    let mut y = from_y + step_y;
-    while x != to_x || y != to_y {
-        if board[(y * 8 + x) as usize] != '.' {
-            return false;
-        }
-        x += step_x;
-        y += step_y;
-    }
-    true
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-cli-crlfwriter-new|cli · CrLfWriter::new -->
-# Function page 031 of 104: `cli::CrLfWriter::new`
-
-**Source:** `src/cli.rs:49`
-
-## Responsibility
-
-Initializes the writer adapter that keeps track of whether the last byte was a carriage return.
-
-## Signature and data contract
-
-```rust
-fn new(inner: W) -> Self
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn new(inner: W) -> Self {
-        Self {
-            inner,
-            last_was_carriage_return: false,
-        }
-    }
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-cli-write-write|cli · Write::write -->
-# Function page 032 of 104: `cli::Write::write`
-
-**Source:** `src/cli.rs:58`
-
-## Responsibility
-
-Implements part of the cli module. Its exact branches and data changes are shown below.
-
-## Signature and data contract
-
-```rust
-fn write(&mut self, bytes: &[u8]) -> io::Result<usize>
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn write(&mut self, bytes: &[u8]) -> io::Result<usize> {
-        let mut normalized = Vec::with_capacity(bytes.len() + 8);
-        for &byte in bytes {
-            if byte == b'\n' && !self.last_was_carriage_return {
-                normalized.push(b'\r');
-            }
-            normalized.push(byte);
-            self.last_was_carriage_return = byte == b'\r';
-        }
-        self.inner.write_all(&normalized)?;
-        Ok(bytes.len())
-    }
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-cli-write-flush|cli · Write::flush -->
-# Function page 033 of 104: `cli::Write::flush`
-
-**Source:** `src/cli.rs:70`
-
-## Responsibility
-
-Implements part of the cli module. Its exact branches and data changes are shown below.
-
-## Signature and data contract
-
-```rust
-fn flush(&mut self) -> io::Result<()>
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn flush(&mut self) -> io::Result<()> {
-        self.inner.flush()
-    }
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-cli-uistate-new|cli · UiState::new -->
-# Function page 034 of 104: `cli::UiState::new`
-
-**Source:** `src/cli.rs:77`
-
-## Responsibility
-
-Loads saved lesson completion and selects the first exercise that still needs work.
-
-## Signature and data contract
-
-```rust
-fn new() -> Self
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn new() -> Self {
-        let completed = load_progress();
-        let lesson_index = LESSONS
-            .iter()
-            .position(|lesson| !completed.contains(lesson.id))
-            .unwrap_or(0);
-        Self {
-            screen: Screen::Home,
-            selected: lesson_index,
-            lesson_index,
-            check_selected: 0,
-            show_hint: false,
-            started: completed.clone(),
-            completed,
-            message: String::new(),
-            solution: Vec::new(),
-            solution_offset: 0,
-            test_output: Vec::new(),
-            test_passed: false,
-            last_modified: None,
-        }
-    }
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-cli-uistate-lesson|cli · UiState::lesson -->
-# Function page 035 of 104: `cli::UiState::lesson`
-
-**Source:** `src/cli.rs:99`
-
-## Responsibility
-
-Looks up the static lesson currently selected by the UI state.
-
-## Signature and data contract
-
-```rust
-fn lesson(&self) -> &'static Lesson
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn lesson(&self) -> &'static Lesson {
-        &LESSONS[self.lesson_index]
-    }
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
 <!-- GTE_FUNCTION_PAGE: function-cli-run|cli · run -->
-# Function page 036 of 104: `cli::run`
+# Function page 031 of 111: `cli::run`
 
-**Source:** `src/cli.rs:104`
+**Source:** `src/cli.rs:26`
 
 ## Responsibility
 
@@ -1679,11 +1603,11 @@ Owns the terminal lifecycle: raw mode, first check, input polling, redraws, and 
 pub fn run()
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
 pub fn run() {
@@ -1732,14 +1656,271 @@ pub fn run() {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `cli` module at the source path above. Read the [related architecture chapter](/guide/terminal-learning) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+This module has one function; its supporting types and constants live alongside it.
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-cli-handle-key|cli · handle_key -->
-# Function page 037 of 104: `cli::handle_key`
+<!-- GTE_FUNCTION_PAGE: function-cli-input-home-handle-home|cli::input::home · handle_home -->
+# Function page 032 of 111: `cli::input::home::handle_home`
 
-**Source:** `src/cli.rs:147`
+**Source:** `src/cli/input/home.rs:8`
+
+## Responsibility
+
+Dispatches the home screen's navigation, hint, focused check, all-check, and Guidebook shortcuts.
+
+## Signature and data contract
+
+```rust
+pub(super) fn handle_home(key: KeyEvent, state: &mut UiState) -> bool
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub(super) fn handle_home(key: KeyEvent, state: &mut UiState) -> bool {
+    match key.code {
+        KeyCode::Char('q') | KeyCode::Char('Q') => return false,
+        KeyCode::Char('p') | KeyCode::Char('P') => advance_previous(state),
+        KeyCode::Char('n') | KeyCode::Char('N') => advance_next(state),
+        KeyCode::Char('h') | KeyCode::Char('H') => state.show_hint = !state.show_hint,
+        KeyCode::Char('l') | KeyCode::Char('L') => open_lesson_list(state),
+        KeyCode::Char('c') | KeyCode::Char('C') => run_all_tests(state),
+        KeyCode::Char('r') | KeyCode::Char('R') | KeyCode::Char('t') | KeyCode::Char('T') => {
+            run_current_test(state);
+        }
+        KeyCode::Char('g') | KeyCode::Char('G') => {
+            state.message =
+                "Book: start `cargo run -- --web`, then open http://127.0.0.1:7878/guide".into();
+        }
+        _ => {}
+    }
+    true
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `cli::input::home` module at the source path above. Read the [related architecture chapter](/guide/terminal-learning) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`handle_list`](/guide/function-cli-input-home-handle-list).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-cli-input-home-handle-list|cli::input::home · handle_list -->
+# Function page 033 of 111: `cli::input::home::handle_list`
+
+**Source:** `src/cli/input/home.rs:28`
+
+## Responsibility
+
+Moves the exercise picker selection, opens the selected exercise, and returns to the home screen.
+
+## Signature and data contract
+
+```rust
+pub(super) fn handle_list(key: KeyEvent, state: &mut UiState) -> bool
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub(super) fn handle_list(key: KeyEvent, state: &mut UiState) -> bool {
+    match key.code {
+        KeyCode::Esc | KeyCode::Backspace | KeyCode::Char('l') | KeyCode::Char('L') => {
+            state.screen = Screen::Home;
+            state.message.clear();
+        }
+        KeyCode::Char('q') | KeyCode::Char('Q') => return false,
+        KeyCode::Up | KeyCode::Char('p') | KeyCode::Char('P') => {
+            state.selected = state.selected.saturating_sub(1);
+        }
+        KeyCode::Down | KeyCode::Char('n') | KeyCode::Char('N') => {
+            state.selected = (state.selected + 1).min(LESSONS.len() - 1);
+        }
+        KeyCode::Enter => {
+            state.lesson_index = state.selected;
+            run_current_test(state);
+        }
+        KeyCode::Char('h') | KeyCode::Char('H') => state.show_hint = !state.show_hint,
+        _ => {}
+    }
+    true
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `cli::input::home` module at the source path above. Read the [related architecture chapter](/guide/terminal-learning) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`handle_home`](/guide/function-cli-input-home-handle-home).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-cli-input-lesson-handle-lesson|cli::input::lesson · handle_lesson -->
+# Function page 034 of 111: `cli::input::lesson::handle_lesson`
+
+**Source:** `src/cli/input/lesson.rs:8`
+
+## Responsibility
+
+Handles one exercise's hint, concept check, solution, Guidebook, and navigation shortcuts.
+
+## Signature and data contract
+
+```rust
+pub(super) fn handle_lesson(key: KeyEvent, state: &mut UiState) -> bool
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub(super) fn handle_lesson(key: KeyEvent, state: &mut UiState) -> bool {
+    match key.code {
+        KeyCode::Esc | KeyCode::Backspace => state.screen = Screen::Home,
+        KeyCode::Char('l') | KeyCode::Char('L') => open_lesson_list(state),
+        KeyCode::Char('q') | KeyCode::Char('Q') => return false,
+        KeyCode::Char('h') | KeyCode::Char('H') => state.show_hint = !state.show_hint,
+        KeyCode::Char('n') | KeyCode::Char('N') => {
+            advance_next(state);
+        }
+        KeyCode::Char('p') | KeyCode::Char('P') => {
+            advance_previous(state);
+        }
+        KeyCode::Char('r') | KeyCode::Char('R') | KeyCode::Char('t') | KeyCode::Char('T') => {
+            run_current_test(state);
+        }
+        KeyCode::Char('c') | KeyCode::Char('C') => {
+            state.screen = Screen::Check;
+            state.check_selected = 0;
+            state.message = "Select an answer and press Enter to check your understanding.".into();
+        }
+        KeyCode::Char('s') | KeyCode::Char('S') => {
+            let path = format!(
+                "{}/{}",
+                env!("CARGO_MANIFEST_DIR"),
+                state.lesson().solution_file
+            );
+            let source = fs::read_to_string(path)
+                .unwrap_or_else(|error| format!("Could not open reference solution: {error}"));
+            state.solution = source.lines().map(str::to_owned).collect();
+            state.solution_offset = 0;
+            state.screen = Screen::Solution;
+        }
+        KeyCode::Char('g') | KeyCode::Char('G') => {
+            state.message = format!(
+                "Exercise reference: start `cargo run -- --web`, then open http://127.0.0.1:7878/guide/reference#{}",
+                state.lesson().reference_anchor
+            );
+        }
+        _ => {}
+    }
+    true
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `cli::input::lesson` module at the source path above. Read the [related architecture chapter](/guide/terminal-learning) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`handle_check`](/guide/function-cli-input-lesson-handle-check).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-cli-input-lesson-handle-check|cli::input::lesson · handle_check -->
+# Function page 035 of 111: `cli::input::lesson::handle_check`
+
+**Source:** `src/cli/input/lesson.rs:51`
+
+## Responsibility
+
+Selects and validates a concept-check answer while keeping exercise navigation available.
+
+## Signature and data contract
+
+```rust
+pub(super) fn handle_check(key: KeyEvent, state: &mut UiState) -> bool
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub(super) fn handle_check(key: KeyEvent, state: &mut UiState) -> bool {
+    match key.code {
+        KeyCode::Esc | KeyCode::Backspace => state.screen = Screen::Lesson,
+        KeyCode::Char('l') | KeyCode::Char('L') => {
+            open_lesson_list(state);
+        }
+        KeyCode::Char('n') | KeyCode::Char('N') => {
+            advance_next(state);
+        }
+        KeyCode::Char('p') | KeyCode::Char('P') => {
+            advance_previous(state);
+        }
+        KeyCode::Char('r') | KeyCode::Char('R') | KeyCode::Char('t') | KeyCode::Char('T') => {
+            run_current_test(state)
+        }
+        KeyCode::Up => state.check_selected = state.check_selected.saturating_sub(1),
+        KeyCode::Down => state.check_selected = (state.check_selected + 1).min(2),
+        KeyCode::Char('1') => state.check_selected = 0,
+        KeyCode::Char('2') => state.check_selected = 1,
+        KeyCode::Char('3') => state.check_selected = 2,
+        KeyCode::Enter => {
+            if state.check_selected == state.lesson().answer {
+                state.message =
+                    "Concept check passed. Press R to run the Rust exercise check.".into();
+                state.screen = Screen::Lesson;
+            } else {
+                state.message = "Not quite. Revisit the prompt or hint, then try again.".into();
+            }
+        }
+        KeyCode::Char('q') | KeyCode::Char('Q') => return false,
+        _ => {}
+    }
+    true
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `cli::input::lesson` module at the source path above. Read the [related architecture chapter](/guide/terminal-learning) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`handle_lesson`](/guide/function-cli-input-lesson-handle-lesson).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-cli-input-handle-key|cli::input · handle_key -->
+# Function page 036 of 111: `cli::input::handle_key`
+
+**Source:** `src/cli/input/mod.rs:9`
 
 ## Responsibility
 
@@ -1748,17 +1929,17 @@ Routes a key press according to the current screen and changes navigation or exe
 ## Signature and data contract
 
 ```rust
-fn handle_key(key: KeyEvent, state: &mut UiState) -> bool
+pub(super) fn handle_key(key: KeyEvent, state: &mut UiState) -> bool
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-fn handle_key(key: KeyEvent, state: &mut UiState) -> bool {
+pub(super) fn handle_key(key: KeyEvent, state: &mut UiState) -> bool {
     if matches!(key.code, KeyCode::Char('x') | KeyCode::Char('X'))
         && state.screen != Screen::ResetConfirm
     {
@@ -1784,183 +1965,76 @@ fn handle_key(key: KeyEvent, state: &mut UiState) -> bool {
         return true;
     }
     match state.screen {
-        Screen::Home => match key.code {
-            KeyCode::Char('q') | KeyCode::Char('Q') => return false,
-            KeyCode::Char('p') | KeyCode::Char('P') => advance_previous(state),
-            KeyCode::Char('n') | KeyCode::Char('N') => advance_next(state),
-            KeyCode::Char('h') | KeyCode::Char('H') => state.show_hint = !state.show_hint,
-            KeyCode::Char('l') | KeyCode::Char('L') => open_lesson_list(state),
-            KeyCode::Char('c') | KeyCode::Char('C') => run_all_tests(state),
-            KeyCode::Char('r') | KeyCode::Char('R') | KeyCode::Char('t') | KeyCode::Char('T') => {
-                run_current_test(state);
-            }
-            KeyCode::Char('g') | KeyCode::Char('G') => {
-                state.message =
-                    "Book: start `cargo run -- --web`, then open http://127.0.0.1:7878/guide"
-                        .into();
-            }
-            _ => {}
-        },
-        Screen::List => match key.code {
-            KeyCode::Esc | KeyCode::Backspace | KeyCode::Char('l') | KeyCode::Char('L') => {
-                state.screen = Screen::Home;
-                state.message.clear();
-            }
-            KeyCode::Char('q') | KeyCode::Char('Q') => return false,
-            KeyCode::Up | KeyCode::Char('p') | KeyCode::Char('P') => {
-                state.selected = state.selected.saturating_sub(1);
-            }
-            KeyCode::Down | KeyCode::Char('n') | KeyCode::Char('N') => {
-                state.selected = (state.selected + 1).min(LESSONS.len() - 1);
-            }
-            KeyCode::Enter => {
-                state.lesson_index = state.selected;
-                run_current_test(state);
-            }
-            KeyCode::Char('h') | KeyCode::Char('H') => state.show_hint = !state.show_hint,
-            _ => {}
-        },
-        Screen::Lesson => match key.code {
-            KeyCode::Esc | KeyCode::Backspace => state.screen = Screen::Home,
-            KeyCode::Char('l') | KeyCode::Char('L') => open_lesson_list(state),
-            KeyCode::Char('q') | KeyCode::Char('Q') => return false,
-            KeyCode::Char('h') | KeyCode::Char('H') => state.show_hint = !state.show_hint,
-            KeyCode::Char('n') | KeyCode::Char('N') => {
-                advance_next(state);
-            }
-            KeyCode::Char('p') | KeyCode::Char('P') => {
-                advance_previous(state);
-            }
-            KeyCode::Char('r') | KeyCode::Char('R') | KeyCode::Char('t') | KeyCode::Char('T') => {
-                run_current_test(state);
-            }
-            KeyCode::Char('c') | KeyCode::Char('C') => {
-                state.screen = Screen::Check;
-                state.check_selected = 0;
-                state.message =
-                    "Select an answer and press Enter to check your understanding.".into();
-            }
-            KeyCode::Char('s') | KeyCode::Char('S') => {
-                let path = format!(
-                    "{}/{}",
-                    env!("CARGO_MANIFEST_DIR"),
-                    state.lesson().solution_file
-                );
-                let source = fs::read_to_string(path)
-                    .unwrap_or_else(|error| format!("Could not open reference solution: {error}"));
-                state.solution = source.lines().map(str::to_owned).collect();
-                state.solution_offset = 0;
-                state.screen = Screen::Solution;
-            }
-            KeyCode::Char('g') | KeyCode::Char('G') => {
-                state.message = format!(
-                    "Exercise reference: start `cargo run -- --web`, then open http://127.0.0.1:7878/guide/reference#{}",
-                    state.lesson().reference_anchor
-                );
-            }
-            _ => {}
-        },
-        Screen::Check => match key.code {
-            KeyCode::Esc | KeyCode::Backspace => state.screen = Screen::Lesson,
-            KeyCode::Char('l') | KeyCode::Char('L') => {
-                open_lesson_list(state);
-            }
-            KeyCode::Char('n') | KeyCode::Char('N') => {
-                advance_next(state);
-            }
-            KeyCode::Char('p') | KeyCode::Char('P') => {
-                advance_previous(state);
-            }
-            KeyCode::Char('r') | KeyCode::Char('R') | KeyCode::Char('t') | KeyCode::Char('T') => {
-                run_current_test(state)
-            }
-            KeyCode::Up => state.check_selected = state.check_selected.saturating_sub(1),
-            KeyCode::Down => state.check_selected = (state.check_selected + 1).min(2),
-            KeyCode::Char('1') => state.check_selected = 0,
-            KeyCode::Char('2') => state.check_selected = 1,
-            KeyCode::Char('3') => state.check_selected = 2,
-            KeyCode::Enter => {
-                if state.check_selected == state.lesson().answer {
-                    state.message =
-                        "Concept check passed. Press R to run the Rust exercise check.".into();
-                    state.screen = Screen::Lesson;
-                } else {
-                    state.message = "Not quite. Revisit the prompt or hint, then try again.".into();
-                }
-            }
-            KeyCode::Char('q') | KeyCode::Char('Q') => return false,
-            _ => {}
-        },
-        Screen::Solution => match key.code {
-            KeyCode::Esc | KeyCode::Backspace => state.screen = Screen::Lesson,
-            KeyCode::Char('r') | KeyCode::Char('R') | KeyCode::Char('t') | KeyCode::Char('T') => {
-                run_current_test(state)
-            }
-            KeyCode::Char('l') | KeyCode::Char('L') => {
-                open_lesson_list(state);
-            }
-            KeyCode::Char('n') | KeyCode::Char('N') => {
-                advance_next(state);
-            }
-            KeyCode::Char('p') | KeyCode::Char('P') => {
-                advance_previous(state);
-            }
-            KeyCode::Up => state.solution_offset = state.solution_offset.saturating_sub(1),
-            KeyCode::Down => {
-                state.solution_offset =
-                    (state.solution_offset + 1).min(state.solution.len().saturating_sub(1))
-            }
-            KeyCode::PageUp => state.solution_offset = state.solution_offset.saturating_sub(12),
-            KeyCode::PageDown => {
-                state.solution_offset =
-                    (state.solution_offset + 12).min(state.solution.len().saturating_sub(1))
-            }
-            KeyCode::Char('q') | KeyCode::Char('Q') => return false,
-            _ => {}
-        },
-        Screen::TestResult => match key.code {
-            KeyCode::Esc | KeyCode::Backspace => state.screen = Screen::Lesson,
-            KeyCode::Char('l') | KeyCode::Char('L') => {
-                open_lesson_list(state);
-            }
-            KeyCode::Char('n') | KeyCode::Char('N') => {
-                advance_next(state);
-            }
-            KeyCode::Char('p') | KeyCode::Char('P') => {
-                advance_previous(state);
-            }
-            KeyCode::Char('r') | KeyCode::Char('R') | KeyCode::Char('t') | KeyCode::Char('T') => {
-                run_current_test(state)
-            }
-            KeyCode::Char('s') | KeyCode::Char('S') => {
-                let path = format!(
-                    "{}/{}",
-                    env!("CARGO_MANIFEST_DIR"),
-                    state.lesson().solution_file
-                );
-                let source = fs::read_to_string(path)
-                    .unwrap_or_else(|error| format!("Could not open reference solution: {error}"));
-                state.solution = source.lines().map(str::to_owned).collect();
-                state.solution_offset = 0;
-                state.screen = Screen::Solution;
-            }
-            KeyCode::Up => state.solution_offset = state.solution_offset.saturating_sub(1),
-            KeyCode::Down => {
-                state.solution_offset =
-                    (state.solution_offset + 1).min(state.test_output.len().saturating_sub(1))
-            }
-            KeyCode::Char('q') | KeyCode::Char('Q') => return false,
-            _ => {}
-        },
-        Screen::ResetConfirm => match key.code {
-            KeyCode::Char('y') | KeyCode::Char('Y') => reset_current_exercise(state),
-            KeyCode::Char('n') | KeyCode::Char('N') | KeyCode::Esc | KeyCode::Backspace => {
-                state.screen = Screen::Home;
-                state.message = "Reset cancelled.".into();
-            }
-            KeyCode::Char('q') | KeyCode::Char('Q') => return false,
-            _ => {}
-        },
+        Screen::Home => home::handle_home(key, state),
+        Screen::List => home::handle_list(key, state),
+        Screen::Lesson => lesson::handle_lesson(key, state),
+        Screen::Check => lesson::handle_check(key, state),
+        Screen::Solution => results::handle_solution(key, state),
+        Screen::TestResult => results::handle_test_result(key, state),
+        Screen::ResetConfirm => results::handle_reset_confirm(key, state),
+    }
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `cli::input` module at the source path above. Read the [related architecture chapter](/guide/terminal-learning) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+This module has one function; its supporting types and constants live alongside it.
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-cli-input-results-handle-solution|cli::input::results · handle_solution -->
+# Function page 037 of 111: `cli::input::results::handle_solution`
+
+**Source:** `src/cli/input/results.rs:9`
+
+## Responsibility
+
+Scrolls a reference solution and routes rerun, previous/next exercise, and screen navigation keys.
+
+## Signature and data contract
+
+```rust
+pub(super) fn handle_solution(key: KeyEvent, state: &mut UiState) -> bool
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub(super) fn handle_solution(key: KeyEvent, state: &mut UiState) -> bool {
+    match key.code {
+        KeyCode::Esc | KeyCode::Backspace => state.screen = Screen::Lesson,
+        KeyCode::Char('r') | KeyCode::Char('R') | KeyCode::Char('t') | KeyCode::Char('T') => {
+            run_current_test(state)
+        }
+        KeyCode::Char('l') | KeyCode::Char('L') => {
+            open_lesson_list(state);
+        }
+        KeyCode::Char('n') | KeyCode::Char('N') => {
+            advance_next(state);
+        }
+        KeyCode::Char('p') | KeyCode::Char('P') => {
+            advance_previous(state);
+        }
+        KeyCode::Up => state.solution_offset = state.solution_offset.saturating_sub(1),
+        KeyCode::Down => {
+            state.solution_offset =
+                (state.solution_offset + 1).min(state.solution.len().saturating_sub(1))
+        }
+        KeyCode::PageUp => state.solution_offset = state.solution_offset.saturating_sub(12),
+        KeyCode::PageDown => {
+            state.solution_offset =
+                (state.solution_offset + 12).min(state.solution.len().saturating_sub(1))
+        }
+        KeyCode::Char('q') | KeyCode::Char('Q') => return false,
+        _ => {}
     }
     true
 }
@@ -1968,14 +2042,135 @@ fn handle_key(key: KeyEvent, state: &mut UiState) -> bool {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `cli::input::results` module at the source path above. Read the [related architecture chapter](/guide/terminal-learning) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`handle_test_result`](/guide/function-cli-input-results-handle-test-result), [`handle_reset_confirm`](/guide/function-cli-input-results-handle-reset-confirm).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-cli-open-lesson-list|cli · open_lesson_list -->
-# Function page 038 of 104: `cli::open_lesson_list`
+<!-- GTE_FUNCTION_PAGE: function-cli-input-results-handle-test-result|cli::input::results · handle_test_result -->
+# Function page 038 of 111: `cli::input::results::handle_test_result`
 
-**Source:** `src/cli.rs:354`
+**Source:** `src/cli/input/results.rs:40`
+
+## Responsibility
+
+Scrolls captured diagnostics and handles reruns, solution access, and exercise navigation.
+
+## Signature and data contract
+
+```rust
+pub(super) fn handle_test_result(key: KeyEvent, state: &mut UiState) -> bool
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub(super) fn handle_test_result(key: KeyEvent, state: &mut UiState) -> bool {
+    match key.code {
+        KeyCode::Esc | KeyCode::Backspace => state.screen = Screen::Lesson,
+        KeyCode::Char('l') | KeyCode::Char('L') => {
+            open_lesson_list(state);
+        }
+        KeyCode::Char('n') | KeyCode::Char('N') => {
+            advance_next(state);
+        }
+        KeyCode::Char('p') | KeyCode::Char('P') => {
+            advance_previous(state);
+        }
+        KeyCode::Char('r') | KeyCode::Char('R') | KeyCode::Char('t') | KeyCode::Char('T') => {
+            run_current_test(state)
+        }
+        KeyCode::Char('s') | KeyCode::Char('S') => {
+            let path = format!(
+                "{}/{}",
+                env!("CARGO_MANIFEST_DIR"),
+                state.lesson().solution_file
+            );
+            let source = fs::read_to_string(path)
+                .unwrap_or_else(|error| format!("Could not open reference solution: {error}"));
+            state.solution = source.lines().map(str::to_owned).collect();
+            state.solution_offset = 0;
+            state.screen = Screen::Solution;
+        }
+        KeyCode::Up => state.solution_offset = state.solution_offset.saturating_sub(1),
+        KeyCode::Down => {
+            state.solution_offset =
+                (state.solution_offset + 1).min(state.test_output.len().saturating_sub(1))
+        }
+        KeyCode::Char('q') | KeyCode::Char('Q') => return false,
+        _ => {}
+    }
+    true
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `cli::input::results` module at the source path above. Read the [related architecture chapter](/guide/terminal-learning) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`handle_solution`](/guide/function-cli-input-results-handle-solution), [`handle_reset_confirm`](/guide/function-cli-input-results-handle-reset-confirm).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-cli-input-results-handle-reset-confirm|cli::input::results · handle_reset_confirm -->
+# Function page 039 of 111: `cli::input::results::handle_reset_confirm`
+
+**Source:** `src/cli/input/results.rs:78`
+
+## Responsibility
+
+Accepts a source reset, cancels back to the home screen, or exits the terminal UI.
+
+## Signature and data contract
+
+```rust
+pub(super) fn handle_reset_confirm(key: KeyEvent, state: &mut UiState) -> bool
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub(super) fn handle_reset_confirm(key: KeyEvent, state: &mut UiState) -> bool {
+    match key.code {
+        KeyCode::Char('y') | KeyCode::Char('Y') => reset_current_exercise(state),
+        KeyCode::Char('n') | KeyCode::Char('N') | KeyCode::Esc | KeyCode::Backspace => {
+            state.screen = Screen::Home;
+            state.message = "Reset cancelled.".into();
+        }
+        KeyCode::Char('q') | KeyCode::Char('Q') => return false,
+        _ => {}
+    }
+    true
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `cli::input::results` module at the source path above. Read the [related architecture chapter](/guide/terminal-learning) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`handle_solution`](/guide/function-cli-input-results-handle-solution), [`handle_test_result`](/guide/function-cli-input-results-handle-test-result).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-cli-navigation-open-lesson-list|cli::navigation · open_lesson_list -->
+# Function page 040 of 111: `cli::navigation::open_lesson_list`
+
+**Source:** `src/cli/navigation.rs:6`
 
 ## Responsibility
 
@@ -1984,17 +2179,17 @@ Copies the active lesson into the picker selection and opens the list screen.
 ## Signature and data contract
 
 ```rust
-fn open_lesson_list(state: &mut UiState)
+pub(super) fn open_lesson_list(state: &mut UiState)
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-fn open_lesson_list(state: &mut UiState) {
+pub(super) fn open_lesson_list(state: &mut UiState) {
     state.selected = state.lesson_index;
     state.screen = Screen::List;
     state.message.clear();
@@ -2003,14 +2198,18 @@ fn open_lesson_list(state: &mut UiState) {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `cli::navigation` module at the source path above. Read the [related architecture chapter](/guide/terminal-learning) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`advance_next`](/guide/function-cli-navigation-advance-next), [`advance_previous`](/guide/function-cli-navigation-advance-previous).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-cli-advance-next|cli · advance_next -->
-# Function page 039 of 104: `cli::advance_next`
+<!-- GTE_FUNCTION_PAGE: function-cli-navigation-advance-next|cli::navigation · advance_next -->
+# Function page 041 of 111: `cli::navigation::advance_next`
 
-**Source:** `src/cli.rs:360`
+**Source:** `src/cli/navigation.rs:12`
 
 ## Responsibility
 
@@ -2019,17 +2218,17 @@ Blocks forward navigation until the current exercise passes, then selects and ru
 ## Signature and data contract
 
 ```rust
-fn advance_next(state: &mut UiState)
+pub(super) fn advance_next(state: &mut UiState)
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-fn advance_next(state: &mut UiState) {
+pub(super) fn advance_next(state: &mut UiState) {
     if !state.completed.contains(state.lesson().id) {
         state.message =
             "This exercise is not complete yet. Edit it, then press R to run it.".into();
@@ -2055,14 +2254,18 @@ fn advance_next(state: &mut UiState) {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `cli::navigation` module at the source path above. Read the [related architecture chapter](/guide/terminal-learning) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`open_lesson_list`](/guide/function-cli-navigation-open-lesson-list), [`advance_previous`](/guide/function-cli-navigation-advance-previous).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-cli-advance-previous|cli · advance_previous -->
-# Function page 040 of 104: `cli::advance_previous`
+<!-- GTE_FUNCTION_PAGE: function-cli-navigation-advance-previous|cli::navigation · advance_previous -->
+# Function page 042 of 111: `cli::navigation::advance_previous`
 
-**Source:** `src/cli.rs:383`
+**Source:** `src/cli/navigation.rs:35`
 
 ## Responsibility
 
@@ -2071,17 +2274,17 @@ Moves one lesson backward and immediately checks that lesson.
 ## Signature and data contract
 
 ```rust
-fn advance_previous(state: &mut UiState)
+pub(super) fn advance_previous(state: &mut UiState)
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-fn advance_previous(state: &mut UiState) {
+pub(super) fn advance_previous(state: &mut UiState) {
     if state.lesson_index == 0 {
         state.message = "This is the first exercise.".into();
         return;
@@ -2096,159 +2299,18 @@ fn advance_previous(state: &mut UiState) {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `cli::navigation` module at the source path above. Read the [related architecture chapter](/guide/terminal-learning) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`open_lesson_list`](/guide/function-cli-navigation-open-lesson-list), [`advance_next`](/guide/function-cli-navigation-advance-next).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-cli-source-path|cli · source_path -->
-# Function page 041 of 104: `cli::source_path`
+<!-- GTE_FUNCTION_PAGE: function-cli-progress-progress-path|cli::progress · progress_path -->
+# Function page 043 of 111: `cli::progress::progress_path`
 
-**Source:** `src/cli.rs:395`
-
-## Responsibility
-
-Maps a lesson id to its learner-editable Rust file under exercises/src.
-
-## Signature and data contract
-
-```rust
-fn source_path(state: &UiState) -> PathBuf
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn source_path(state: &UiState) -> PathBuf {
-    let file_name = state.lesson().id.replace('-', "_");
-    PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-        .join("exercises/src")
-        .join(format!("{file_name}.rs"))
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-cli-source-modified|cli · source_modified -->
-# Function page 042 of 104: `cli::source_modified`
-
-**Source:** `src/cli.rs:402`
-
-## Responsibility
-
-Reads the active exercise file's modification time for automatic check reruns.
-
-## Signature and data contract
-
-```rust
-fn source_modified(state: &UiState) -> Option<SystemTime>
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn source_modified(state: &UiState) -> Option<SystemTime> {
-    fs::metadata(source_path(state)).ok()?.modified().ok()
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-cli-reset-current-exercise|cli · reset_current_exercise -->
-# Function page 043 of 104: `cli::reset_current_exercise`
-
-**Source:** `src/cli.rs:406`
-
-## Responsibility
-
-Backs up the active source, restores its Git HEAD version, clears its progress, and reruns it.
-
-## Signature and data contract
-
-```rust
-fn reset_current_exercise(state: &mut UiState)
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn reset_current_exercise(state: &mut UiState) {
-    let relative = format!("exercises/src/{}.rs", state.lesson().id.replace('-', "_"));
-    let source_path = source_path(state);
-    let backup_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-        .join(".gte-backup")
-        .join(state.lesson().id.replace('-', "_") + ".rs");
-    let original = Command::new("git")
-        .args(["show", &format!("HEAD:{relative}")])
-        .current_dir(env!("CARGO_MANIFEST_DIR"))
-        .output();
-    let original = match original {
-        Ok(output) if output.status.success() => output.stdout,
-        Ok(output) => {
-            state.screen = Screen::Home;
-            state.message = format!(
-                "Could not restore the exercise from Git: {}",
-                String::from_utf8_lossy(&output.stderr).trim()
-            );
-            return;
-        }
-        Err(error) => {
-            state.screen = Screen::Home;
-            state.message = format!("Could not start Git to reset the exercise: {error}");
-            return;
-        }
-    };
-    if let Err(error) = fs::create_dir_all(backup_path.parent().expect("backup parent"))
-        .and_then(|()| fs::copy(&source_path, &backup_path).map(|_| ()))
-        .and_then(|()| fs::write(&source_path, original))
-    {
-        state.screen = Screen::Home;
-        state.message =
-            format!("Reset failed; the current file is backed up when possible: {error}");
-        return;
-    }
-    state.completed.remove(state.lesson().id);
-    state.started.remove(state.lesson().id);
-    let _ = save_progress(&state.completed);
-    state.screen = Screen::Home;
-    state.show_hint = false;
-    state.message = format!(
-        "Reset {}. Previous contents saved in .gte-backup/.",
-        state.lesson().title
-    );
-    run_current_test(state);
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-cli-progress-path|cli · progress_path -->
-# Function page 044 of 104: `cli::progress_path`
-
-**Source:** `src/cli.rs:453`
+**Source:** `src/cli/progress.rs:5`
 
 ## Responsibility
 
@@ -2260,11 +2322,11 @@ Builds the path to the repository-local ignored completion file.
 fn progress_path() -> String
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
 fn progress_path() -> String {
@@ -2274,14 +2336,18 @@ fn progress_path() -> String {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `cli::progress` module at the source path above. Read the [related architecture chapter](/guide/terminal-learning) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`load_progress`](/guide/function-cli-progress-load-progress), [`save_progress`](/guide/function-cli-progress-save-progress).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-cli-load-progress|cli · load_progress -->
-# Function page 045 of 104: `cli::load_progress`
+<!-- GTE_FUNCTION_PAGE: function-cli-progress-load-progress|cli::progress · load_progress -->
+# Function page 044 of 111: `cli::progress::load_progress`
 
-**Source:** `src/cli.rs:457`
+**Source:** `src/cli/progress.rs:9`
 
 ## Responsibility
 
@@ -2290,17 +2356,17 @@ Reads saved ids and keeps only ids that still exist in the current lesson catalo
 ## Signature and data contract
 
 ```rust
-fn load_progress() -> HashSet<&'static str>
+pub(super) fn load_progress() -> HashSet<&'static str>
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-fn load_progress() -> HashSet<&'static str> {
+pub(super) fn load_progress() -> HashSet<&'static str> {
     let Ok(saved) = fs::read_to_string(progress_path()) else {
         return HashSet::new();
     };
@@ -2314,14 +2380,18 @@ fn load_progress() -> HashSet<&'static str> {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `cli::progress` module at the source path above. Read the [related architecture chapter](/guide/terminal-learning) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`progress_path`](/guide/function-cli-progress-progress-path), [`save_progress`](/guide/function-cli-progress-save-progress).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-cli-save-progress|cli · save_progress -->
-# Function page 046 of 104: `cli::save_progress`
+<!-- GTE_FUNCTION_PAGE: function-cli-progress-save-progress|cli::progress · save_progress -->
+# Function page 045 of 111: `cli::progress::save_progress`
 
-**Source:** `src/cli.rs:468`
+**Source:** `src/cli/progress.rs:20`
 
 ## Responsibility
 
@@ -2330,17 +2400,17 @@ Writes completed ids in lesson order to make the progress file stable and readab
 ## Signature and data contract
 
 ```rust
-fn save_progress(completed: &HashSet<&'static str>) -> io::Result<()>
+pub(super) fn save_progress(completed: &HashSet<&'static str>) -> io::Result<()>
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-fn save_progress(completed: &HashSet<&'static str>) -> io::Result<()> {
+pub(super) fn save_progress(completed: &HashSet<&'static str>) -> io::Result<()> {
     let saved = LESSONS
         .iter()
         .filter(|lesson| completed.contains(lesson.id))
@@ -2353,83 +2423,86 @@ fn save_progress(completed: &HashSet<&'static str>) -> io::Result<()> {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `cli::progress` module at the source path above. Read the [related architecture chapter](/guide/terminal-learning) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`progress_path`](/guide/function-cli-progress-progress-path), [`load_progress`](/guide/function-cli-progress-load-progress).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-cli-draw|cli · draw -->
-# Function page 047 of 104: `cli::draw`
+<!-- GTE_FUNCTION_PAGE: function-cli-render-check-draw-check|cli::render::check · draw_check -->
+# Function page 046 of 111: `cli::render::check::draw_check`
 
-**Source:** `src/cli.rs:478`
+**Source:** `src/cli/render/check.rs:7`
 
 ## Responsibility
 
-Clears the frame, paints the GTE terminal wordmark, and dispatches to the active screen renderer.
+Renders the concept-check choices and highlights the currently selected answer.
 
 ## Signature and data contract
 
 ```rust
-fn draw<W: Write>(stdout: &mut W, state: &UiState)
+pub(super) fn draw_check<W: Write>(stdout: &mut W, state: &UiState)
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-fn draw<W: Write>(stdout: &mut W, state: &UiState) {
-    let _ = queue!(stdout, MoveTo(0, 0), Clear(ClearType::All));
+pub(super) fn draw_check<W: Write>(stdout: &mut W, state: &UiState) {
+    let lesson = state.lesson();
     let _ = queue!(
         stdout,
         SetForegroundColor(Color::Green),
-        Print(
-            " █████    ███████   ██████\n██        ██        ██\n██ ███    █████     █████\n██  ██    ██        ██\n █████    ███████   ██████\n\n  GUESS THE ELO · RUST CODEBASE WALKTHROUGH\n\n"
-        )
+        Print("KNOWLEDGE CHECK\n"),
+        ResetColor
     );
     let _ = queue!(
         stdout,
-        SetForegroundColor(Color::DarkGrey),
-        Print(" Rustlings-style project exercises\n\n"),
-        ResetColor
+        Print(format!("{}\n\n{}\n", lesson.title, lesson.question))
     );
-
-    match state.screen {
-        Screen::Home => draw_home(stdout, state),
-        Screen::List => draw_list(stdout, state),
-        Screen::Lesson => draw_lesson(stdout, state),
-        Screen::Check => draw_check(stdout, state),
-        Screen::Solution => draw_solution(stdout, state),
-        Screen::TestResult => draw_test_result(stdout, state),
-        Screen::ResetConfirm => draw_reset_confirm(stdout, state),
-    }
-
-    if !state.message.is_empty() {
-        let _ = queue!(stdout, Print(format!("\n{}\n", state.message)));
-    }
-    if state.screen != Screen::Home {
+    for (index, choice) in lesson.choices.iter().enumerate() {
+        let pointer = if index == state.check_selected {
+            "›"
+        } else {
+            " "
+        };
+        if index == state.check_selected {
+            let _ = queue!(stdout, SetForegroundColor(Color::Green));
+        }
         let _ = queue!(
             stdout,
-            SetForegroundColor(Color::DarkGrey),
-            Print("\nQ quit · Esc back · ? shortcuts"),
-            ResetColor
+            Print(format!(" {pointer} {}. {choice}\n", index + 1))
         );
+        let _ = queue!(stdout, ResetColor);
     }
-    let _ = stdout.flush();
+    let _ = queue!(
+        stdout,
+        Print(
+            "\n↑/↓ or 1–3 select · Enter check · R run · N/P next/previous · L list · Esc lesson\n"
+        )
+    );
 }
 ```
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `cli::render::check` module at the source path above. Read the [related architecture chapter](/guide/terminal-learning) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+This module has one function; its supporting types and constants live alongside it.
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-cli-draw-home|cli · draw_home -->
-# Function page 048 of 104: `cli::draw_home`
+<!-- GTE_FUNCTION_PAGE: function-cli-render-home-draw-home|cli::render::home · draw_home -->
+# Function page 047 of 111: `cli::render::home::draw_home`
 
-**Source:** `src/cli.rs:518`
+**Source:** `src/cli/render/home.rs:9`
 
 ## Responsibility
 
@@ -2438,17 +2511,17 @@ Shows progress, the current task, optional hint, and a terminal-height-limited s
 ## Signature and data contract
 
 ```rust
-fn draw_home<W: Write>(stdout: &mut W, state: &UiState)
+pub(super) fn draw_home<W: Write>(stdout: &mut W, state: &UiState)
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-fn draw_home<W: Write>(stdout: &mut W, state: &UiState) {
+pub(super) fn draw_home<W: Write>(stdout: &mut W, state: &UiState) {
     let lesson = state.lesson();
     let bar_width = terminal::size()
         .map(|(columns, _)| (columns as usize).saturating_sub(28).clamp(10, 94))
@@ -2541,125 +2614,18 @@ fn draw_home<W: Write>(stdout: &mut W, state: &UiState) {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `cli::render::home` module at the source path above. Read the [related architecture chapter](/guide/terminal-learning) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+This module has one function; its supporting types and constants live alongside it.
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-cli-draw-reset-confirm|cli · draw_reset_confirm -->
-# Function page 049 of 104: `cli::draw_reset_confirm`
+<!-- GTE_FUNCTION_PAGE: function-cli-render-lesson-draw-lesson|cli::render::lesson · draw_lesson -->
+# Function page 048 of 111: `cli::render::lesson::draw_lesson`
 
-**Source:** `src/cli.rs:608`
-
-## Responsibility
-
-Explains which source file will be restored and where its backup will be written.
-
-## Signature and data contract
-
-```rust
-fn draw_reset_confirm<W: Write>(stdout: &mut W, state: &UiState)
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn draw_reset_confirm<W: Write>(stdout: &mut W, state: &UiState) {
-    let path = state.lesson().id.replace('-', "_");
-    let _ = queue!(
-        stdout,
-        SetForegroundColor(Color::Yellow),
-        Print("Reset current exercise?\n\n"),
-        ResetColor,
-        Print(format!(
-            "This restores exercises/src/{path}.rs from Git HEAD.\n"
-        )),
-        Print("A copy of the current file will be saved in .gte-backup/.\n\n"),
-        SetForegroundColor(Color::White),
-        Print("Reset (y/n)? "),
-        ResetColor
-    );
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-cli-draw-list|cli · draw_list -->
-# Function page 050 of 104: `cli::draw_list`
-
-**Source:** `src/cli.rs:625`
-
-## Responsibility
-
-Renders all exercises with status markers and the keyboard controls for selecting one.
-
-## Signature and data contract
-
-```rust
-fn draw_list<W: Write>(stdout: &mut W, state: &UiState)
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn draw_list<W: Write>(stdout: &mut W, state: &UiState) {
-    let _ = queue!(
-        stdout,
-        SetForegroundColor(Color::White),
-        Print("EXERCISE LIST\n"),
-        ResetColor
-    );
-    for (index, lesson) in LESSONS.iter().enumerate() {
-        let pointer = if index == state.selected { "›" } else { " " };
-        let status = if state.completed.contains(lesson.id) {
-            "✓"
-        } else if state.started.contains(lesson.id) {
-            "◉"
-        } else {
-            "○"
-        };
-        if index == state.selected {
-            let _ = queue!(stdout, SetForegroundColor(Color::Green));
-        }
-        let _ = queue!(
-            stdout,
-            Print(format!(
-                " {pointer} {status} {:<28} {}\n",
-                lesson.title, lesson.track
-            ))
-        );
-        let _ = queue!(stdout, ResetColor);
-    }
-    let _ = queue!(
-        stdout,
-        Print(
-            "\n○ not started · ◉ in progress · ✓ complete\nN/P or ↑/↓ select · Enter open · L/Esc return\n"
-        )
-    );
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-cli-draw-lesson|cli · draw_lesson -->
-# Function page 051 of 104: `cli::draw_lesson`
-
-**Source:** `src/cli.rs:661`
+**Source:** `src/cli/render/lesson.rs:7`
 
 ## Responsibility
 
@@ -2668,17 +2634,17 @@ Displays a lesson prompt, code location, NOTE/TODO guidance, and available actio
 ## Signature and data contract
 
 ```rust
-fn draw_lesson<W: Write>(stdout: &mut W, state: &UiState)
+pub(super) fn draw_lesson<W: Write>(stdout: &mut W, state: &UiState)
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-fn draw_lesson<W: Write>(stdout: &mut W, state: &UiState) {
+pub(super) fn draw_lesson<W: Write>(stdout: &mut W, state: &UiState) {
     let lesson = state.lesson();
     let exercise_file = lesson.id.replace('-', "_");
     let _ = queue!(
@@ -2733,63 +2699,68 @@ fn draw_lesson<W: Write>(stdout: &mut W, state: &UiState) {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `cli::render::lesson` module at the source path above. Read the [related architecture chapter](/guide/terminal-learning) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+This module has one function; its supporting types and constants live alongside it.
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-cli-draw-check|cli · draw_check -->
-# Function page 052 of 104: `cli::draw_check`
+<!-- GTE_FUNCTION_PAGE: function-cli-render-list-draw-list|cli::render::list · draw_list -->
+# Function page 049 of 111: `cli::render::list::draw_list`
 
-**Source:** `src/cli.rs:713`
+**Source:** `src/cli/render/list.rs:8`
 
 ## Responsibility
 
-Renders the concept-check choices and highlights the currently selected answer.
+Renders all exercises with status markers and the keyboard controls for selecting one.
 
 ## Signature and data contract
 
 ```rust
-fn draw_check<W: Write>(stdout: &mut W, state: &UiState)
+pub(super) fn draw_list<W: Write>(stdout: &mut W, state: &UiState)
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-fn draw_check<W: Write>(stdout: &mut W, state: &UiState) {
-    let lesson = state.lesson();
+pub(super) fn draw_list<W: Write>(stdout: &mut W, state: &UiState) {
     let _ = queue!(
         stdout,
-        SetForegroundColor(Color::Green),
-        Print("KNOWLEDGE CHECK\n"),
+        SetForegroundColor(Color::White),
+        Print("EXERCISE LIST\n"),
         ResetColor
     );
-    let _ = queue!(
-        stdout,
-        Print(format!("{}\n\n{}\n", lesson.title, lesson.question))
-    );
-    for (index, choice) in lesson.choices.iter().enumerate() {
-        let pointer = if index == state.check_selected {
-            "›"
+    for (index, lesson) in LESSONS.iter().enumerate() {
+        let pointer = if index == state.selected { "›" } else { " " };
+        let status = if state.completed.contains(lesson.id) {
+            "✓"
+        } else if state.started.contains(lesson.id) {
+            "◉"
         } else {
-            " "
+            "○"
         };
-        if index == state.check_selected {
+        if index == state.selected {
             let _ = queue!(stdout, SetForegroundColor(Color::Green));
         }
         let _ = queue!(
             stdout,
-            Print(format!(" {pointer} {}. {choice}\n", index + 1))
+            Print(format!(
+                " {pointer} {status} {:<28} {}\n",
+                lesson.title, lesson.track
+            ))
         );
         let _ = queue!(stdout, ResetColor);
     }
     let _ = queue!(
         stdout,
         Print(
-            "\n↑/↓ or 1–3 select · Enter check · R run · N/P next/previous · L list · Esc lesson\n"
+            "\n○ not started · ◉ in progress · ✓ complete\nN/P or ↑/↓ select · Enter open · L/Esc return\n"
         )
     );
 }
@@ -2797,14 +2768,184 @@ fn draw_check<W: Write>(stdout: &mut W, state: &UiState) {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `cli::render::list` module at the source path above. Read the [related architecture chapter](/guide/terminal-learning) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+This module has one function; its supporting types and constants live alongside it.
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-cli-draw-solution|cli · draw_solution -->
-# Function page 053 of 104: `cli::draw_solution`
+<!-- GTE_FUNCTION_PAGE: function-cli-render-draw|cli::render · draw -->
+# Function page 050 of 111: `cli::render::draw`
 
-**Source:** `src/cli.rs:748`
+**Source:** `src/cli/render/mod.rs:18`
+
+## Responsibility
+
+Clears the frame, paints the GTE terminal wordmark, and dispatches to the active screen renderer.
+
+## Signature and data contract
+
+```rust
+pub(super) fn draw<W: Write>(stdout: &mut W, state: &UiState)
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub(super) fn draw<W: Write>(stdout: &mut W, state: &UiState) {
+    let _ = queue!(stdout, MoveTo(0, 0), Clear(ClearType::All));
+    let _ = queue!(
+        stdout,
+        SetForegroundColor(Color::Green),
+        Print(
+            " █████    ███████   ██████\n██        ██        ██\n██ ███    █████     █████\n██  ██    ██        ██\n █████    ███████   ██████\n\n  GUESS THE ELO · RUST CODEBASE WALKTHROUGH\n\n"
+        )
+    );
+    let _ = queue!(
+        stdout,
+        SetForegroundColor(Color::DarkGrey),
+        Print(" Rustlings-style project exercises\n\n"),
+        ResetColor
+    );
+
+    match state.screen {
+        Screen::Home => home::draw_home(stdout, state),
+        Screen::List => list::draw_list(stdout, state),
+        Screen::Lesson => lesson::draw_lesson(stdout, state),
+        Screen::Check => check::draw_check(stdout, state),
+        Screen::Solution => solution::draw_solution(stdout, state),
+        Screen::TestResult => test_result::draw_test_result(stdout, state),
+        Screen::ResetConfirm => reset_confirm::draw_reset_confirm(stdout, state),
+    }
+
+    if !state.message.is_empty() {
+        let _ = queue!(stdout, Print(format!("\n{}\n", state.message)));
+    }
+    if state.screen != Screen::Home {
+        let _ = queue!(
+            stdout,
+            SetForegroundColor(Color::DarkGrey),
+            Print("\nQ quit · Esc back · ? shortcuts"),
+            ResetColor
+        );
+    }
+    let _ = stdout.flush();
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `cli::render` module at the source path above. Read the [related architecture chapter](/guide/terminal-learning) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`plain_fallback`](/guide/function-cli-render-plain-fallback).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-cli-render-plain-fallback|cli::render · plain_fallback -->
+# Function page 051 of 111: `cli::render::plain_fallback`
+
+**Source:** `src/cli/render/mod.rs:58`
+
+## Responsibility
+
+Prints a noninteractive lesson summary when terminal raw mode or screen setup is unavailable.
+
+## Signature and data contract
+
+```rust
+pub(super) fn plain_fallback(reason: &str)
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub(super) fn plain_fallback(reason: &str) {
+    println!("ChessProject interactive lesson UI\n{reason}\n");
+    for (index, lesson) in LESSONS.iter().enumerate() {
+        println!("{}. {} — {}", index + 1, lesson.title, lesson.concept);
+    }
+    println!(
+        "\nStart the browser Guidebook with `cargo run -- --web` at http://127.0.0.1:7878/guide."
+    );
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `cli::render` module at the source path above. Read the [related architecture chapter](/guide/terminal-learning) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`draw`](/guide/function-cli-render-draw).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-cli-render-reset-confirm-draw-reset-confirm|cli::render::reset_confirm · draw_reset_confirm -->
+# Function page 052 of 111: `cli::render::reset_confirm::draw_reset_confirm`
+
+**Source:** `src/cli/render/reset_confirm.rs:7`
+
+## Responsibility
+
+Explains which source file will be restored and where its backup will be written.
+
+## Signature and data contract
+
+```rust
+pub(super) fn draw_reset_confirm<W: Write>(stdout: &mut W, state: &UiState)
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub(super) fn draw_reset_confirm<W: Write>(stdout: &mut W, state: &UiState) {
+    let path = state.lesson().id.replace('-', "_");
+    let _ = queue!(
+        stdout,
+        SetForegroundColor(Color::Yellow),
+        Print("Reset current exercise?\n\n"),
+        ResetColor,
+        Print(format!(
+            "This restores exercises/src/{path}.rs from Git HEAD.\n"
+        )),
+        Print("A copy of the current file will be saved in .gte-backup/.\n\n"),
+        SetForegroundColor(Color::White),
+        Print("Reset (y/n)? "),
+        ResetColor
+    );
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `cli::render::reset_confirm` module at the source path above. Read the [related architecture chapter](/guide/terminal-learning) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+This module has one function; its supporting types and constants live alongside it.
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-cli-render-solution-draw-solution|cli::render::solution · draw_solution -->
+# Function page 053 of 111: `cli::render::solution::draw_solution`
+
+**Source:** `src/cli/render/solution.rs:8`
 
 ## Responsibility
 
@@ -2813,17 +2954,17 @@ Shows test names and the final test summary before the matching solution source.
 ## Signature and data contract
 
 ```rust
-fn draw_solution<W: Write>(stdout: &mut W, state: &UiState)
+pub(super) fn draw_solution<W: Write>(stdout: &mut W, state: &UiState)
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-fn draw_solution<W: Write>(stdout: &mut W, state: &UiState) {
+pub(super) fn draw_solution<W: Write>(stdout: &mut W, state: &UiState) {
     let complete_count = state.completed.len().min(LESSONS.len());
     let exercise_file = state.lesson().id.replace('-', "_");
     let _ = queue!(
@@ -2877,14 +3018,18 @@ fn draw_solution<W: Write>(stdout: &mut W, state: &UiState) {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `cli::render::solution` module at the source path above. Read the [related architecture chapter](/guide/terminal-learning) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+This module has one function; its supporting types and constants live alongside it.
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-cli-draw-test-result|cli · draw_test_result -->
-# Function page 054 of 104: `cli::draw_test_result`
+<!-- GTE_FUNCTION_PAGE: function-cli-render-test-result-draw-test-result|cli::render::test_result · draw_test_result -->
+# Function page 054 of 111: `cli::render::test_result::draw_test_result`
 
-**Source:** `src/cli.rs:799`
+**Source:** `src/cli/render/test_result.rs:7`
 
 ## Responsibility
 
@@ -2893,17 +3038,17 @@ Displays the test output for a focused or all-target run and its pass/fail label
 ## Signature and data contract
 
 ```rust
-fn draw_test_result<W: Write>(stdout: &mut W, state: &UiState)
+pub(super) fn draw_test_result<W: Write>(stdout: &mut W, state: &UiState)
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-fn draw_test_result<W: Write>(stdout: &mut W, state: &UiState) {
+pub(super) fn draw_test_result<W: Write>(stdout: &mut W, state: &UiState) {
     let (label, color) = if state.test_passed {
         ("TESTS PASSED", Color::Green)
     } else {
@@ -2932,14 +3077,98 @@ fn draw_test_result<W: Write>(stdout: &mut W, state: &UiState) {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `cli::render::test_result` module at the source path above. Read the [related architecture chapter](/guide/terminal-learning) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+This module has one function; its supporting types and constants live alongside it.
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-cli-run-current-test|cli · run_current_test -->
-# Function page 055 of 104: `cli::run_current_test`
+<!-- GTE_FUNCTION_PAGE: function-cli-reset-reset-current-exercise|cli::reset · reset_current_exercise -->
+# Function page 055 of 111: `cli::reset::reset_current_exercise`
 
-**Source:** `src/cli.rs:825`
+**Source:** `src/cli/reset.rs:10`
+
+## Responsibility
+
+Backs up the active source, restores its Git HEAD version, clears its progress, and reruns it.
+
+## Signature and data contract
+
+```rust
+pub(super) fn reset_current_exercise(state: &mut UiState)
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub(super) fn reset_current_exercise(state: &mut UiState) {
+    let relative = format!("exercises/src/{}.rs", state.lesson().id.replace('-', "_"));
+    let source_path = source_path(state);
+    let backup_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .join(".gte-backup")
+        .join(state.lesson().id.replace('-', "_") + ".rs");
+    let original = Command::new("git")
+        .args(["show", &format!("HEAD:{relative}")])
+        .current_dir(env!("CARGO_MANIFEST_DIR"))
+        .output();
+    let original = match original {
+        Ok(output) if output.status.success() => output.stdout,
+        Ok(output) => {
+            state.screen = Screen::Home;
+            state.message = format!(
+                "Could not restore the exercise from Git: {}",
+                String::from_utf8_lossy(&output.stderr).trim()
+            );
+            return;
+        }
+        Err(error) => {
+            state.screen = Screen::Home;
+            state.message = format!("Could not start Git to reset the exercise: {error}");
+            return;
+        }
+    };
+    if let Err(error) = fs::create_dir_all(backup_path.parent().expect("backup parent"))
+        .and_then(|()| fs::copy(&source_path, &backup_path).map(|_| ()))
+        .and_then(|()| fs::write(&source_path, original))
+    {
+        state.screen = Screen::Home;
+        state.message =
+            format!("Reset failed; the current file is backed up when possible: {error}");
+        return;
+    }
+    state.completed.remove(state.lesson().id);
+    state.started.remove(state.lesson().id);
+    let _ = save_progress(&state.completed);
+    state.screen = Screen::Home;
+    state.show_hint = false;
+    state.message = format!(
+        "Reset {}. Previous contents saved in .gte-backup/.",
+        state.lesson().title
+    );
+    run_current_test(state);
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `cli::reset` module at the source path above. Read the [related architecture chapter](/guide/terminal-learning) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+This module has one function; its supporting types and constants live alongside it.
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-cli-runner-run-current-test|cli::runner · run_current_test -->
+# Function page 056 of 111: `cli::runner::run_current_test`
+
+**Source:** `src/cli/runner.rs:9`
 
 ## Responsibility
 
@@ -2948,17 +3177,17 @@ Runs one lesson target, updates progress, stores diagnostics, and loads that les
 ## Signature and data contract
 
 ```rust
-fn run_current_test(state: &mut UiState)
+pub(super) fn run_current_test(state: &mut UiState)
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-fn run_current_test(state: &mut UiState) {
+pub(super) fn run_current_test(state: &mut UiState) {
     let lesson = state.lesson();
     state.started.insert(lesson.id);
     let (passed, text) = run_lesson_test(lesson);
@@ -2996,14 +3225,18 @@ fn run_current_test(state: &mut UiState) {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `cli::runner` module at the source path above. Read the [related architecture chapter](/guide/terminal-learning) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`run_all_tests`](/guide/function-cli-runner-run-all-tests), [`run_lesson_test`](/guide/function-cli-runner-run-lesson-test).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-cli-run-all-tests|cli · run_all_tests -->
-# Function page 056 of 104: `cli::run_all_tests`
+<!-- GTE_FUNCTION_PAGE: function-cli-runner-run-all-tests|cli::runner · run_all_tests -->
+# Function page 057 of 111: `cli::runner::run_all_tests`
 
-**Source:** `src/cli.rs:860`
+**Source:** `src/cli/runner.rs:44`
 
 ## Responsibility
 
@@ -3012,17 +3245,17 @@ Runs every registered exercise target and saves each pass/fail completion result
 ## Signature and data contract
 
 ```rust
-fn run_all_tests(state: &mut UiState)
+pub(super) fn run_all_tests(state: &mut UiState)
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-fn run_all_tests(state: &mut UiState) {
+pub(super) fn run_all_tests(state: &mut UiState) {
     let mut summary = Vec::new();
     let mut passed_count = 0;
     for lesson in &LESSONS {
@@ -3061,14 +3294,18 @@ fn run_all_tests(state: &mut UiState) {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `cli::runner` module at the source path above. Read the [related architecture chapter](/guide/terminal-learning) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`run_current_test`](/guide/function-cli-runner-run-current-test), [`run_lesson_test`](/guide/function-cli-runner-run-lesson-test).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-cli-run-lesson-test|cli · run_lesson_test -->
-# Function page 057 of 104: `cli::run_lesson_test`
+<!-- GTE_FUNCTION_PAGE: function-cli-runner-run-lesson-test|cli::runner · run_lesson_test -->
+# Function page 058 of 111: `cli::runner::run_lesson_test`
 
-**Source:** `src/cli.rs:896`
+**Source:** `src/cli/runner.rs:80`
 
 ## Responsibility
 
@@ -3080,11 +3317,11 @@ Invokes Cargo with one integration-test target and captures both stdout and stde
 fn run_lesson_test(lesson: &Lesson) -> (bool, String)
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
 fn run_lesson_test(lesson: &Lesson) -> (bool, String) {
@@ -3111,53 +3348,311 @@ fn run_lesson_test(lesson: &Lesson) -> (bool, String) {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `cli::runner` module at the source path above. Read the [related architecture chapter](/guide/terminal-learning) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`run_current_test`](/guide/function-cli-runner-run-current-test), [`run_all_tests`](/guide/function-cli-runner-run-all-tests).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-cli-plain-fallback|cli · plain_fallback -->
-# Function page 058 of 104: `cli::plain_fallback`
+<!-- GTE_FUNCTION_PAGE: function-cli-source-source-path|cli::source · source_path -->
+# Function page 059 of 111: `cli::source::source_path`
 
-**Source:** `src/cli.rs:917`
+**Source:** `src/cli/source.rs:7`
 
 ## Responsibility
 
-Prints a noninteractive lesson summary when terminal raw mode or screen setup is unavailable.
+Maps a lesson id to its learner-editable Rust file under exercises/src.
 
 ## Signature and data contract
 
 ```rust
-fn plain_fallback(reason: &str)
+pub(super) fn source_path(state: &UiState) -> PathBuf
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-fn plain_fallback(reason: &str) {
-    println!("ChessProject interactive lesson UI\n{reason}\n");
-    for (index, lesson) in LESSONS.iter().enumerate() {
-        println!("{}. {} — {}", index + 1, lesson.title, lesson.concept);
-    }
-    println!(
-        "\nStart the browser Guidebook with `cargo run -- --web` at http://127.0.0.1:7878/guide."
-    );
+pub(super) fn source_path(state: &UiState) -> PathBuf {
+    let file_name = state.lesson().id.replace('-', "_");
+    PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .join("exercises/src")
+        .join(format!("{file_name}.rs"))
 }
 ```
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `cli::source` module at the source path above. Read the [related architecture chapter](/guide/terminal-learning) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`source_modified`](/guide/function-cli-source-source-modified).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-lessons-lesson|lessons · lesson -->
-# Function page 059 of 104: `lessons::lesson`
+<!-- GTE_FUNCTION_PAGE: function-cli-source-source-modified|cli::source · source_modified -->
+# Function page 060 of 111: `cli::source::source_modified`
 
-**Source:** `src/lessons.rs:15`
+**Source:** `src/cli/source.rs:14`
+
+## Responsibility
+
+Reads the active exercise file's modification time for automatic check reruns.
+
+## Signature and data contract
+
+```rust
+pub(super) fn source_modified(state: &UiState) -> Option<SystemTime>
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub(super) fn source_modified(state: &UiState) -> Option<SystemTime> {
+    fs::metadata(source_path(state)).ok()?.modified().ok()
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `cli::source` module at the source path above. Read the [related architecture chapter](/guide/terminal-learning) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`source_path`](/guide/function-cli-source-source-path).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-cli-state-uistate-new|cli::state · UiState::new -->
+# Function page 061 of 111: `cli::state::UiState::new`
+
+**Source:** `src/cli/state.rs:35`
+
+## Responsibility
+
+Loads saved lesson completion and selects the first exercise that still needs work.
+
+## Signature and data contract
+
+```rust
+pub(super) fn new() -> Self
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub(super) fn new() -> Self {
+        let completed = load_progress();
+        let lesson_index = LESSONS
+            .iter()
+            .position(|lesson| !completed.contains(lesson.id))
+            .unwrap_or(0);
+        Self {
+            screen: Screen::Home,
+            selected: lesson_index,
+            lesson_index,
+            check_selected: 0,
+            show_hint: false,
+            started: completed.clone(),
+            completed,
+            message: String::new(),
+            solution: Vec::new(),
+            solution_offset: 0,
+            test_output: Vec::new(),
+            test_passed: false,
+            last_modified: None,
+        }
+    }
+```
+
+## Where it fits
+
+The implementation lives in the focused `cli::state` module at the source path above. Read the [related architecture chapter](/guide/terminal-learning) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`lesson`](/guide/function-cli-state-uistate-lesson).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-cli-state-uistate-lesson|cli::state · UiState::lesson -->
+# Function page 062 of 111: `cli::state::UiState::lesson`
+
+**Source:** `src/cli/state.rs:58`
+
+## Responsibility
+
+Looks up the static lesson currently selected by the UI state.
+
+## Signature and data contract
+
+```rust
+pub(super) fn lesson(&self) -> &'static Lesson
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub(super) fn lesson(&self) -> &'static Lesson {
+        &LESSONS[self.lesson_index]
+    }
+```
+
+## Where it fits
+
+The implementation lives in the focused `cli::state` module at the source path above. Read the [related architecture chapter](/guide/terminal-learning) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`new`](/guide/function-cli-state-uistate-new).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-cli-writer-crlfwriter-w-new|cli::writer · CrLfWriter<W>::new -->
+# Function page 063 of 111: `cli::writer::CrLfWriter<W>::new`
+
+**Source:** `src/cli/writer.rs:11`
+
+## Responsibility
+
+Initializes the writer adapter that keeps track of whether the last byte was a carriage return.
+
+## Signature and data contract
+
+```rust
+pub(super) fn new(inner: W) -> Self
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub(super) fn new(inner: W) -> Self {
+        Self {
+            inner,
+            last_was_carriage_return: false,
+        }
+    }
+```
+
+## Where it fits
+
+The implementation lives in the focused `cli::writer` module at the source path above. Read the [related architecture chapter](/guide/terminal-learning) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`write`](/guide/function-cli-writer-crlfwriter-w-as-write-write), [`flush`](/guide/function-cli-writer-crlfwriter-w-as-write-flush).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-cli-writer-crlfwriter-w-as-write-write|cli::writer · <CrLfWriter<W> as Write>::write -->
+# Function page 064 of 111: `cli::writer::<CrLfWriter<W> as Write>::write`
+
+**Source:** `src/cli/writer.rs:20`
+
+## Responsibility
+
+Adapts line-feed bytes for raw-mode terminals so output lines return to column one.
+
+## Signature and data contract
+
+```rust
+fn write(&mut self, bytes: &[u8]) -> io::Result<usize>
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+fn write(&mut self, bytes: &[u8]) -> io::Result<usize> {
+        let mut normalized = Vec::with_capacity(bytes.len() + 8);
+        for &byte in bytes {
+            if byte == b'\n' && !self.last_was_carriage_return {
+                normalized.push(b'\r');
+            }
+            normalized.push(byte);
+            self.last_was_carriage_return = byte == b'\r';
+        }
+        self.inner.write_all(&normalized)?;
+        Ok(bytes.len())
+    }
+```
+
+## Where it fits
+
+The implementation lives in the focused `cli::writer` module at the source path above. Read the [related architecture chapter](/guide/terminal-learning) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`new`](/guide/function-cli-writer-crlfwriter-w-new), [`flush`](/guide/function-cli-writer-crlfwriter-w-as-write-flush).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-cli-writer-crlfwriter-w-as-write-flush|cli::writer · <CrLfWriter<W> as Write>::flush -->
+# Function page 065 of 111: `cli::writer::<CrLfWriter<W> as Write>::flush`
+
+**Source:** `src/cli/writer.rs:33`
+
+## Responsibility
+
+Forwards an explicit flush to the wrapped terminal writer.
+
+## Signature and data contract
+
+```rust
+fn flush(&mut self) -> io::Result<()>
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+fn flush(&mut self) -> io::Result<()> {
+        self.inner.flush()
+    }
+```
+
+## Where it fits
+
+The implementation lives in the focused `cli::writer` module at the source path above. Read the [related architecture chapter](/guide/terminal-learning) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`new`](/guide/function-cli-writer-crlfwriter-w-new), [`write`](/guide/function-cli-writer-crlfwriter-w-as-write-write).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-lessons-model-lesson|lessons::model · lesson -->
+# Function page 066 of 111: `lessons::model::lesson`
+
+**Source:** `src/lessons/model.rs:18`
 
 ## Responsibility
 
@@ -3166,29 +3661,29 @@ Constructs one static curriculum record that joins its prompt, test, solution, d
 ## Signature and data contract
 
 ```rust
-const fn lesson(
-        id: &'static str,
-        track: &'static str,
-        title: &'static str,
-        concept: &'static str,
-        prompt: &'static str,
-        hint: &'static str,
-        question: &'static str,
-        choices: [&'static str; 3],
-        answer: usize,
-        solution_file: &'static str,
-        reference_anchor: &'static str,
-    ) -> Lesson
+pub(super) const fn lesson(
+    id: &'static str,
+    track: &'static str,
+    title: &'static str,
+    concept: &'static str,
+    prompt: &'static str,
+    hint: &'static str,
+    question: &'static str,
+    choices: [&'static str; 3],
+    answer: usize,
+    solution_file: &'static str,
+    reference_anchor: &'static str,
+) -> Lesson
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-const fn lesson(
+pub(super) const fn lesson(
     id: &'static str,
     track: &'static str,
     title: &'static str,
@@ -3219,1352 +3714,18 @@ const fn lesson(
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `lessons::model` module at the source path above. Read the [related architecture chapter](/guide/terminal-learning) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+This module has one function; its supporting types and constants live alongside it.
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-web-sessions|web · sessions -->
-# Function page 060 of 104: `web::sessions`
+<!-- GTE_FUNCTION_PAGE: function-web-book-catalog-book-chapters|web::book::catalog · book_chapters -->
+# Function page 067 of 111: `web::book::catalog::book_chapters`
 
-**Source:** `src/web.rs:28`
-
-## Responsibility
-
-Lazily initializes and returns the process-wide mutex-protected browser session map.
-
-## Signature and data contract
-
-```rust
-fn sessions() -> &'static Mutex<HashMap<String, Session>>
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn sessions() -> &'static Mutex<HashMap<String, Session>> {
-    SESSIONS.get_or_init(|| Mutex::new(HashMap::new()))
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-web-serve|web · serve -->
-# Function page 061 of 104: `web::serve`
-
-**Source:** `src/web.rs:32`
-
-## Responsibility
-
-Binds the localhost HTTP listener, prints the local URLs, and serially handles connections.
-
-## Signature and data contract
-
-```rust
-pub fn serve()
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-pub fn serve() {
-    let listener = match TcpListener::bind("127.0.0.1:7878") {
-        Ok(listener) => listener,
-        Err(error) => {
-            eprintln!("Could not start the ChessProject web app: {error}");
-            return;
-        }
-    };
-    println!("ChessProject is running at http://127.0.0.1:7878");
-    println!("Guidebook: http://127.0.0.1:7878/guide");
-    println!("Press Ctrl+C to stop the local server.");
-
-    for incoming in listener.incoming() {
-        match incoming {
-            Ok(stream) => handle_connection(stream),
-            Err(error) => eprintln!("Browser connection failed: {error}"),
-        }
-    }
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-web-handle-connection|web · handle_connection -->
-# Function page 062 of 104: `web::handle_connection`
-
-**Source:** `src/web.rs:52`
-
-## Responsibility
-
-Reads one request line, permits GET, dispatches a route, and writes the matching HTTP response.
-
-## Signature and data contract
-
-```rust
-fn handle_connection(mut stream: TcpStream)
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn handle_connection(mut stream: TcpStream) {
-    let _ = stream.set_read_timeout(Some(std::time::Duration::from_secs(3)));
-    let mut buffer = [0u8; 16_384];
-    let count = match stream.read(&mut buffer) {
-        Ok(count) if count > 0 => count,
-        _ => return,
-    };
-    let request = String::from_utf8_lossy(&buffer[..count]);
-    let first_line = request.lines().next().unwrap_or_default();
-    let mut parts = first_line.split_whitespace();
-    let method = parts.next().unwrap_or("GET");
-    let target = parts.next().unwrap_or("/");
-    if method != "GET" {
-        write_response(
-            &mut stream,
-            405,
-            "text/plain; charset=utf-8",
-            "Use a browser GET form for this prototype.",
-        );
-        return;
-    }
-    let response = route(target);
-    match response {
-        HttpResponse::Page(body) => {
-            write_response(&mut stream, 200, "text/html; charset=utf-8", &body)
-        }
-        HttpResponse::Download(body) => write_download(&mut stream, "GTE-Guidebook.md", &body),
-        HttpResponse::Pdf(body) => write_pdf(&mut stream, &body),
-        HttpResponse::Redirect(location) => {
-            let head = format!(
-                "HTTP/1.1 303 See Other\r\nLocation: {location}\r\nContent-Length: 0\r\nConnection: close\r\n\r\n"
-            );
-            let _ = stream.write_all(head.as_bytes());
-        }
-        HttpResponse::NotFound => write_response(
-            &mut stream,
-            404,
-            "text/plain; charset=utf-8",
-            "Page not found.",
-        ),
-    }
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-web-route|web · route -->
-# Function page 063 of 104: `web::route`
-
-**Source:** `src/web.rs:103`
-
-## Responsibility
-
-Splits path from query values and selects the correct page, game handler, download, or 404.
-
-## Signature and data contract
-
-```rust
-fn route(target: &str) -> HttpResponse
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn route(target: &str) -> HttpResponse {
-    let (path, query) = target.split_once('?').unwrap_or((target, ""));
-    let params = parse_query(query);
-    match path {
-        "/" => HttpResponse::Page(render_home("")),
-        "/guide" => HttpResponse::Page(render_book("introduction")),
-        "/guide/download" => HttpResponse::Download(download_book_markdown()),
-        "/guide/functions.pdf" => {
-            HttpResponse::Pdf(include_bytes!("../output/pdf/GTE-Function-Appendix.pdf").to_vec())
-        }
-        "/load" => load_game(&params),
-        "/play" => render_session(&params),
-        "/move" => update_move(&params),
-        "/guess-elo" => submit_elo_guess(&params),
-        "/guess-opening" => submit_opening_guess(&params),
-        "/new" => HttpResponse::Page(render_home("Choose a mode to start another round.")),
-        _ => path
-            .strip_prefix("/guide/")
-            .and_then(book_chapter_index)
-            .map(|index| HttpResponse::Page(render_book(&book_chapters()[index].slug)))
-            .unwrap_or(HttpResponse::NotFound),
-    }
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-web-load-game|web · load_game -->
-# Function page 064 of 104: `web::load_game`
-
-**Source:** `src/web.rs:127`
-
-## Responsibility
-
-Normalizes the round settings, selects demo/archive/link data, and keeps a user-readable API fallback notice.
-
-## Signature and data contract
-
-```rust
-fn load_game(params: &HashMap<String, String>) -> HttpResponse
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn load_game(params: &HashMap<String, String>) -> HttpResponse {
-    let mode = if params.get("mode").map(String::as_str) == Some("opening") {
-        GameMode::Opening
-    } else {
-        GameMode::Elo
-    };
-    let difficulty = params
-        .get("difficulty")
-        .map(|value| normalize_difficulty(value))
-        .unwrap_or_else(|| "medium".to_owned());
-    let target = params
-        .get("target")
-        .map(|value| normalize_target(value))
-        .unwrap_or_else(|| "both".to_owned());
-    let username = params.get("username").map(String::as_str).unwrap_or("erik");
-    let source = params.get("source").map(String::as_str).unwrap_or("demo");
-
-    let (game, note) = match source {
-        "random" => match api::random_public_game(username) {
-            Ok(game) => (game, String::new()),
-            Err(error) => (
-                ChessGame::demo(),
-                format!("API fallback: {error} The included sample game is shown instead."),
-            ),
-        },
-        "link" => {
-            let url = params.get("url").map(String::as_str).unwrap_or_default();
-            match api::game_from_archive_link(username, url) {
-                Ok(game) => (game, String::new()),
-                Err(error) => (
-                    ChessGame::demo(),
-                    format!(
-                        "Game link unavailable: {error} Demo data is shown so you can still explore the board."
-                    ),
-                ),
-            }
-        }
-        _ => (
-            ChessGame::demo(),
-            "Demo data · this built-in game works without a network connection.".to_owned(),
-        ),
-    };
-    if game.ply_count() == 0 {
-        let demo = ChessGame::demo();
-        let note = if note.is_empty() {
-            "The loaded PGN had no readable moves, so the demo game is shown.".to_owned()
-        } else {
-            note
-        };
-        return create_session(demo, mode, difficulty, target, note);
-    }
-    create_session(game, mode, difficulty, target, note)
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-web-create-session|web · create_session -->
-# Function page 065 of 104: `web::create_session`
-
-**Source:** `src/web.rs:181`
-
-## Responsibility
-
-Allocates a session id, chooses the starting ply for the mode, stores state, and redirects to play.
-
-## Signature and data contract
-
-```rust
-fn create_session(
-        game: ChessGame,
-        mode: GameMode,
-        difficulty: String,
-        target: String,
-        note: String,
-    ) -> HttpResponse
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn create_session(
-    game: ChessGame,
-    mode: GameMode,
-    difficulty: String,
-    target: String,
-    note: String,
-) -> HttpResponse {
-    let id = NEXT_SESSION.fetch_add(1, Ordering::Relaxed).to_string();
-    let ply = if mode == GameMode::Opening {
-        8.min(game.ply_count())
-    } else {
-        0
-    };
-    let session = Session {
-        game,
-        mode,
-        difficulty,
-        target,
-        ply,
-        note,
-        feedback: String::new(),
-        revealed: false,
-    };
-    if let Ok(mut store) = sessions().lock() {
-        store.insert(id.clone(), session);
-    }
-    HttpResponse::Redirect(format!("/play?sid={id}"))
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-web-render-session|web · render_session -->
-# Function page 066 of 104: `web::render_session`
-
-**Source:** `src/web.rs:210`
-
-## Responsibility
-
-Looks up a session id and renders the saved game or explains that the session is unavailable.
-
-## Signature and data contract
-
-```rust
-fn render_session(params: &HashMap<String, String>) -> HttpResponse
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn render_session(params: &HashMap<String, String>) -> HttpResponse {
-    let Some(id) = params.get("sid") else {
-        return HttpResponse::Page(render_home(
-            "This game session has expired. Start a new round.",
-        ));
-    };
-    match sessions().lock() {
-        Ok(store) => match store.get(id) {
-            Some(session) => HttpResponse::Page(render_game(session, id)),
-            None => HttpResponse::Page(render_home(
-                "This game session has expired. Start a new round.",
-            )),
-        },
-        Err(_) => HttpResponse::Page(render_home(
-            "The local game session could not be read. Start a new round.",
-        )),
-    }
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-web-update-move|web · update_move -->
-# Function page 067 of 104: `web::update_move`
-
-**Source:** `src/web.rs:229`
-
-## Responsibility
-
-Parses and clamps the requested ply, clears stale feedback, then redirects to the session page.
-
-## Signature and data contract
-
-```rust
-fn update_move(params: &HashMap<String, String>) -> HttpResponse
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn update_move(params: &HashMap<String, String>) -> HttpResponse {
-    let Some(id) = params.get("sid") else {
-        return HttpResponse::Page(render_home(
-            "This game session has expired. Start a new round.",
-        ));
-    };
-    if let Ok(mut store) = sessions().lock() {
-        if let Some(session) = store.get_mut(id) {
-            let requested = params
-                .get("ply")
-                .and_then(|value| value.parse::<usize>().ok())
-                .unwrap_or(session.ply);
-            session.ply = requested.min(max_ply(session));
-            session.feedback.clear();
-        }
-    }
-    HttpResponse::Redirect(format!("/play?sid={}", html_escape(id)))
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-web-submit-elo-guess|web · submit_elo_guess -->
-# Function page 068 of 104: `web::submit_elo_guess`
-
-**Source:** `src/web.rs:248`
-
-## Responsibility
-
-Scores only the requested player side or sides and marks the session's ratings revealed.
-
-## Signature and data contract
-
-```rust
-fn submit_elo_guess(params: &HashMap<String, String>) -> HttpResponse
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn submit_elo_guess(params: &HashMap<String, String>) -> HttpResponse {
-    let Some(id) = params.get("sid") else {
-        return HttpResponse::Page(render_home(
-            "This game session has expired. Start a new round.",
-        ));
-    };
-    let mut store = match sessions().lock() {
-        Ok(store) => store,
-        Err(_) => {
-            return HttpResponse::Page(render_home("The local game session could not be read."));
-        }
-    };
-    let Some(session) = store.get_mut(id) else {
-        return HttpResponse::Page(render_home(
-            "This game session has expired. Start a new round.",
-        ));
-    };
-    if session.mode != GameMode::Elo {
-        return HttpResponse::Redirect(format!("/play?sid={}", html_escape(id)));
-    }
-
-    let mut lines = Vec::new();
-    if session.target != "black" {
-        score_one(
-            &mut lines,
-            "White",
-            params.get("white").map(String::as_str).unwrap_or_default(),
-            session.game.white_rating,
-            &session.difficulty,
-        );
-    }
-    if session.target != "white" {
-        score_one(
-            &mut lines,
-            "Black",
-            params.get("black").map(String::as_str).unwrap_or_default(),
-            session.game.black_rating,
-            &session.difficulty,
-        );
-    }
-    session.feedback = lines.join("<br>");
-    session.revealed = true;
-    HttpResponse::Redirect(format!("/play?sid={}", html_escape(id)))
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-web-score-one|web · score_one -->
-# Function page 069 of 104: `web::score_one`
-
-**Source:** `src/web.rs:293`
-
-## Responsibility
-
-Validates one numeric guess, handles missing ratings, computes error, and appends tolerance feedback.
-
-## Signature and data contract
-
-```rust
-fn score_one(
-        lines: &mut Vec<String>,
-        color: &str,
-        raw_guess: &str,
-        actual: Option<i32>,
-        difficulty: &str,
-    )
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn score_one(
-    lines: &mut Vec<String>,
-    color: &str,
-    raw_guess: &str,
-    actual: Option<i32>,
-    difficulty: &str,
-) {
-    let Some(guess) = raw_guess
-        .trim()
-        .parse::<i32>()
-        .ok()
-        .filter(|value| (0..=4000).contains(value))
-    else {
-        lines.push(format!("{color}: enter a numeric rating guess."));
-        return;
-    };
-    let Some(actual) = actual else {
-        lines.push(format!(
-            "{color}: no rating was included with this game record."
-        ));
-        return;
-    };
-    let error = (guess - actual).abs();
-    let outcome = if rating_is_close(guess, actual, difficulty) {
-        "inside tolerance"
-    } else {
-        "outside tolerance"
-    };
-    lines.push(format!(
-        "{color}: you guessed {guess}; actual rating {actual}; off by {error} · {outcome}."
-    ));
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-web-submit-opening-guess|web · submit_opening_guess -->
-# Function page 070 of 104: `web::submit_opening_guess`
-
-**Source:** `src/web.rs:326`
-
-## Responsibility
-
-Validates the active mode, normalizes the answer through chess.rs, and stores the revealed result.
-
-## Signature and data contract
-
-```rust
-fn submit_opening_guess(params: &HashMap<String, String>) -> HttpResponse
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn submit_opening_guess(params: &HashMap<String, String>) -> HttpResponse {
-    let Some(id) = params.get("sid") else {
-        return HttpResponse::Page(render_home(
-            "This game session has expired. Start a new round.",
-        ));
-    };
-    let mut store = match sessions().lock() {
-        Ok(store) => store,
-        Err(_) => {
-            return HttpResponse::Page(render_home("The local game session could not be read."));
-        }
-    };
-    let Some(session) = store.get_mut(id) else {
-        return HttpResponse::Page(render_home(
-            "This game session has expired. Start a new round.",
-        ));
-    };
-    if session.mode != GameMode::Opening {
-        return HttpResponse::Redirect(format!("/play?sid={}", html_escape(id)));
-    }
-    let guess = params.get("guess").map(String::as_str).unwrap_or_default();
-    session.feedback = if opening_matches(guess, &session.game.opening) {
-        format!(
-            "Correct — the opening is {}.",
-            html_escape(&session.game.opening)
-        )
-    } else if guess.trim().is_empty() {
-        "Enter an opening name before submitting.".to_owned()
-    } else {
-        format!(
-            "Not quite. The opening is {}.",
-            html_escape(&session.game.opening)
-        )
-    };
-    session.revealed = true;
-    HttpResponse::Redirect(format!("/play?sid={}", html_escape(id)))
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-web-render-home|web · render_home -->
-# Function page 071 of 104: `web::render_home`
-
-**Source:** `src/web.rs:364`
-
-## Responsibility
-
-Builds the overview, GothamChess link, formal description, challenge forms, and demo links.
-
-## Signature and data contract
-
-```rust
-fn render_home(message: &str) -> String
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn render_home(message: &str) -> String {
-    let body = format!(
-        r###"
-<header class="topbar"><a class="brand" href="/"><span class="brand-mark">GTE</span><span>CHESS<span class="green">PROJECT</span></span></a><nav><a href="#elo">Guess the Elo</a><a href="#opening">Guess the Opening</a><a href="/guide">Guidebook</a></nav><a class="nav-cta" href="#elo">Start a round <span>↗</span></a></header>
-<main>
-  <section class="hero" id="overview">
-    <div class="hero-copy"><div class="eyebrow"><span class="pulse"></span> PLAY THE POSITION. READ THE PLAYER.</div><h1>Can you spot<br>the <em>rating?</em></h1><p class="lede">A game can tell you a lot. Move by move, put your chess instincts to the test — then see how close you came.</p><div class="hero-actions"><a class="button button-green" href="#elo">Choose a challenge <span>→</span></a><a class="text-link" href="https://www.youtube.com/results?search_query=GothamChess+Guess+the+Elo" target="_blank" rel="noreferrer">Watch GothamChess's Guess the Elo <span>↗</span></a></div></div>
-    <div class="hero-board-wrap"><div class="hero-board" aria-hidden="true">{}</div><div class="board-caption"><span>OPENING STUDY</span><span>01 / 02</span></div></div>
-    <div class="hero-stamp"><span>02</span><small>WAYS TO<br>PLAY</small></div>
-  </section>
-  <div class="inspiration"><span class="inspiration-icon">▶</span><p><strong>Inspired by GothamChess's Guess the Elo series.</strong> Watch a game, read the moves, and see if your rating instincts hold up.</p><a href="https://www.youtube.com/results?search_query=GothamChess+Guess+the+Elo" target="_blank" rel="noreferrer">Explore the series ↗</a></div>
-  <section class="intro-row"><div><div class="eyebrow">THE PROJECT</div><h2>Learn to read<br>the game.</h2></div><p>ChessProject is a chess practice and programming-learning prototype. Review public Chess.com games with the ratings hidden, guess each player's Elo or name the opening, then explore how the Rust app works in its companion Guidebook and terminal lessons.</p><a class="button button-outline" href="/guide">Read the Guidebook <span>→</span></a></section>
-  <section class="mode-section" id="elo"><div class="section-head"><div><div class="eyebrow">MODE 01 · PLAYER SENSE</div><h2>Guess the Elo</h2></div><p>Watch the moves. Trust your read.<br>Reveal the ratings when you're ready.</p></div>
-    <div class="mode-card elo-card"><div class="card-number">01</div><div class="mode-copy"><span class="mode-icon">♟</span><h3>How strong<br>are they?</h3><p>Choose a game, review the board at your pace, and call the rating. You decide how close counts.</p><div class="tag-row"><span>MOVE REVIEW</span><span>3 DIFFICULTIES</span><span>WHITE / BLACK / BOTH</span></div></div><div class="mode-form"><h4>Set up your round</h4><form action="/load" method="get"><input type="hidden" name="mode" value="elo"><input type="hidden" name="source" value="random"><label>Chess.com username <span>public archive</span><input name="username" value="erik" required maxlength="25" autocomplete="off"></label><div class="form-row"><label>Difficulty<select name="difficulty"><option value="easy">Easy · ±200</option><option value="medium" selected>Medium · ±100</option><option value="hard">Hard · ±50</option></select></label><label>Guess for<select name="target"><option value="both">Both players</option><option value="white">White only</option><option value="black">Black only</option></select></label></div><button class="button button-green full" type="submit">Pick a random archive game <span>→</span></button></form><div class="form-divider"><span>OR USE A GAME LINK</span></div><form action="/load" method="get"><input type="hidden" name="mode" value="elo"><input type="hidden" name="source" value="link"><label>Chess.com game URL<input name="url" placeholder="https://www.chess.com/game/live/…" required></label><label>Player archive username<input name="username" value="erik" required maxlength="25" autocomplete="off"></label><div class="form-row"><label>Difficulty<select name="difficulty"><option value="easy">Easy · ±200</option><option value="medium" selected>Medium · ±100</option><option value="hard">Hard · ±50</option></select></label><label>Guess for<select name="target"><option value="both">Both players</option><option value="white">White only</option><option value="black">Black only</option></select></label></div><button class="button button-outline full" type="submit">Find this game <span>→</span></button></form><a class="demo-link" href="/load?mode=elo&source=demo">Try the built-in demo game <span>↗</span></a></div></div>
-    <p class="api-note"><span>i</span> Random picks come from the selected player's public Chess.com archive. The PubAPI does not provide a global random-game feed.</p>
-  </section>
-  <section class="mode-section opening-section" id="opening"><div class="section-head"><div><div class="eyebrow">MODE 02 · OPENING RECALL</div><h2>Guess the Opening</h2></div><p>See the first few moves.<br>Can you name the opening?</p></div><div class="mode-card opening-card"><div class="opening-preview"><div class="preview-label"><span class="pulse"></span> YOUR NEXT CHALLENGE</div><div class="mini-board">{}</div><div class="preview-moves"><b>1.</b> e4 e5 <b>2.</b> Nf3 Nc6 <b>3.</b> Bc4 Bc5</div></div><div class="opening-form"><span class="mode-icon">⌁</span><h3>Find the name<br>behind the moves.</h3><p>A short opening sequence, one answer box, and immediate feedback. Uppercase or lowercase both work.</p><form action="/load" method="get"><input type="hidden" name="mode" value="opening"><input type="hidden" name="source" value="random"><label>Chess.com username <span>public archive</span><input name="username" value="erik" required maxlength="25" autocomplete="off"></label><button class="button button-green full" type="submit">Start opening challenge <span>→</span></button></form><a class="demo-link" href="/load?mode=opening&source=demo">Try the Italian Game demo <span>↗</span></a></div></div></section>
-  <section class="build-note"><div class="build-icon">⌘</div><div><div class="eyebrow">BUILT TO BE LEARNED</div><h2>Curious how it works?</h2><p>Open the Rustlings-style terminal path to explore the API, PGN parser, scoring rules, and page renderer one focused lesson at a time.</p></div><div class="build-actions"><code>cargo run</code><a class="button button-outline" href="/guide">Open the Guidebook <span>→</span></a></div></section>
-  <footer><a class="brand" href="/"><span class="brand-mark">GTE</span><span>CHESS<span class="green">PROJECT</span></span></a><span>Rust-built prototype · Chess.com public game data</span><a href="/guide">Guidebook ↗</a></footer>
-</main>"###,
-        mini_board(ChessGame::demo().position_at(8)),
-        mini_board(ChessGame::demo().position_at(8))
-    );
-    let notice = if message.is_empty() {
-        String::new()
-    } else {
-        format!("<div class=\"toast\">{}</div>", html_escape(message))
-    };
-    page("GTE · Read the Game", &notice, &body)
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-web-render-game|web · render_game -->
-# Function page 072 of 104: `web::render_game`
-
-**Source:** `src/web.rs:395`
-
-## Responsibility
-
-Composes the board, player rows, move list, metadata, navigation, and mode-specific answer panel.
-
-## Signature and data contract
-
-```rust
-fn render_game(session: &Session, id: &str) -> String
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn render_game(session: &Session, id: &str) -> String {
-    let game = &session.game;
-    let mode_label = if session.mode == GameMode::Elo {
-        "GUESS THE ELO"
-    } else {
-        "GUESS THE OPENING"
-    };
-    let limit = max_ply(session);
-    let move_list = render_move_list(game, id, session.ply, limit);
-    let board = render_board(game.position_at(session.ply));
-    let note = if session.note.is_empty() {
-        String::new()
-    } else {
-        format!("<div class=\"toast\">{}</div>", html_escape(&session.note))
-    };
-    let game_link = if game.source_url.starts_with("https://") {
-        format!(
-            "<a class=\"source-link\" href=\"{}\" target=\"_blank\" rel=\"noreferrer\">Open on Chess.com ↗</a>",
-            html_escape(&game.source_url)
-        )
-    } else {
-        String::new()
-    };
-    let feedback = if session.feedback.is_empty() {
-        String::new()
-    } else {
-        format!("<div class=\"result-box\">{}</div>", session.feedback)
-    };
-    let sidebar = if session.mode == GameMode::Elo {
-        render_elo_panel(session, id, &feedback)
-    } else {
-        render_opening_panel(session, id, &feedback)
-    };
-    let title = if session.mode == GameMode::Elo {
-        "Guess the Elo"
-    } else {
-        "Guess the Opening"
-    };
-    let body = format!(
-        r###"
-<header class="topbar"><a class="brand" href="/"><span class="brand-mark">GTE</span><span>CHESS<span class="green">PROJECT</span></span></a><nav><a class="active" href="/">Game lab</a><a href="/guide">Guidebook</a></nav><a class="nav-cta" href="/new">New round <span>↗</span></a></header>
-<main class="play-main"><div class="play-heading"><div><a class="back-link" href="/">← All challenges</a><div class="eyebrow">{mode_label} · {}</div><h1>{}</h1></div><div class="round-badge"><span class="pulse"></span> YOUR ROUND</div></div>
-<div class="play-grid"><section class="board-panel">{}<div class="board-area">{}</div>{}<div class="move-controls"><a href="/move?sid={id}&ply=0" aria-label="First position">|◀</a><a href="/move?sid={id}&ply={}" aria-label="Previous move">←</a><span>MOVE {} / {}</span><a href="/move?sid={id}&ply={}" aria-label="Next move">→</a><a href="/move?sid={id}&ply={}" aria-label="Last position">▶|</a></div><div class="move-list"><div class="move-list-head"><span>GAME MOVES</span><span>{} plies</span></div>{}</div></section><aside class="guess-panel">{}</aside></div>
-<div class="game-meta"><span><small>RESULT</small><b>{}</b></span><span><small>TIME CONTROL</small><b>{}</b></span><span><small>DATE</small><b>{}</b></span><span><small>ECO</small><b>{}</b></span><span>{}</span></div>
-<footer><a class="brand" href="/"><span class="brand-mark">GTE</span><span>CHESS<span class="green">PROJECT</span></span></a><span>Public archive game · rating revealed only after your guess</span><a href="/guide">How it works ↗</a></footer></main>"###,
-        if game.demo {
-            "DEMO DATA"
-        } else {
-            "CHESS.COM ARCHIVE"
-        },
-        html_escape(title),
-        render_player(
-            "black",
-            &game.black_name,
-            game.black_rating,
-            session.revealed && session.target != "white"
-        ),
-        board,
-        render_player(
-            "white",
-            &game.white_name,
-            game.white_rating,
-            session.revealed && session.target != "black"
-        ),
-        session.ply.saturating_sub(1),
-        session.ply,
-        limit,
-        session.ply.saturating_add(1).min(limit),
-        limit,
-        limit,
-        move_list,
-        sidebar,
-        html_escape(&game.result),
-        html_escape(&game.time_control),
-        html_escape(&game.date),
-        if game.eco.is_empty() {
-            "—".to_owned()
-        } else {
-            html_escape(&game.eco)
-        },
-        game_link
-    );
-    page(title, &note, &body)
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-web-render-elo-panel|web · render_elo_panel -->
-# Function page 073 of 104: `web::render_elo_panel`
-
-**Source:** `src/web.rs:480`
-
-## Responsibility
-
-Creates the rating form with inputs only for the selected side and the selected tolerance displayed.
-
-## Signature and data contract
-
-```rust
-fn render_elo_panel(session: &Session, id: &str, feedback: &str) -> String
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn render_elo_panel(session: &Session, id: &str, feedback: &str) -> String {
-    let white_input = if session.target == "black" {
-        String::new()
-    } else {
-        format!(
-            "<label>White · {}<input type=number min=0 max=4000 name=white placeholder=\"Your guess\" required></label>",
-            html_escape(&session.game.white_name)
-        )
-    };
-    let black_input = if session.target == "white" {
-        String::new()
-    } else {
-        format!(
-            "<label>Black · {}<input type=number min=0 max=4000 name=black placeholder=\"Your guess\" required></label>",
-            html_escape(&session.game.black_name)
-        )
-    };
-    let answer_area = if session.revealed {
-        feedback.to_owned()
-    } else {
-        String::new()
-    };
-    format!(
-        r###"<div class="panel-kicker"><span class="mode-icon small-icon">♟</span><span>MAKE YOUR CALL</span></div><h2>What are their<br>ratings?</h2><p class="panel-description">Pick a number for each player you want to guess. Your difficulty window is <strong>±{}</strong>.</p><div class="difficulty-pill">{} DIFFICULTY <span>±{}</span></div><form class="guess-form" action="/guess-elo" method="get"><input type="hidden" name="sid" value="{}">{}{}<button class="button button-green full" type="submit">Reveal the ratings <span>→</span></button></form>{}<div class="mode-selector-label">YOUR SETTINGS</div><div class="settings-chips"><span>{}</span><span>{}</span></div><a class="demo-link" href="/new">Try another game <span>↗</span></a>"###,
-        crate::chess::rating_tolerance(&session.difficulty),
-        session.difficulty.to_ascii_uppercase(),
-        crate::chess::rating_tolerance(&session.difficulty),
-        id,
-        white_input,
-        black_input,
-        answer_area,
-        session.target.to_ascii_uppercase(),
-        session.difficulty.to_ascii_uppercase()
-    )
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-web-render-opening-panel|web · render_opening_panel -->
-# Function page 074 of 104: `web::render_opening_panel`
-
-**Source:** `src/web.rs:516`
-
-## Responsibility
-
-Builds the opening answer form and shows the visible short sequence of SAN moves.
-
-## Signature and data contract
-
-```rust
-fn render_opening_panel(session: &Session, id: &str, feedback: &str) -> String
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn render_opening_panel(session: &Session, id: &str, feedback: &str) -> String {
-    let feedback = if session.revealed {
-        feedback.to_owned()
-    } else {
-        String::new()
-    };
-    format!(
-        r###"<div class="panel-kicker"><span class="mode-icon small-icon">⌁</span><span>NAME THAT OPENING</span></div><h2>What opening<br>is this?</h2><p class="panel-description">The board is paused after the first few moves. Enter the opening name you recognize.</p><div class="sequence-card"><span>POSITION AFTER</span><strong>{} plies</strong><div>{}</div></div><form class="guess-form" action="/guess-opening" method="get"><input type="hidden" name="sid" value="{}"><label>Your opening guess<input name="guess" placeholder="e.g. Italian Game" autocomplete="off" required></label><button class="button button-green full" type="submit">Check my answer <span>→</span></button></form>{}<div class="opening-tip">Capitalization and extra spaces don't matter.</div><a class="demo-link" href="/new">Try another game <span>↗</span></a>"###,
-        session.ply,
-        html_escape(&opening_sequence(&session.game)),
-        id,
-        feedback
-    )
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-web-render-player|web · render_player -->
-# Function page 075 of 104: `web::render_player`
-
-**Source:** `src/web.rs:531`
-
-## Responsibility
-
-Renders a player row while hiding its rating until the round's reveal state permits it.
-
-## Signature and data contract
-
-```rust
-fn render_player(color: &str, name: &str, rating: Option<i32>, revealed: bool) -> String
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn render_player(color: &str, name: &str, rating: Option<i32>, revealed: bool) -> String {
-    let (icon, class, label) = if color == "white" {
-        ("♙", "white-dot", "White")
-    } else {
-        ("♟", "black-dot", "Black")
-    };
-    let rating_text = if revealed {
-        rating
-            .map(|value| format!("Rating · {value}"))
-            .unwrap_or_else(|| "Rating unavailable".to_owned())
-    } else {
-        "Rating hidden".to_owned()
-    };
-    let visible_rating = if revealed {
-        String::new()
-    } else {
-        "•••".to_owned()
-    };
-    format!(
-        "<div class=\"player-line\"><span class=\"piece-dot {class}\">{icon}</span><div><strong>{}</strong><small>{label} · {}</small></div><span class=\"rating-lock\">{visible_rating}</span></div>",
-        html_escape(name),
-        html_escape(&rating_text)
-    )
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-web-opening-sequence|web · opening_sequence -->
-# Function page 076 of 104: `web::opening_sequence`
-
-**Source:** `src/web.rs:556`
-
-## Responsibility
-
-Formats up to eight stored SAN plies into conventional numbered chess notation.
-
-## Signature and data contract
-
-```rust
-fn opening_sequence(game: &ChessGame) -> String
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn opening_sequence(game: &ChessGame) -> String {
-    let mut sequence = String::new();
-    for (index, san) in game.moves.iter().take(8).enumerate() {
-        if index % 2 == 0 {
-            sequence.push_str(&format!("{}.", index / 2 + 1));
-        }
-        sequence.push(' ');
-        sequence.push_str(san);
-    }
-    sequence.trim().to_owned()
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-web-max-ply|web · max_ply -->
-# Function page 077 of 104: `web::max_ply`
-
-**Source:** `src/web.rs:568`
-
-## Responsibility
-
-Applies the mode rule that opening rounds show at most eight plies while Elo can show the full game.
-
-## Signature and data contract
-
-```rust
-fn max_ply(session: &Session) -> usize
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn max_ply(session: &Session) -> usize {
-    let game_count = session.game.ply_count();
-    if session.mode == GameMode::Opening {
-        game_count.min(8)
-    } else {
-        game_count
-    }
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-web-render-move-list|web · render_move_list -->
-# Function page 078 of 104: `web::render_move_list`
-
-**Source:** `src/web.rs:577`
-
-## Responsibility
-
-Turns each visible SAN token into a navigation link and marks the selected ply.
-
-## Signature and data contract
-
-```rust
-fn render_move_list(
-        game: &ChessGame,
-        id: &str,
-        selected_ply: usize,
-        visible_plies: usize,
-    ) -> String
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn render_move_list(
-    game: &ChessGame,
-    id: &str,
-    selected_ply: usize,
-    visible_plies: usize,
-) -> String {
-    if game.moves.is_empty() {
-        return "<p class=\"muted\">No readable moves in this PGN.</p>".to_owned();
-    }
-    let mut output = String::from("<div class=\"move-grid\">");
-    for (index, san) in game.moves.iter().take(visible_plies).enumerate() {
-        let ply = index + 1;
-        let move_number = (index / 2) + 1;
-        let class = if ply == selected_ply {
-            "move-token selected"
-        } else {
-            "move-token"
-        };
-        if index % 2 == 0 {
-            output.push_str(&format!(
-                "<span class=\"move-number\">{move_number}.</span>"
-            ));
-        }
-        output.push_str(&format!(
-            "<a class=\"{class}\" href=\"/move?sid={id}&amp;ply={ply}\">{}</a>",
-            html_escape(san)
-        ));
-    }
-    output.push_str("</div>");
-    output
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-web-render-board|web · render_board -->
-# Function page 079 of 104: `web::render_board`
-
-**Source:** `src/web.rs:609`
-
-## Responsibility
-
-Converts all 64 board cells into labeled squares for the accessible full board.
-
-## Signature and data contract
-
-```rust
-fn render_board(position: &[char; 64]) -> String
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn render_board(position: &[char; 64]) -> String {
-    let mut output =
-        String::from("<div class=\"board\" role=\"img\" aria-label=\"Chess position\">");
-    for row in 0..8 {
-        for column in 0..8 {
-            let piece = position[row * 8 + column];
-            let square = if (row + column) % 2 == 0 {
-                "light-square"
-            } else {
-                "dark-square"
-            };
-            let symbol = chess_symbol(piece);
-            let label = if piece == '.' {
-                "empty".to_owned()
-            } else {
-                format!(
-                    "{} on {}{}",
-                    piece_name(piece),
-                    (b'a' + column as u8) as char,
-                    8 - row
-                )
-            };
-            output.push_str(&format!(
-                "<div class=\"square {square}\" aria-label=\"{}\">{symbol}</div>",
-                html_escape(&label)
-            ));
-        }
-    }
-    output.push_str("</div>");
-    output
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-web-mini-board|web · mini_board -->
-# Function page 080 of 104: `web::mini_board`
-
-**Source:** `src/web.rs:641`
-
-## Responsibility
-
-Renders the compact decorative board used on the home page.
-
-## Signature and data contract
-
-```rust
-fn mini_board(position: &[char; 64]) -> String
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn mini_board(position: &[char; 64]) -> String {
-    let mut output = String::from("<div class=\"mini-board-grid\">");
-    for row in 0..8 {
-        for column in 0..8 {
-            let piece = position[row * 8 + column];
-            let square = if (row + column) % 2 == 0 {
-                "light-square"
-            } else {
-                "dark-square"
-            };
-            output.push_str(&format!(
-                "<div class=\"square {square}\">{}</div>",
-                chess_symbol(piece)
-            ));
-        }
-    }
-    output.push_str("</div>");
-    output
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-web-chess-symbol|web · chess_symbol -->
-# Function page 081 of 104: `web::chess_symbol`
-
-**Source:** `src/web.rs:661`
-
-## Responsibility
-
-Maps internal piece letters to Unicode chess glyphs, returning an empty string for empty squares.
-
-## Signature and data contract
-
-```rust
-fn chess_symbol(piece: char) -> &'static str
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn chess_symbol(piece: char) -> &'static str {
-    match piece {
-        'K' => "♔",
-        'Q' => "♕",
-        'R' => "♖",
-        'B' => "♗",
-        'N' => "♘",
-        'P' => "♙",
-        'k' => "♚",
-        'q' => "♛",
-        'r' => "♜",
-        'b' => "♝",
-        'n' => "♞",
-        'p' => "♟",
-        _ => "",
-    }
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-web-piece-name|web · piece_name -->
-# Function page 082 of 104: `web::piece_name`
-
-**Source:** `src/web.rs:679`
-
-## Responsibility
-
-Maps an internal piece letter to a spoken accessibility label.
-
-## Signature and data contract
-
-```rust
-fn piece_name(piece: char) -> &'static str
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn piece_name(piece: char) -> &'static str {
-    match piece.to_ascii_uppercase() {
-        'K' => "king",
-        'Q' => "queen",
-        'R' => "rook",
-        'B' => "bishop",
-        'N' => "knight",
-        _ => "pawn",
-    }
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-web-book-chapters|web · book_chapters -->
-# Function page 083 of 104: `web::book_chapters`
-
-**Source:** `src/web.rs:761`
+**Source:** `src/web/book/catalog.rs:75`
 
 ## Responsibility
 
@@ -4573,17 +3734,17 @@ Builds the complete Guidebook catalog from its stable chapter files and the gene
 ## Signature and data contract
 
 ```rust
-fn book_chapters() -> &'static [BookChapter]
+pub(in crate::web) fn book_chapters() -> &'static [BookChapter]
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-fn book_chapters() -> &'static [BookChapter] {
+pub(in crate::web) fn book_chapters() -> &'static [BookChapter] {
     static CHAPTERS: OnceLock<Vec<BookChapter>> = OnceLock::new();
     CHAPTERS.get_or_init(|| {
         let mut chapters: Vec<BookChapter> = BASE_BOOK_CHAPTERS
@@ -4622,14 +3783,18 @@ fn book_chapters() -> &'static [BookChapter] {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `web::book::catalog` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`book_chapter_index`](/guide/function-web-book-catalog-book-chapter-index).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-web-book-chapter-index|web · book_chapter_index -->
-# Function page 084 of 104: `web::book_chapter_index`
+<!-- GTE_FUNCTION_PAGE: function-web-book-catalog-book-chapter-index|web::book::catalog · book_chapter_index -->
+# Function page 068 of 111: `web::book::catalog::book_chapter_index`
 
-**Source:** `src/web.rs:797`
+**Source:** `src/web/book/catalog.rs:111`
 
 ## Responsibility
 
@@ -4638,17 +3803,17 @@ Finds the Guidebook page index for a URL slug.
 ## Signature and data contract
 
 ```rust
-fn book_chapter_index(slug: &str) -> Option<usize>
+pub(in crate::web) fn book_chapter_index(slug: &str) -> Option<usize>
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-fn book_chapter_index(slug: &str) -> Option<usize> {
+pub(in crate::web) fn book_chapter_index(slug: &str) -> Option<usize> {
     book_chapters()
         .iter()
         .position(|chapter| chapter.slug == slug)
@@ -4657,132 +3822,147 @@ fn book_chapter_index(slug: &str) -> Option<usize> {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `web::book::catalog` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`book_chapters`](/guide/function-web-book-catalog-book-chapters).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-web-render-book|web · render_book -->
-# Function page 085 of 104: `web::render_book`
+<!-- GTE_FUNCTION_PAGE: function-web-book-inline-inline-markdown|web::book::inline · inline_markdown -->
+# Function page 069 of 111: `web::book::inline::inline_markdown`
 
-**Source:** `src/web.rs:803`
+**Source:** `src/web/book/inline.rs:4`
 
 ## Responsibility
 
-Builds the Guidebook sidebar, active reading page, breadcrumb, and previous/next navigation.
+Escapes text and recognizes only inline code, strong emphasis, and validated links.
 
 ## Signature and data contract
 
 ```rust
-fn render_book(slug: &str) -> String
+pub(super) fn inline_markdown(text: &str) -> String
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-fn render_book(slug: &str) -> String {
-    let Some(index) = book_chapter_index(slug) else {
-        return String::new();
-    };
-    let chapters = book_chapters();
-    let chapter = &chapters[index];
-    let mut sidebar = String::new();
-    for (chapter_index, item) in chapters.iter().enumerate() {
-        let active = if chapter_index == index {
-            " class=\"active\" aria-current=\"page\""
-        } else {
-            ""
-        };
-        sidebar.push_str(&format!(
-            "<a{active} href=\"/guide/{}\"><span class=\"chapter-number\">{:02}</span>{}</a>",
-            item.slug,
-            chapter_index + 1,
-            html_escape(&item.title)
-        ));
+pub(super) fn inline_markdown(text: &str) -> String {
+    let mut output = String::new();
+    let mut index = 0;
+    while index < text.len() {
+        let tail = &text[index..];
+        if let Some(code) = tail.strip_prefix('`') {
+            if let Some(end) = code.find('`') {
+                output.push_str(&format!("<code>{}</code>", html_escape(&code[..end])));
+                index += end + 2;
+                continue;
+            }
+        }
+        if let Some(strong) = tail.strip_prefix("**") {
+            if let Some(end) = strong.find("**") {
+                output.push_str(&format!(
+                    "<strong>{}</strong>",
+                    inline_markdown(&strong[..end])
+                ));
+                index += end + 4;
+                continue;
+            }
+        }
+        if let Some(link) = tail.strip_prefix('[') {
+            if let Some(label_end) = link.find("](") {
+                let target_start = label_end + 2;
+                if let Some(target_end) = link[target_start..].find(')') {
+                    let label = &link[..label_end];
+                    let target = &link[target_start..target_start + target_end];
+                    if let Some(href) = safe_markdown_href(target) {
+                        output.push_str(&format!(
+                            "<a href=\"{}\">{}</a>",
+                            html_escape(&href),
+                            inline_markdown(label)
+                        ));
+                    } else {
+                        output.push_str(&inline_markdown(label));
+                    }
+                    index += target_start + target_end + 2;
+                    continue;
+                }
+            }
+        }
+        let character = tail.chars().next().expect("index is before the end");
+        output.push_str(&html_escape(&character.to_string()));
+        index += character.len_utf8();
     }
-    let previous = index.checked_sub(1).map(|previous_index| {
-        let item = &chapters[previous_index];
-        format!(
-            "<a class=\"chapter-card previous\" href=\"/guide/{}\"><small>PREVIOUS</small><span>← {}</span></a>",
-            item.slug,
-            html_escape(&item.title)
-        )
-    }).unwrap_or_else(|| "<span></span>".to_owned());
-    let next = chapters.get(index + 1).map(|item| {
-        format!(
-            "<a class=\"chapter-card next\" href=\"/guide/{}\"><small>NEXT</small><span>{} →</span></a>",
-            item.slug,
-            html_escape(&item.title)
-        )
-    }).unwrap_or_default();
-    let body = format!(
-        "<header class=\"book-header\"><a class=\"book-brand\" href=\"/guide\"><span class=\"book-mark\">GTE</span><span><strong>The GTE Book</strong><small>Rust app walkthrough</small></span></a><div class=\"book-header-title\">{}</div><a class=\"book-download pdf-download\" href=\"/guide/functions.pdf\" download>Download Function Appendix PDF ↓</a><a class=\"book-download\" href=\"/guide/download\" download>Download Markdown ↓</a><a class=\"book-app-link\" href=\"/\">Open the app <span>↗</span></a></header><div class=\"book-shell\"><aside class=\"book-sidebar\"><div class=\"sidebar-heading\">THE GTE BOOK</div><div class=\"sidebar-chapters\">{sidebar}</div><a class=\"sidebar-reference\" href=\"/guide/reference\">Open reference.md <span>↗</span></a></aside><main class=\"book-main\"><div class=\"book-breadcrumb\"><a href=\"/guide\">The GTE Book</a><span>/</span><span>{}</span></div><article class=\"book-content\">{}</article><nav class=\"chapter-navigation\" aria-label=\"Chapter navigation\">{}{}</nav><footer class=\"book-footer\"><span>GTE · A Rust chess app and learning project</span><a href=\"/\">Return to the app</a></footer></main></div>",
-        html_escape(&chapter.title),
-        html_escape(&chapter.title),
-        render_markdown(&chapter.source),
-        previous,
-        next
-    );
-    format!(
-        "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><meta name=\"theme-color\" content=\"#f7f7f5\"><title>{} · The GTE Book</title><style>{BOOK_STYLE}</style></head><body class=\"book-page\">{body}</body></html>",
-        html_escape(&chapter.title)
-    )
+    output
 }
 ```
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `web::book::inline` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`safe_markdown_href`](/guide/function-web-book-inline-safe-markdown-href).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-web-download-book-markdown|web · download_book_markdown -->
-# Function page 086 of 104: `web::download_book_markdown`
+<!-- GTE_FUNCTION_PAGE: function-web-book-inline-safe-markdown-href|web::book::inline · safe_markdown_href -->
+# Function page 070 of 111: `web::book::inline::safe_markdown_href`
 
-**Source:** `src/web.rs:852`
+**Source:** `src/web/book/inline.rs:53`
 
 ## Responsibility
 
-Concatenates the embedded Guidebook pages into the downloadable Markdown edition.
+Allows a small set of safe external and local links and rewrites reference.md anchors.
 
 ## Signature and data contract
 
 ```rust
-fn download_book_markdown() -> String
+fn safe_markdown_href(target: &str) -> Option<String>
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-fn download_book_markdown() -> String {
-    let mut markdown =
-        String::from("# The GTE Book\n\nA Rust chess app and terminal learning project.\n");
-    for chapter in book_chapters() {
-        markdown.push_str("\n\n---\n\n");
-        markdown.push_str(chapter.source.trim());
-        markdown.push('\n');
+fn safe_markdown_href(target: &str) -> Option<String> {
+    if target.starts_with("https://")
+        || target.starts_with("http://")
+        || target.starts_with("/guide")
+        || target.starts_with('#')
+    {
+        Some(target.to_owned())
+    } else if let Some(fragment) = target.strip_prefix("reference.md") {
+        Some(format!("/guide/reference{fragment}"))
+    } else {
+        None
     }
-    markdown
 }
 ```
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `web::book::inline` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`inline_markdown`](/guide/function-web-book-inline-inline-markdown).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-web-render-markdown|web · render_markdown -->
-# Function page 087 of 104: `web::render_markdown`
+<!-- GTE_FUNCTION_PAGE: function-web-book-markdown-render-markdown|web::book::markdown · render_markdown -->
+# Function page 071 of 111: `web::book::markdown::render_markdown`
 
-**Source:** `src/web.rs:863`
+**Source:** `src/web/book/markdown.rs:8`
 
 ## Responsibility
 
@@ -4791,17 +3971,17 @@ Converts the documented Markdown subset into HTML while tracking paragraphs, lis
 ## Signature and data contract
 
 ```rust
-fn render_markdown(source: &str) -> String
+pub(super) fn render_markdown(source: &str) -> String
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-fn render_markdown(source: &str) -> String {
+pub(super) fn render_markdown(source: &str) -> String {
     let mut output = String::new();
     let mut paragraph = Vec::new();
     let mut list_kind: Option<bool> = None;
@@ -4889,14 +4069,18 @@ fn render_markdown(source: &str) -> String {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `web::book::markdown` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`flush_markdown_paragraph`](/guide/function-web-book-markdown-flush-markdown-paragraph), [`open_markdown_list`](/guide/function-web-book-markdown-open-markdown-list), [`close_markdown_list`](/guide/function-web-book-markdown-close-markdown-list), [`markdown_heading`](/guide/function-web-book-markdown-markdown-heading), [`heading_slug`](/guide/function-web-book-markdown-heading-slug).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-web-flush-markdown-paragraph|web · flush_markdown_paragraph -->
-# Function page 088 of 104: `web::flush_markdown_paragraph`
+<!-- GTE_FUNCTION_PAGE: function-web-book-markdown-flush-markdown-paragraph|web::book::markdown · flush_markdown_paragraph -->
+# Function page 072 of 111: `web::book::markdown::flush_markdown_paragraph`
 
-**Source:** `src/web.rs:948`
+**Source:** `src/web/book/markdown.rs:93`
 
 ## Responsibility
 
@@ -4908,11 +4092,11 @@ Joins a pending paragraph's wrapped source lines and emits one escaped HTML para
 fn flush_markdown_paragraph(paragraph: &mut Vec<String>, output: &mut String)
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
 fn flush_markdown_paragraph(paragraph: &mut Vec<String>, output: &mut String) {
@@ -4927,14 +4111,18 @@ fn flush_markdown_paragraph(paragraph: &mut Vec<String>, output: &mut String) {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `web::book::markdown` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`render_markdown`](/guide/function-web-book-markdown-render-markdown), [`open_markdown_list`](/guide/function-web-book-markdown-open-markdown-list), [`close_markdown_list`](/guide/function-web-book-markdown-close-markdown-list), [`markdown_heading`](/guide/function-web-book-markdown-markdown-heading), [`heading_slug`](/guide/function-web-book-markdown-heading-slug).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-web-open-markdown-list|web · open_markdown_list -->
-# Function page 089 of 104: `web::open_markdown_list`
+<!-- GTE_FUNCTION_PAGE: function-web-book-markdown-open-markdown-list|web::book::markdown · open_markdown_list -->
+# Function page 073 of 111: `web::book::markdown::open_markdown_list`
 
-**Source:** `src/web.rs:957`
+**Source:** `src/web/book/markdown.rs:102`
 
 ## Responsibility
 
@@ -4946,11 +4134,11 @@ Opens an ordered or unordered list, closing a prior list if its kind changed.
 fn open_markdown_list(ordered: bool, current: &mut Option<bool>, output: &mut String)
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
 fn open_markdown_list(ordered: bool, current: &mut Option<bool>, output: &mut String) {
@@ -4965,14 +4153,18 @@ fn open_markdown_list(ordered: bool, current: &mut Option<bool>, output: &mut St
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `web::book::markdown` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`render_markdown`](/guide/function-web-book-markdown-render-markdown), [`flush_markdown_paragraph`](/guide/function-web-book-markdown-flush-markdown-paragraph), [`close_markdown_list`](/guide/function-web-book-markdown-close-markdown-list), [`markdown_heading`](/guide/function-web-book-markdown-markdown-heading), [`heading_slug`](/guide/function-web-book-markdown-heading-slug).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-web-close-markdown-list|web · close_markdown_list -->
-# Function page 090 of 104: `web::close_markdown_list`
+<!-- GTE_FUNCTION_PAGE: function-web-book-markdown-close-markdown-list|web::book::markdown · close_markdown_list -->
+# Function page 074 of 111: `web::book::markdown::close_markdown_list`
 
-**Source:** `src/web.rs:966`
+**Source:** `src/web/book/markdown.rs:111`
 
 ## Responsibility
 
@@ -4984,11 +4176,11 @@ Closes the currently open Markdown list, if there is one.
 fn close_markdown_list(current: &mut Option<bool>, output: &mut String)
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
 fn close_markdown_list(current: &mut Option<bool>, output: &mut String) {
@@ -5002,14 +4194,18 @@ fn close_markdown_list(current: &mut Option<bool>, output: &mut String) {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `web::book::markdown` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`render_markdown`](/guide/function-web-book-markdown-render-markdown), [`flush_markdown_paragraph`](/guide/function-web-book-markdown-flush-markdown-paragraph), [`open_markdown_list`](/guide/function-web-book-markdown-open-markdown-list), [`markdown_heading`](/guide/function-web-book-markdown-markdown-heading), [`heading_slug`](/guide/function-web-book-markdown-heading-slug).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-web-markdown-heading|web · markdown_heading -->
-# Function page 091 of 104: `web::markdown_heading`
+<!-- GTE_FUNCTION_PAGE: function-web-book-markdown-markdown-heading|web::book::markdown · markdown_heading -->
+# Function page 075 of 111: `web::book::markdown::markdown_heading`
 
-**Source:** `src/web.rs:974`
+**Source:** `src/web/book/markdown.rs:119`
 
 ## Responsibility
 
@@ -5021,11 +4217,11 @@ Recognizes one through six leading Markdown heading markers followed by a space.
 fn markdown_heading(line: &str) -> Option<(usize, &str)>
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
 fn markdown_heading(line: &str) -> Option<(usize, &str)> {
@@ -5042,14 +4238,18 @@ fn markdown_heading(line: &str) -> Option<(usize, &str)> {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `web::book::markdown` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`render_markdown`](/guide/function-web-book-markdown-render-markdown), [`flush_markdown_paragraph`](/guide/function-web-book-markdown-flush-markdown-paragraph), [`open_markdown_list`](/guide/function-web-book-markdown-open-markdown-list), [`close_markdown_list`](/guide/function-web-book-markdown-close-markdown-list), [`heading_slug`](/guide/function-web-book-markdown-heading-slug).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-web-heading-slug|web · heading_slug -->
-# Function page 092 of 104: `web::heading_slug`
+<!-- GTE_FUNCTION_PAGE: function-web-book-markdown-heading-slug|web::book::markdown · heading_slug -->
+# Function page 076 of 111: `web::book::markdown::heading_slug`
 
-**Source:** `src/web.rs:985`
+**Source:** `src/web/book/markdown.rs:130`
 
 ## Responsibility
 
@@ -5061,11 +4261,11 @@ Builds a stable fragment id from lowercase alphanumeric heading text.
 fn heading_slug(heading: &str) -> String
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
 fn heading_slug(heading: &str) -> String {
@@ -5091,174 +4291,756 @@ fn heading_slug(heading: &str) -> String {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `web::book::markdown` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`render_markdown`](/guide/function-web-book-markdown-render-markdown), [`flush_markdown_paragraph`](/guide/function-web-book-markdown-flush-markdown-paragraph), [`open_markdown_list`](/guide/function-web-book-markdown-open-markdown-list), [`close_markdown_list`](/guide/function-web-book-markdown-close-markdown-list), [`markdown_heading`](/guide/function-web-book-markdown-markdown-heading).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-web-inline-markdown|web · inline_markdown -->
-# Function page 093 of 104: `web::inline_markdown`
+<!-- GTE_FUNCTION_PAGE: function-web-book-reader-render-book|web::book::reader · render_book -->
+# Function page 077 of 111: `web::book::reader::render_book`
 
-**Source:** `src/web.rs:1005`
+**Source:** `src/web/book/reader.rs:8`
 
 ## Responsibility
 
-Escapes text and recognizes only inline code, strong emphasis, and validated links.
+Builds the Guidebook sidebar, active reading page, breadcrumb, and previous/next navigation.
 
 ## Signature and data contract
 
 ```rust
-fn inline_markdown(text: &str) -> String
+pub(in crate::web) fn render_book(slug: &str) -> String
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-fn inline_markdown(text: &str) -> String {
-    let mut output = String::new();
-    let mut index = 0;
-    while index < text.len() {
-        let tail = &text[index..];
-        if let Some(code) = tail.strip_prefix('`') {
-            if let Some(end) = code.find('`') {
-                output.push_str(&format!("<code>{}</code>", html_escape(&code[..end])));
-                index += end + 2;
-                continue;
-            }
-        }
-        if let Some(strong) = tail.strip_prefix("**") {
-            if let Some(end) = strong.find("**") {
-                output.push_str(&format!(
-                    "<strong>{}</strong>",
-                    inline_markdown(&strong[..end])
-                ));
-                index += end + 4;
-                continue;
-            }
-        }
-        if let Some(link) = tail.strip_prefix('[') {
-            if let Some(label_end) = link.find("](") {
-                let target_start = label_end + 2;
-                if let Some(target_end) = link[target_start..].find(')') {
-                    let label = &link[..label_end];
-                    let target = &link[target_start..target_start + target_end];
-                    if let Some(href) = safe_markdown_href(target) {
-                        output.push_str(&format!(
-                            "<a href=\"{}\">{}</a>",
-                            html_escape(&href),
-                            inline_markdown(label)
-                        ));
-                    } else {
-                        output.push_str(&inline_markdown(label));
-                    }
-                    index += target_start + target_end + 2;
-                    continue;
-                }
-            }
-        }
-        let character = tail.chars().next().expect("index is before the end");
-        output.push_str(&html_escape(&character.to_string()));
-        index += character.len_utf8();
+pub(in crate::web) fn render_book(slug: &str) -> String {
+    let Some(index) = book_chapter_index(slug) else {
+        return String::new();
+    };
+    let chapters = book_chapters();
+    let chapter = &chapters[index];
+    let mut sidebar = String::new();
+    for (chapter_index, item) in chapters.iter().enumerate() {
+        let active = if chapter_index == index {
+            " class=\"active\" aria-current=\"page\""
+        } else {
+            ""
+        };
+        sidebar.push_str(&format!(
+            "<a{active} href=\"/guide/{}\"><span class=\"chapter-number\">{:02}</span>{}</a>",
+            item.slug,
+            chapter_index + 1,
+            html_escape(&item.title)
+        ));
     }
-    output
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-web-safe-markdown-href|web · safe_markdown_href -->
-# Function page 094 of 104: `web::safe_markdown_href`
-
-**Source:** `src/web.rs:1054`
-
-## Responsibility
-
-Allows a small set of safe external and local links and rewrites reference.md anchors.
-
-## Signature and data contract
-
-```rust
-fn safe_markdown_href(target: &str) -> Option<String>
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn safe_markdown_href(target: &str) -> Option<String> {
-    if target.starts_with("https://")
-        || target.starts_with("http://")
-        || target.starts_with("/guide")
-        || target.starts_with('#')
-    {
-        Some(target.to_owned())
-    } else if let Some(fragment) = target.strip_prefix("reference.md") {
-        Some(format!("/guide/reference{fragment}"))
-    } else {
-        None
-    }
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-web-page|web · page -->
-# Function page 095 of 104: `web::page`
-
-**Source:** `src/web.rs:1068`
-
-## Responsibility
-
-Wraps a rendered app body in the shared HTML shell and app stylesheet.
-
-## Signature and data contract
-
-```rust
-fn page(title: &str, notice: &str, body: &str) -> String
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn page(title: &str, notice: &str, body: &str) -> String {
+    let previous = index.checked_sub(1).map(|previous_index| {
+        let item = &chapters[previous_index];
+        format!(
+            "<a class=\"chapter-card previous\" href=\"/guide/{}\"><small>PREVIOUS</small><span>← {}</span></a>",
+            item.slug,
+            html_escape(&item.title)
+        )
+    }).unwrap_or_else(|| "<span></span>".to_owned());
+    let next = chapters.get(index + 1).map(|item| {
+        format!(
+            "<a class=\"chapter-card next\" href=\"/guide/{}\"><small>NEXT</small><span>{} →</span></a>",
+            item.slug,
+            html_escape(&item.title)
+        )
+    }).unwrap_or_default();
+    let body = format!(
+        include_str!("../../../assets/templates/book.html"),
+        html_escape(&chapter.title),
+        html_escape(&chapter.title),
+        render_markdown(&chapter.source),
+        previous,
+        next,
+        sidebar = sidebar,
+    );
     format!(
-        r###"<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#171815"><title>{}</title><style>{}</style></head><body>{}{}</body></html>"###,
-        html_escape(title),
-        STYLE,
-        notice,
-        body
+        include_str!("../../../assets/templates/book-page.html"),
+        html_escape(&chapter.title),
+        BOOK_STYLE = BOOK_STYLE,
+        body = body,
     )
 }
 ```
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `web::book::reader` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`download_book_markdown`](/guide/function-web-book-reader-download-book-markdown).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-web-write-response|web · write_response -->
-# Function page 096 of 104: `web::write_response`
+<!-- GTE_FUNCTION_PAGE: function-web-book-reader-download-book-markdown|web::book::reader · download_book_markdown -->
+# Function page 078 of 111: `web::book::reader::download_book_markdown`
 
-**Source:** `src/web.rs:1078`
+**Source:** `src/web/book/reader.rs:60`
+
+## Responsibility
+
+Concatenates the embedded Guidebook pages into the downloadable Markdown edition.
+
+## Signature and data contract
+
+```rust
+pub(in crate::web) fn download_book_markdown() -> String
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub(in crate::web) fn download_book_markdown() -> String {
+    let mut markdown =
+        String::from("# The GTE Book\n\nA Rust chess app and terminal learning project.\n");
+    for chapter in book_chapters() {
+        markdown.push_str("\n\n---\n\n");
+        markdown.push_str(chapter.source.trim());
+        markdown.push('\n');
+    }
+    markdown
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `web::book::reader` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`render_book`](/guide/function-web-book-reader-render-book).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-web-handlers-guesses-submit-elo-guess|web::handlers::guesses · submit_elo_guess -->
+# Function page 079 of 111: `web::handlers::guesses::submit_elo_guess`
+
+**Source:** `src/web/handlers/guesses.rs:8`
+
+## Responsibility
+
+Scores only the requested player side or sides and marks the session's ratings revealed.
+
+## Signature and data contract
+
+```rust
+pub(in crate::web) fn submit_elo_guess(params: &HashMap<String, String>) -> HttpResponse
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub(in crate::web) fn submit_elo_guess(params: &HashMap<String, String>) -> HttpResponse {
+    let Some(id) = params.get("sid") else {
+        return HttpResponse::Page(render_home(
+            "This game session has expired. Start a new round.",
+        ));
+    };
+    let mut store = match sessions().lock() {
+        Ok(store) => store,
+        Err(_) => {
+            return HttpResponse::Page(render_home("The local game session could not be read."));
+        }
+    };
+    let Some(session) = store.get_mut(id) else {
+        return HttpResponse::Page(render_home(
+            "This game session has expired. Start a new round.",
+        ));
+    };
+    if session.mode != GameMode::Elo {
+        return HttpResponse::Redirect(format!("/play?sid={}", html_escape(id)));
+    }
+
+    let mut lines = Vec::new();
+    if session.target != "black" {
+        score_one(
+            &mut lines,
+            "White",
+            params.get("white").map(String::as_str).unwrap_or_default(),
+            session.game.white_rating,
+            &session.difficulty,
+        );
+    }
+    if session.target != "white" {
+        score_one(
+            &mut lines,
+            "Black",
+            params.get("black").map(String::as_str).unwrap_or_default(),
+            session.game.black_rating,
+            &session.difficulty,
+        );
+    }
+    session.feedback = lines.join("<br>");
+    session.revealed = true;
+    HttpResponse::Redirect(format!("/play?sid={}", html_escape(id)))
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `web::handlers::guesses` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`score_one`](/guide/function-web-handlers-guesses-score-one), [`submit_opening_guess`](/guide/function-web-handlers-guesses-submit-opening-guess).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-web-handlers-guesses-score-one|web::handlers::guesses · score_one -->
+# Function page 080 of 111: `web::handlers::guesses::score_one`
+
+**Source:** `src/web/handlers/guesses.rs:53`
+
+## Responsibility
+
+Validates one numeric guess, handles missing ratings, computes error, and appends tolerance feedback.
+
+## Signature and data contract
+
+```rust
+fn score_one(
+    lines: &mut Vec<String>,
+    color: &str,
+    raw_guess: &str,
+    actual: Option<i32>,
+    difficulty: &str,
+)
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+fn score_one(
+    lines: &mut Vec<String>,
+    color: &str,
+    raw_guess: &str,
+    actual: Option<i32>,
+    difficulty: &str,
+) {
+    let Some(guess) = raw_guess
+        .trim()
+        .parse::<i32>()
+        .ok()
+        .filter(|value| (0..=4000).contains(value))
+    else {
+        lines.push(format!("{color}: enter a numeric rating guess."));
+        return;
+    };
+    let Some(actual) = actual else {
+        lines.push(format!(
+            "{color}: no rating was included with this game record."
+        ));
+        return;
+    };
+    let error = (guess - actual).abs();
+    let outcome = if rating_is_close(guess, actual, difficulty) {
+        "inside tolerance"
+    } else {
+        "outside tolerance"
+    };
+    lines.push(format!(
+        "{color}: you guessed {guess}; actual rating {actual}; off by {error} · {outcome}."
+    ));
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `web::handlers::guesses` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`submit_elo_guess`](/guide/function-web-handlers-guesses-submit-elo-guess), [`submit_opening_guess`](/guide/function-web-handlers-guesses-submit-opening-guess).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-web-handlers-guesses-submit-opening-guess|web::handlers::guesses · submit_opening_guess -->
+# Function page 081 of 111: `web::handlers::guesses::submit_opening_guess`
+
+**Source:** `src/web/handlers/guesses.rs:86`
+
+## Responsibility
+
+Validates the active mode, normalizes the answer through chess.rs, and stores the revealed result.
+
+## Signature and data contract
+
+```rust
+pub(in crate::web) fn submit_opening_guess(params: &HashMap<String, String>) -> HttpResponse
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub(in crate::web) fn submit_opening_guess(params: &HashMap<String, String>) -> HttpResponse {
+    let Some(id) = params.get("sid") else {
+        return HttpResponse::Page(render_home(
+            "This game session has expired. Start a new round.",
+        ));
+    };
+    let mut store = match sessions().lock() {
+        Ok(store) => store,
+        Err(_) => {
+            return HttpResponse::Page(render_home("The local game session could not be read."));
+        }
+    };
+    let Some(session) = store.get_mut(id) else {
+        return HttpResponse::Page(render_home(
+            "This game session has expired. Start a new round.",
+        ));
+    };
+    if session.mode != GameMode::Opening {
+        return HttpResponse::Redirect(format!("/play?sid={}", html_escape(id)));
+    }
+    let guess = params.get("guess").map(String::as_str).unwrap_or_default();
+    session.feedback = if opening_matches(guess, &session.game.opening) {
+        format!(
+            "Correct — the opening is {}.",
+            html_escape(&session.game.opening)
+        )
+    } else if guess.trim().is_empty() {
+        "Enter an opening name before submitting.".to_owned()
+    } else {
+        format!(
+            "Not quite. The opening is {}.",
+            html_escape(&session.game.opening)
+        )
+    };
+    session.revealed = true;
+    HttpResponse::Redirect(format!("/play?sid={}", html_escape(id)))
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `web::handlers::guesses` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`submit_elo_guess`](/guide/function-web-handlers-guesses-submit-elo-guess), [`score_one`](/guide/function-web-handlers-guesses-score-one).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-web-handlers-navigation-render-session|web::handlers::navigation · render_session -->
+# Function page 082 of 111: `web::handlers::navigation::render_session`
+
+**Source:** `src/web/handlers/navigation.rs:7`
+
+## Responsibility
+
+Looks up a session id and renders the saved game or explains that the session is unavailable.
+
+## Signature and data contract
+
+```rust
+pub(in crate::web) fn render_session(params: &HashMap<String, String>) -> HttpResponse
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub(in crate::web) fn render_session(params: &HashMap<String, String>) -> HttpResponse {
+    let Some(id) = params.get("sid") else {
+        return HttpResponse::Page(render_home(
+            "This game session has expired. Start a new round.",
+        ));
+    };
+    match sessions().lock() {
+        Ok(store) => match store.get(id) {
+            Some(session) => HttpResponse::Page(render_game(session, id)),
+            None => HttpResponse::Page(render_home(
+                "This game session has expired. Start a new round.",
+            )),
+        },
+        Err(_) => HttpResponse::Page(render_home(
+            "The local game session could not be read. Start a new round.",
+        )),
+    }
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `web::handlers::navigation` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`update_move`](/guide/function-web-handlers-navigation-update-move).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-web-handlers-navigation-update-move|web::handlers::navigation · update_move -->
+# Function page 083 of 111: `web::handlers::navigation::update_move`
+
+**Source:** `src/web/handlers/navigation.rs:26`
+
+## Responsibility
+
+Parses and clamps the requested ply, clears stale feedback, then redirects to the session page.
+
+## Signature and data contract
+
+```rust
+pub(in crate::web) fn update_move(params: &HashMap<String, String>) -> HttpResponse
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub(in crate::web) fn update_move(params: &HashMap<String, String>) -> HttpResponse {
+    let Some(id) = params.get("sid") else {
+        return HttpResponse::Page(render_home(
+            "This game session has expired. Start a new round.",
+        ));
+    };
+    if let Ok(mut store) = sessions().lock() {
+        if let Some(session) = store.get_mut(id) {
+            let requested = params
+                .get("ply")
+                .and_then(|value| value.parse::<usize>().ok())
+                .unwrap_or(session.ply);
+            session.ply = requested.min(max_ply(session));
+            session.feedback.clear();
+        }
+    }
+    HttpResponse::Redirect(format!("/play?sid={}", html_escape(id)))
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `web::handlers::navigation` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`render_session`](/guide/function-web-handlers-navigation-render-session).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-web-handlers-setup-load-game|web::handlers::setup · load_game -->
+# Function page 084 of 111: `web::handlers::setup::load_game`
+
+**Source:** `src/web/handlers/setup.rs:10`
+
+## Responsibility
+
+Normalizes the round settings, selects demo/archive/link data, and keeps a user-readable API fallback notice.
+
+## Signature and data contract
+
+```rust
+pub(in crate::web) fn load_game(params: &HashMap<String, String>) -> HttpResponse
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub(in crate::web) fn load_game(params: &HashMap<String, String>) -> HttpResponse {
+    let mode = if params.get("mode").map(String::as_str) == Some("opening") {
+        GameMode::Opening
+    } else {
+        GameMode::Elo
+    };
+    let difficulty = params
+        .get("difficulty")
+        .map(|value| normalize_difficulty(value))
+        .unwrap_or_else(|| "medium".to_owned());
+    let target = params
+        .get("target")
+        .map(|value| normalize_target(value))
+        .unwrap_or_else(|| "both".to_owned());
+    let username = params.get("username").map(String::as_str).unwrap_or("erik");
+    let source = params.get("source").map(String::as_str).unwrap_or("demo");
+
+    let (game, note) = match source {
+        "random" => match api::random_public_game(username) {
+            Ok(game) => (game, String::new()),
+            Err(error) => (
+                ChessGame::demo(),
+                format!("API fallback: {error} The included sample game is shown instead."),
+            ),
+        },
+        "link" => {
+            let url = params.get("url").map(String::as_str).unwrap_or_default();
+            match api::game_from_archive_link(username, url) {
+                Ok(game) => (game, String::new()),
+                Err(error) => (
+                    ChessGame::demo(),
+                    format!(
+                        "Game link unavailable: {error} Demo data is shown so you can still explore the board."
+                    ),
+                ),
+            }
+        }
+        _ => (
+            ChessGame::demo(),
+            "Demo data · this built-in game works without a network connection.".to_owned(),
+        ),
+    };
+    if game.ply_count() == 0 {
+        let demo = ChessGame::demo();
+        let note = if note.is_empty() {
+            "The loaded PGN had no readable moves, so the demo game is shown.".to_owned()
+        } else {
+            note
+        };
+        return create_session(demo, mode, difficulty, target, note);
+    }
+    create_session(game, mode, difficulty, target, note)
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `web::handlers::setup` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`create_session`](/guide/function-web-handlers-setup-create-session).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-web-handlers-setup-create-session|web::handlers::setup · create_session -->
+# Function page 085 of 111: `web::handlers::setup::create_session`
+
+**Source:** `src/web/handlers/setup.rs:64`
+
+## Responsibility
+
+Allocates a session id, chooses the starting ply for the mode, stores state, and redirects to play.
+
+## Signature and data contract
+
+```rust
+fn create_session(
+    game: ChessGame,
+    mode: GameMode,
+    difficulty: String,
+    target: String,
+    note: String,
+) -> HttpResponse
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+fn create_session(
+    game: ChessGame,
+    mode: GameMode,
+    difficulty: String,
+    target: String,
+    note: String,
+) -> HttpResponse {
+    let id = NEXT_SESSION.fetch_add(1, Ordering::Relaxed).to_string();
+    let ply = if mode == GameMode::Opening {
+        8.min(game.ply_count())
+    } else {
+        0
+    };
+    let session = Session {
+        game,
+        mode,
+        difficulty,
+        target,
+        ply,
+        note,
+        feedback: String::new(),
+        revealed: false,
+    };
+    if let Ok(mut store) = sessions().lock() {
+        store.insert(id.clone(), session);
+    }
+    HttpResponse::Redirect(format!("/play?sid={id}"))
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `web::handlers::setup` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`load_game`](/guide/function-web-handlers-setup-load-game).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-web-http-serve|web::http · serve -->
+# Function page 086 of 111: `web::http::serve`
+
+**Source:** `src/web/http.rs:17`
+
+## Responsibility
+
+Binds the localhost HTTP listener, prints the local URLs, and serially handles connections.
+
+## Signature and data contract
+
+```rust
+pub fn serve()
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub fn serve() {
+    let listener = match TcpListener::bind("127.0.0.1:7878") {
+        Ok(listener) => listener,
+        Err(error) => {
+            eprintln!("Could not start the ChessProject web app: {error}");
+            return;
+        }
+    };
+    println!("ChessProject is running at http://127.0.0.1:7878");
+    println!("Guidebook: http://127.0.0.1:7878/guide");
+    println!("Press Ctrl+C to stop the local server.");
+
+    for incoming in listener.incoming() {
+        match incoming {
+            Ok(stream) => handle_connection(stream),
+            Err(error) => eprintln!("Browser connection failed: {error}"),
+        }
+    }
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `web::http` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`handle_connection`](/guide/function-web-http-handle-connection), [`write_response`](/guide/function-web-http-write-response), [`write_download`](/guide/function-web-http-write-download), [`write_pdf`](/guide/function-web-http-write-pdf).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-web-http-handle-connection|web::http · handle_connection -->
+# Function page 087 of 111: `web::http::handle_connection`
+
+**Source:** `src/web/http.rs:37`
+
+## Responsibility
+
+Reads one request line, permits GET, dispatches a route, and writes the matching HTTP response.
+
+## Signature and data contract
+
+```rust
+fn handle_connection(mut stream: TcpStream)
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+fn handle_connection(mut stream: TcpStream) {
+    let _ = stream.set_read_timeout(Some(std::time::Duration::from_secs(3)));
+    let mut buffer = [0u8; 16_384];
+    let count = match stream.read(&mut buffer) {
+        Ok(count) if count > 0 => count,
+        _ => return,
+    };
+    let request = String::from_utf8_lossy(&buffer[..count]);
+    let first_line = request.lines().next().unwrap_or_default();
+    let mut parts = first_line.split_whitespace();
+    let method = parts.next().unwrap_or("GET");
+    let target = parts.next().unwrap_or("/");
+    if method != "GET" {
+        write_response(
+            &mut stream,
+            405,
+            "text/plain; charset=utf-8",
+            "Use a browser GET form for this prototype.",
+        );
+        return;
+    }
+    let response = route(target);
+    match response {
+        HttpResponse::Page(body) => {
+            write_response(&mut stream, 200, "text/html; charset=utf-8", &body)
+        }
+        HttpResponse::Download(body) => write_download(&mut stream, "GTE-Guidebook.md", &body),
+        HttpResponse::Pdf(body) => write_pdf(&mut stream, &body),
+        HttpResponse::Redirect(location) => {
+            let head = format!(
+                "HTTP/1.1 303 See Other\r\nLocation: {location}\r\nContent-Length: 0\r\nConnection: close\r\n\r\n"
+            );
+            let _ = stream.write_all(head.as_bytes());
+        }
+        HttpResponse::NotFound => write_response(
+            &mut stream,
+            404,
+            "text/plain; charset=utf-8",
+            "Page not found.",
+        ),
+    }
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `web::http` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`serve`](/guide/function-web-http-serve), [`write_response`](/guide/function-web-http-write-response), [`write_download`](/guide/function-web-http-write-download), [`write_pdf`](/guide/function-web-http-write-pdf).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-web-http-write-response|web::http · write_response -->
+# Function page 088 of 111: `web::http::write_response`
+
+**Source:** `src/web/http.rs:80`
 
 ## Responsibility
 
@@ -5267,17 +5049,17 @@ Writes a standard HTTP response header and its body to the client socket.
 ## Signature and data contract
 
 ```rust
-fn write_response(stream: &mut TcpStream, status: u16, content_type: &str, body: &str)
+fn write_response<W: Write>(stream: &mut W, status: u16, content_type: &str, body: &str)
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-fn write_response(stream: &mut TcpStream, status: u16, content_type: &str, body: &str) {
+fn write_response<W: Write>(stream: &mut W, status: u16, content_type: &str, body: &str) {
     let reason = match status {
         200 => "OK",
         404 => "Not Found",
@@ -5295,14 +5077,18 @@ fn write_response(stream: &mut TcpStream, status: u16, content_type: &str, body:
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `web::http` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`serve`](/guide/function-web-http-serve), [`handle_connection`](/guide/function-web-http-handle-connection), [`write_download`](/guide/function-web-http-write-download), [`write_pdf`](/guide/function-web-http-write-pdf).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-web-write-download|web · write_download -->
-# Function page 097 of 104: `web::write_download`
+<!-- GTE_FUNCTION_PAGE: function-web-http-write-download|web::http · write_download -->
+# Function page 089 of 111: `web::http::write_download`
 
-**Source:** `src/web.rs:1093`
+**Source:** `src/web/http.rs:95`
 
 ## Responsibility
 
@@ -5311,17 +5097,17 @@ Sends Markdown with an attachment disposition and the selected filename.
 ## Signature and data contract
 
 ```rust
-fn write_download(stream: &mut TcpStream, filename: &str, body: &str)
+fn write_download<W: Write>(stream: &mut W, filename: &str, body: &str)
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-fn write_download(stream: &mut TcpStream, filename: &str, body: &str) {
+fn write_download<W: Write>(stream: &mut W, filename: &str, body: &str) {
     let head = format!(
         "HTTP/1.1 200 OK\r\nContent-Type: text/markdown; charset=utf-8\r\nContent-Disposition: attachment; filename=\"{filename}\"\r\nContent-Length: {}\r\nConnection: close\r\nX-Content-Type-Options: nosniff\r\n\r\n",
         body.len()
@@ -5333,14 +5119,18 @@ fn write_download(stream: &mut TcpStream, filename: &str, body: &str) {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `web::http` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`serve`](/guide/function-web-http-serve), [`handle_connection`](/guide/function-web-http-handle-connection), [`write_response`](/guide/function-web-http-write-response), [`write_pdf`](/guide/function-web-http-write-pdf).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-web-write-pdf|web · write_pdf -->
-# Function page 098 of 104: `web::write_pdf`
+<!-- GTE_FUNCTION_PAGE: function-web-http-write-pdf|web::http · write_pdf -->
+# Function page 090 of 111: `web::http::write_pdf`
 
-**Source:** `src/web.rs:1102`
+**Source:** `src/web/http.rs:104`
 
 ## Responsibility
 
@@ -5349,17 +5139,17 @@ Sends the embedded function appendix bytes with an application/pdf content type 
 ## Signature and data contract
 
 ```rust
-fn write_pdf(stream: &mut TcpStream, body: &[u8])
+fn write_pdf<W: Write>(stream: &mut W, body: &[u8])
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-fn write_pdf(stream: &mut TcpStream, body: &[u8]) {
+fn write_pdf<W: Write>(stream: &mut W, body: &[u8]) {
     let head = format!(
         "HTTP/1.1 200 OK\r\nContent-Type: application/pdf\r\nContent-Disposition: attachment; filename=\"GTE-Function-Appendix.pdf\"\r\nContent-Length: {}\r\nConnection: close\r\nX-Content-Type-Options: nosniff\r\n\r\n",
         body.len()
@@ -5371,14 +5161,767 @@ fn write_pdf(stream: &mut TcpStream, body: &[u8]) {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `web::http` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`serve`](/guide/function-web-http-serve), [`handle_connection`](/guide/function-web-http-handle-connection), [`write_response`](/guide/function-web-http-write-response), [`write_download`](/guide/function-web-http-write-download).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-web-parse-query|web · parse_query -->
-# Function page 099 of 104: `web::parse_query`
+<!-- GTE_FUNCTION_PAGE: function-web-render-board-render-board|web::render::board · render_board -->
+# Function page 091 of 111: `web::render::board::render_board`
 
-**Source:** `src/web.rs:1111`
+**Source:** `src/web/render/board.rs:4`
+
+## Responsibility
+
+Converts all 64 board cells into labeled squares for the accessible full board.
+
+## Signature and data contract
+
+```rust
+pub(super) fn render_board(position: &[char; 64]) -> String
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub(super) fn render_board(position: &[char; 64]) -> String {
+    let mut output =
+        String::from("<div class=\"board\" role=\"img\" aria-label=\"Chess position\">");
+    for row in 0..8 {
+        for column in 0..8 {
+            let piece = position[row * 8 + column];
+            let square = if (row + column) % 2 == 0 {
+                "light-square"
+            } else {
+                "dark-square"
+            };
+            let symbol = chess_symbol(piece);
+            let label = if piece == '.' {
+                "empty".to_owned()
+            } else {
+                format!(
+                    "{} on {}{}",
+                    piece_name(piece),
+                    (b'a' + column as u8) as char,
+                    8 - row
+                )
+            };
+            output.push_str(&format!(
+                "<div class=\"square {square}\" aria-label=\"{}\">{symbol}</div>",
+                html_escape(&label)
+            ));
+        }
+    }
+    output.push_str("</div>");
+    output
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `web::render::board` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`mini_board`](/guide/function-web-render-board-mini-board), [`chess_symbol`](/guide/function-web-render-board-chess-symbol), [`piece_name`](/guide/function-web-render-board-piece-name).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-web-render-board-mini-board|web::render::board · mini_board -->
+# Function page 092 of 111: `web::render::board::mini_board`
+
+**Source:** `src/web/render/board.rs:36`
+
+## Responsibility
+
+Renders the compact decorative board used on the home page.
+
+## Signature and data contract
+
+```rust
+pub(super) fn mini_board(position: &[char; 64]) -> String
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub(super) fn mini_board(position: &[char; 64]) -> String {
+    let mut output = String::from("<div class=\"mini-board-grid\">");
+    for row in 0..8 {
+        for column in 0..8 {
+            let piece = position[row * 8 + column];
+            let square = if (row + column) % 2 == 0 {
+                "light-square"
+            } else {
+                "dark-square"
+            };
+            output.push_str(&format!(
+                "<div class=\"square {square}\">{}</div>",
+                chess_symbol(piece)
+            ));
+        }
+    }
+    output.push_str("</div>");
+    output
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `web::render::board` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`render_board`](/guide/function-web-render-board-render-board), [`chess_symbol`](/guide/function-web-render-board-chess-symbol), [`piece_name`](/guide/function-web-render-board-piece-name).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-web-render-board-chess-symbol|web::render::board · chess_symbol -->
+# Function page 093 of 111: `web::render::board::chess_symbol`
+
+**Source:** `src/web/render/board.rs:56`
+
+## Responsibility
+
+Maps internal piece letters to Unicode chess glyphs, returning an empty string for empty squares.
+
+## Signature and data contract
+
+```rust
+fn chess_symbol(piece: char) -> &'static str
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+fn chess_symbol(piece: char) -> &'static str {
+    match piece {
+        'K' => "♔",
+        'Q' => "♕",
+        'R' => "♖",
+        'B' => "♗",
+        'N' => "♘",
+        'P' => "♙",
+        'k' => "♚",
+        'q' => "♛",
+        'r' => "♜",
+        'b' => "♝",
+        'n' => "♞",
+        'p' => "♟",
+        _ => "",
+    }
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `web::render::board` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`render_board`](/guide/function-web-render-board-render-board), [`mini_board`](/guide/function-web-render-board-mini-board), [`piece_name`](/guide/function-web-render-board-piece-name).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-web-render-board-piece-name|web::render::board · piece_name -->
+# Function page 094 of 111: `web::render::board::piece_name`
+
+**Source:** `src/web/render/board.rs:74`
+
+## Responsibility
+
+Maps an internal piece letter to a spoken accessibility label.
+
+## Signature and data contract
+
+```rust
+fn piece_name(piece: char) -> &'static str
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+fn piece_name(piece: char) -> &'static str {
+    match piece.to_ascii_uppercase() {
+        'K' => "king",
+        'Q' => "queen",
+        'R' => "rook",
+        'B' => "bishop",
+        'N' => "knight",
+        _ => "pawn",
+    }
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `web::render::board` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`render_board`](/guide/function-web-render-board-render-board), [`mini_board`](/guide/function-web-render-board-mini-board), [`chess_symbol`](/guide/function-web-render-board-chess-symbol).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-web-render-game-render-game|web::render::game · render_game -->
+# Function page 095 of 111: `web::render::game::render_game`
+
+**Source:** `src/web/render/game.rs:8`
+
+## Responsibility
+
+Composes the board, player rows, move list, metadata, navigation, and mode-specific answer panel.
+
+## Signature and data contract
+
+```rust
+pub(in crate::web) fn render_game(session: &Session, id: &str) -> String
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub(in crate::web) fn render_game(session: &Session, id: &str) -> String {
+    let game = &session.game;
+    let mode_label = if session.mode == GameMode::Elo {
+        "GUESS THE ELO"
+    } else {
+        "GUESS THE OPENING"
+    };
+    let limit = max_ply(session);
+    let move_list = render_move_list(game, id, session.ply, limit);
+    let board = render_board(game.position_at(session.ply));
+    let note = if session.note.is_empty() {
+        String::new()
+    } else {
+        format!("<div class=\"toast\">{}</div>", html_escape(&session.note))
+    };
+    let game_link = if game.source_url.starts_with("https://") {
+        format!(
+            "<a class=\"source-link\" href=\"{}\" target=\"_blank\" rel=\"noreferrer\">Open on Chess.com ↗</a>",
+            html_escape(&game.source_url)
+        )
+    } else {
+        String::new()
+    };
+    let feedback = if session.feedback.is_empty() {
+        String::new()
+    } else {
+        format!("<div class=\"result-box\">{}</div>", session.feedback)
+    };
+    let sidebar = if session.mode == GameMode::Elo {
+        render_elo_panel(session, id, &feedback)
+    } else {
+        render_opening_panel(session, id, &feedback)
+    };
+    let title = if session.mode == GameMode::Elo {
+        "Guess the Elo"
+    } else {
+        "Guess the Opening"
+    };
+    let body = format!(
+        include_str!("../../../assets/templates/game.html"),
+        if game.demo {
+            "DEMO DATA"
+        } else {
+            "CHESS.COM ARCHIVE"
+        },
+        html_escape(title),
+        render_player(
+            "black",
+            &game.black_name,
+            game.black_rating,
+            session.revealed && session.target != "white"
+        ),
+        board,
+        render_player(
+            "white",
+            &game.white_name,
+            game.white_rating,
+            session.revealed && session.target != "black"
+        ),
+        session.ply.saturating_sub(1),
+        session.ply,
+        limit,
+        session.ply.saturating_add(1).min(limit),
+        limit,
+        limit,
+        move_list,
+        sidebar,
+        html_escape(&game.result),
+        html_escape(&game.time_control),
+        html_escape(&game.date),
+        if game.eco.is_empty() {
+            "—".to_owned()
+        } else {
+            html_escape(&game.eco)
+        },
+        game_link,
+        mode_label = mode_label,
+        id = id,
+    );
+    page(title, &note, &body)
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `web::render::game` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`render_player`](/guide/function-web-render-game-render-player), [`render_move_list`](/guide/function-web-render-game-render-move-list).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-web-render-game-render-player|web::render::game · render_player -->
+# Function page 096 of 111: `web::render::game::render_player`
+
+**Source:** `src/web/render/game.rs:90`
+
+## Responsibility
+
+Renders a player row while hiding its rating until the round's reveal state permits it.
+
+## Signature and data contract
+
+```rust
+fn render_player(color: &str, name: &str, rating: Option<i32>, revealed: bool) -> String
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+fn render_player(color: &str, name: &str, rating: Option<i32>, revealed: bool) -> String {
+    let (icon, class, label) = if color == "white" {
+        ("♙", "white-dot", "White")
+    } else {
+        ("♟", "black-dot", "Black")
+    };
+    let rating_text = if revealed {
+        rating
+            .map(|value| format!("Rating · {value}"))
+            .unwrap_or_else(|| "Rating unavailable".to_owned())
+    } else {
+        "Rating hidden".to_owned()
+    };
+    let visible_rating = if revealed {
+        String::new()
+    } else {
+        "•••".to_owned()
+    };
+    format!(
+        "<div class=\"player-line\"><span class=\"piece-dot {class}\">{icon}</span><div><strong>{}</strong><small>{label} · {}</small></div><span class=\"rating-lock\">{visible_rating}</span></div>",
+        html_escape(name),
+        html_escape(&rating_text)
+    )
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `web::render::game` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`render_game`](/guide/function-web-render-game-render-game), [`render_move_list`](/guide/function-web-render-game-render-move-list).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-web-render-game-render-move-list|web::render::game · render_move_list -->
+# Function page 097 of 111: `web::render::game::render_move_list`
+
+**Source:** `src/web/render/game.rs:115`
+
+## Responsibility
+
+Turns each visible SAN token into a navigation link and marks the selected ply.
+
+## Signature and data contract
+
+```rust
+fn render_move_list(
+    game: &ChessGame,
+    id: &str,
+    selected_ply: usize,
+    visible_plies: usize,
+) -> String
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+fn render_move_list(
+    game: &ChessGame,
+    id: &str,
+    selected_ply: usize,
+    visible_plies: usize,
+) -> String {
+    if game.moves.is_empty() {
+        return "<p class=\"muted\">No readable moves in this PGN.</p>".to_owned();
+    }
+    let mut output = String::from("<div class=\"move-grid\">");
+    for (index, san) in game.moves.iter().take(visible_plies).enumerate() {
+        let ply = index + 1;
+        let move_number = (index / 2) + 1;
+        let class = if ply == selected_ply {
+            "move-token selected"
+        } else {
+            "move-token"
+        };
+        if index % 2 == 0 {
+            output.push_str(&format!(
+                "<span class=\"move-number\">{move_number}.</span>"
+            ));
+        }
+        output.push_str(&format!(
+            "<a class=\"{class}\" href=\"/move?sid={id}&amp;ply={ply}\">{}</a>",
+            html_escape(san)
+        ));
+    }
+    output.push_str("</div>");
+    output
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `web::render::game` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`render_game`](/guide/function-web-render-game-render-game), [`render_player`](/guide/function-web-render-game-render-player).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-web-render-home-render-home|web::render::home · render_home -->
+# Function page 098 of 111: `web::render::home::render_home`
+
+**Source:** `src/web/render/home.rs:6`
+
+## Responsibility
+
+Builds the overview, GothamChess link, formal description, challenge forms, and demo links.
+
+## Signature and data contract
+
+```rust
+pub(in crate::web) fn render_home(message: &str) -> String
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub(in crate::web) fn render_home(message: &str) -> String {
+    let body = format!(
+        include_str!("../../../assets/templates/home.html"),
+        mini_board(ChessGame::demo().position_at(8)),
+        mini_board(ChessGame::demo().position_at(8))
+    );
+    let notice = if message.is_empty() {
+        String::new()
+    } else {
+        format!("<div class=\"toast\">{}</div>", html_escape(message))
+    };
+    page("GTE · Read the Game", &notice, &body)
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `web::render::home` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+This module has one function; its supporting types and constants live alongside it.
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-web-render-html-page|web::render::html · page -->
+# Function page 099 of 111: `web::render::html::page`
+
+**Source:** `src/web/render/html.rs:4`
+
+## Responsibility
+
+Wraps a rendered app body in the shared HTML shell and app stylesheet.
+
+## Signature and data contract
+
+```rust
+pub(in crate::web) fn page(title: &str, notice: &str, body: &str) -> String
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub(in crate::web) fn page(title: &str, notice: &str, body: &str) -> String {
+    format!(
+        include_str!("../../../assets/templates/page.html"),
+        html_escape(title),
+        STYLE,
+        notice,
+        body
+    )
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `web::render::html` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`html_escape`](/guide/function-web-render-html-html-escape).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-web-render-html-html-escape|web::render::html · html_escape -->
+# Function page 100 of 111: `web::render::html::html_escape`
+
+**Source:** `src/web/render/html.rs:14`
+
+## Responsibility
+
+Replaces five HTML-sensitive characters before untrusted text enters markup.
+
+## Signature and data contract
+
+```rust
+pub(in crate::web) fn html_escape(text: &str) -> String
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub(in crate::web) fn html_escape(text: &str) -> String {
+    text.replace('&', "&amp;")
+        .replace('<', "&lt;")
+        .replace('>', "&gt;")
+        .replace('"', "&quot;")
+        .replace('\'', "&#39;")
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `web::render::html` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`page`](/guide/function-web-render-html-page).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-web-render-panels-render-elo-panel|web::render::panels · render_elo_panel -->
+# Function page 101 of 111: `web::render::panels::render_elo_panel`
+
+**Source:** `src/web/render/panels.rs:6`
+
+## Responsibility
+
+Creates the rating form with inputs only for the selected side and the selected tolerance displayed.
+
+## Signature and data contract
+
+```rust
+pub(super) fn render_elo_panel(session: &Session, id: &str, feedback: &str) -> String
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub(super) fn render_elo_panel(session: &Session, id: &str, feedback: &str) -> String {
+    let white_input = if session.target == "black" {
+        String::new()
+    } else {
+        format!(
+            "<label>White · {}<input type=number min=0 max=4000 name=white placeholder=\"Your guess\" required></label>",
+            html_escape(&session.game.white_name)
+        )
+    };
+    let black_input = if session.target == "white" {
+        String::new()
+    } else {
+        format!(
+            "<label>Black · {}<input type=number min=0 max=4000 name=black placeholder=\"Your guess\" required></label>",
+            html_escape(&session.game.black_name)
+        )
+    };
+    let answer_area = if session.revealed {
+        feedback.to_owned()
+    } else {
+        String::new()
+    };
+    format!(
+        include_str!("../../../assets/templates/elo-panel.html"),
+        crate::chess::rating_tolerance(&session.difficulty),
+        session.difficulty.to_ascii_uppercase(),
+        crate::chess::rating_tolerance(&session.difficulty),
+        id,
+        white_input,
+        black_input,
+        answer_area,
+        session.target.to_ascii_uppercase(),
+        session.difficulty.to_ascii_uppercase()
+    )
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `web::render::panels` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`render_opening_panel`](/guide/function-web-render-panels-render-opening-panel), [`opening_sequence`](/guide/function-web-render-panels-opening-sequence).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-web-render-panels-render-opening-panel|web::render::panels · render_opening_panel -->
+# Function page 102 of 111: `web::render::panels::render_opening_panel`
+
+**Source:** `src/web/render/panels.rs:42`
+
+## Responsibility
+
+Builds the opening answer form and shows the visible short sequence of SAN moves.
+
+## Signature and data contract
+
+```rust
+pub(super) fn render_opening_panel(session: &Session, id: &str, feedback: &str) -> String
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub(super) fn render_opening_panel(session: &Session, id: &str, feedback: &str) -> String {
+    let feedback = if session.revealed {
+        feedback.to_owned()
+    } else {
+        String::new()
+    };
+    format!(
+        include_str!("../../../assets/templates/opening-panel.html"),
+        session.ply,
+        html_escape(&opening_sequence(&session.game)),
+        id,
+        feedback
+    )
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `web::render::panels` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`render_elo_panel`](/guide/function-web-render-panels-render-elo-panel), [`opening_sequence`](/guide/function-web-render-panels-opening-sequence).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-web-render-panels-opening-sequence|web::render::panels · opening_sequence -->
+# Function page 103 of 111: `web::render::panels::opening_sequence`
+
+**Source:** `src/web/render/panels.rs:57`
+
+## Responsibility
+
+Formats up to eight stored SAN plies into conventional numbered chess notation.
+
+## Signature and data contract
+
+```rust
+fn opening_sequence(game: &ChessGame) -> String
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+fn opening_sequence(game: &ChessGame) -> String {
+    let mut sequence = String::new();
+    for (index, san) in game.moves.iter().take(8).enumerate() {
+        if index % 2 == 0 {
+            sequence.push_str(&format!("{}.", index / 2 + 1));
+        }
+        sequence.push(' ');
+        sequence.push_str(san);
+    }
+    sequence.trim().to_owned()
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `web::render::panels` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`render_elo_panel`](/guide/function-web-render-panels-render-elo-panel), [`render_opening_panel`](/guide/function-web-render-panels-render-opening-panel).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-web-request-parse-query|web::request · parse_query -->
+# Function page 104 of 111: `web::request::parse_query`
+
+**Source:** `src/web/request.rs:4`
 
 ## Responsibility
 
@@ -5387,17 +5930,17 @@ Decodes ampersand-separated key/value pairs into the request parameter map.
 ## Signature and data contract
 
 ```rust
-fn parse_query(query: &str) -> HashMap<String, String>
+pub(super) fn parse_query(query: &str) -> HashMap<String, String>
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-fn parse_query(query: &str) -> HashMap<String, String> {
+pub(super) fn parse_query(query: &str) -> HashMap<String, String> {
     query
         .split('&')
         .filter(|part| !part.is_empty())
@@ -5411,14 +5954,18 @@ fn parse_query(query: &str) -> HashMap<String, String> {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `web::request` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`url_decode`](/guide/function-web-request-url-decode), [`hex_value`](/guide/function-web-request-hex-value), [`normalize_difficulty`](/guide/function-web-request-normalize-difficulty), [`normalize_target`](/guide/function-web-request-normalize-target).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-web-url-decode|web · url_decode -->
-# Function page 100 of 104: `web::url_decode`
+<!-- GTE_FUNCTION_PAGE: function-web-request-url-decode|web::request · url_decode -->
+# Function page 105 of 111: `web::request::url_decode`
 
-**Source:** `src/web.rs:1122`
+**Source:** `src/web/request.rs:15`
 
 ## Responsibility
 
@@ -5430,11 +5977,11 @@ Decodes plus signs and valid percent escapes before converting bytes into UTF-8 
 fn url_decode(value: &str) -> String
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
 fn url_decode(value: &str) -> String {
@@ -5470,14 +6017,18 @@ fn url_decode(value: &str) -> String {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `web::request` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`parse_query`](/guide/function-web-request-parse-query), [`hex_value`](/guide/function-web-request-hex-value), [`normalize_difficulty`](/guide/function-web-request-normalize-difficulty), [`normalize_target`](/guide/function-web-request-normalize-target).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-web-hex-value|web · hex_value -->
-# Function page 101 of 104: `web::hex_value`
+<!-- GTE_FUNCTION_PAGE: function-web-request-hex-value|web::request · hex_value -->
+# Function page 106 of 111: `web::request::hex_value`
 
-**Source:** `src/web.rs:1152`
+**Source:** `src/web/request.rs:45`
 
 ## Responsibility
 
@@ -5489,11 +6040,11 @@ Converts one hexadecimal ASCII digit into its numeric nibble value.
 fn hex_value(byte: u8) -> Option<u8>
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
 fn hex_value(byte: u8) -> Option<u8> {
@@ -5508,51 +6059,18 @@ fn hex_value(byte: u8) -> Option<u8> {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `web::request` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`parse_query`](/guide/function-web-request-parse-query), [`url_decode`](/guide/function-web-request-url-decode), [`normalize_difficulty`](/guide/function-web-request-normalize-difficulty), [`normalize_target`](/guide/function-web-request-normalize-target).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-web-html-escape|web · html_escape -->
-# Function page 102 of 104: `web::html_escape`
+<!-- GTE_FUNCTION_PAGE: function-web-request-normalize-difficulty|web::request · normalize_difficulty -->
+# Function page 107 of 111: `web::request::normalize_difficulty`
 
-**Source:** `src/web.rs:1161`
-
-## Responsibility
-
-Replaces five HTML-sensitive characters before untrusted text enters markup.
-
-## Signature and data contract
-
-```rust
-fn html_escape(text: &str) -> String
-```
-
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
-
-## Implementation, line by line
-
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
-
-```rust
-fn html_escape(text: &str) -> String {
-    text.replace('&', "&amp;")
-        .replace('<', "&lt;")
-        .replace('>', "&gt;")
-        .replace('"', "&quot;")
-        .replace('\'', "&#39;")
-}
-```
-
-## Where it fits
-
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
-
-<!-- END_GTE_FUNCTION_PAGE -->
-
-<!-- GTE_FUNCTION_PAGE: function-web-normalize-difficulty|web · normalize_difficulty -->
-# Function page 103 of 104: `web::normalize_difficulty`
-
-**Source:** `src/web.rs:1169`
+**Source:** `src/web/request.rs:54`
 
 ## Responsibility
 
@@ -5561,17 +6079,17 @@ Restricts user input to easy, medium, or hard and accepts the brief's harm typo 
 ## Signature and data contract
 
 ```rust
-fn normalize_difficulty(value: &str) -> String
+pub(super) fn normalize_difficulty(value: &str) -> String
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-fn normalize_difficulty(value: &str) -> String {
+pub(super) fn normalize_difficulty(value: &str) -> String {
     match value.to_ascii_lowercase().as_str() {
         "easy" => "easy".to_owned(),
         "hard" | "harm" => "hard".to_owned(),
@@ -5582,14 +6100,18 @@ fn normalize_difficulty(value: &str) -> String {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `web::request` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`parse_query`](/guide/function-web-request-parse-query), [`url_decode`](/guide/function-web-request-url-decode), [`hex_value`](/guide/function-web-request-hex-value), [`normalize_target`](/guide/function-web-request-normalize-target).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->
 
-<!-- GTE_FUNCTION_PAGE: function-web-normalize-target|web · normalize_target -->
-# Function page 104 of 104: `web::normalize_target`
+<!-- GTE_FUNCTION_PAGE: function-web-request-normalize-target|web::request · normalize_target -->
+# Function page 108 of 111: `web::request::normalize_target`
 
-**Source:** `src/web.rs:1177`
+**Source:** `src/web/request.rs:62`
 
 ## Responsibility
 
@@ -5598,17 +6120,17 @@ Restricts user input to white, black, or the default both-player choice.
 ## Signature and data contract
 
 ```rust
-fn normalize_target(value: &str) -> String
+pub(super) fn normalize_target(value: &str) -> String
 ```
 
-Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references are read from existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes a recoverable failure explicit. The return type tells the caller what it can do next. The full body below shows which of those paths this function actually uses.
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
 
 ## Implementation, line by line
 
-The excerpt is copied from the production source. Follow it from the first branch to the final expression. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When the function mutates a value, compare the mutation with its owner or caller below.
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
 
 ```rust
-fn normalize_target(value: &str) -> String {
+pub(super) fn normalize_target(value: &str) -> String {
     match value.to_ascii_lowercase().as_str() {
         "white" => "white".to_owned(),
         "black" => "black".to_owned(),
@@ -5619,6 +6141,146 @@ fn normalize_target(value: &str) -> String {
 
 ## Where it fits
 
-The neighboring Guidebook chapter describes how this function participates in the larger flow. The [complete codebase walkthrough](/guide/reference) maps its module, callers, related helpers, tests, and known limits. For terminal exercises that touch this behavior, open the exercise's `reference.md` link and compare its small contract with this production implementation.
+The implementation lives in the focused `web::request` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`parse_query`](/guide/function-web-request-parse-query), [`url_decode`](/guide/function-web-request-url-decode), [`hex_value`](/guide/function-web-request-hex-value), [`normalize_difficulty`](/guide/function-web-request-normalize-difficulty).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-web-router-route|web::router · route -->
+# Function page 109 of 111: `web::router::route`
+
+**Source:** `src/web/router.rs:13`
+
+## Responsibility
+
+Splits path from query values and selects the correct page, game handler, download, or 404.
+
+## Signature and data contract
+
+```rust
+pub(super) fn route(target: &str) -> HttpResponse
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub(super) fn route(target: &str) -> HttpResponse {
+    let (path, query) = target.split_once('?').unwrap_or((target, ""));
+    let params = parse_query(query);
+    match path {
+        "/" => HttpResponse::Page(render_home("")),
+        "/guide" => HttpResponse::Page(render_book("introduction")),
+        "/guide/download" => HttpResponse::Download(download_book_markdown()),
+        "/guide/functions.pdf" => {
+            HttpResponse::Pdf(include_bytes!("../../output/pdf/GTE-Function-Appendix.pdf").to_vec())
+        }
+        "/load" => load_game(&params),
+        "/play" => render_session(&params),
+        "/move" => update_move(&params),
+        "/guess-elo" => submit_elo_guess(&params),
+        "/guess-opening" => submit_opening_guess(&params),
+        "/new" => HttpResponse::Page(render_home("Choose a mode to start another round.")),
+        _ => path
+            .strip_prefix("/guide/")
+            .and_then(book_chapter_index)
+            .map(|index| HttpResponse::Page(render_book(&book_chapters()[index].slug)))
+            .unwrap_or(HttpResponse::NotFound),
+    }
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `web::router` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+This module has one function; its supporting types and constants live alongside it.
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-web-session-sessions|web::session · sessions -->
+# Function page 110 of 111: `web::session::sessions`
+
+**Source:** `src/web/session.rs:27`
+
+## Responsibility
+
+Lazily initializes and returns the process-wide mutex-protected browser session map.
+
+## Signature and data contract
+
+```rust
+pub(super) fn sessions() -> &'static Mutex<HashMap<String, Session>>
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub(super) fn sessions() -> &'static Mutex<HashMap<String, Session>> {
+    SESSIONS.get_or_init(|| Mutex::new(HashMap::new()))
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `web::session` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`max_ply`](/guide/function-web-session-max-ply).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
+
+<!-- END_GTE_FUNCTION_PAGE -->
+
+<!-- GTE_FUNCTION_PAGE: function-web-session-max-ply|web::session · max_ply -->
+# Function page 111 of 111: `web::session::max_ply`
+
+**Source:** `src/web/session.rs:31`
+
+## Responsibility
+
+Applies the mode rule that opening rounds show at most eight plies while Elo can show the full game.
+
+## Signature and data contract
+
+```rust
+pub(super) fn max_ply(session: &Session) -> usize
+```
+
+Read the parameter types first: owned `String` values can outlive the current call; borrowed `&str` or references read existing storage; `Option<T>` represents data that may be absent; and `Result<T, E>` makes recoverable failure explicit. The return type tells the caller what it can do next. The body below shows which paths this function uses.
+
+## Implementation, line by line
+
+This excerpt is copied from the production source. For each `if`, `match`, or early `return`, identify what input reaches that path and what state the caller observes afterward. When a value changes, follow it through the types named in the signature.
+
+```rust
+pub(super) fn max_ply(session: &Session) -> usize {
+    let game_count = session.game.ply_count();
+    if session.mode == GameMode::Opening {
+        game_count.min(8)
+    } else {
+        game_count
+    }
+}
+```
+
+## Where it fits
+
+The implementation lives in the focused `web::session` module at the source path above. Read the [related architecture chapter](/guide/web-server) for its larger flow and the [complete codebase walkthrough](/guide/reference) for the module boundaries, related helpers, exercises, and known limits.
+
+Other functions in this module: [`sessions`](/guide/function-web-session-sessions).
+
+For terminal exercises that touch this behavior, follow the exercise's `reference.md` link and compare its small contract with this production implementation.
 
 <!-- END_GTE_FUNCTION_PAGE -->

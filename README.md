@@ -19,7 +19,7 @@ The installed `gte` command opens directly into the terminal UI. It starts with 
 - `G` prints the browser Guidebook address.
 - `L` opens the exercise list; `Esc` returns to the previous screen; `Q` exits.
 
-Learner code is under `exercises/src/`; tests are under `exercises/tests/`; reference solutions are under `solutions/`. The 24 questions cover eight codebase topics at Easy, Medium, and Hard levels. Question 0 is the prefilled Easy orientation, and its passing test output maps the app's entry points and six main modules. Easy lessons guide learners through small changes, Medium lessons ask for a specific behavior in partial code, and Hard lessons leave a complete function to implement. Every source has `NOTE:` and `TODO:` comments, each exercise guide ends in a link to `exercises/reference.md`, and passing checks load the matching solution automatically. The Rust basics Medium exercise uses `assert_eq!` to demonstrate the compiler error caused by a missing `PartialEq` derive.
+Learner code is under `exercises/src/`; tests are under `exercises/tests/`; reference solutions are under `solutions/`. The 24 questions cover eight codebase topics at Easy, Medium, and Hard levels. Question 0 is the prefilled Easy orientation, and its passing test output maps the app's entry points and six main subsystems. Easy lessons guide learners through small changes, Medium lessons ask for a specific behavior in partial code, and Hard lessons leave a complete function to implement. Every source has `NOTE:` and `TODO:` comments, each exercise guide ends in a link to `exercises/reference.md`, and passing checks load the matching solution automatically. The Rust basics Medium exercise uses `assert_eq!` to demonstrate the compiler error caused by a missing `PartialEq` derive.
 
 ## Run the browser app and Guidebook
 
@@ -37,14 +37,22 @@ The browser UI and game logic are rendered by Rust. It uses Chess.com's read-onl
 ## Project layout
 
 ```text
-src/                 Rust app, Chess.com API, board parser, TUI, web renderer
-docs/                Product spec and book-style Guidebook source
+src/main.rs           Selects the terminal or browser entry point
+src/api.rs + api/     Public archive facade, HTTP client, URLs, record conversion
+src/chess.rs + chess/ Shared game facade, PGN, SAN, snapshots, answer rules
+src/cli.rs + cli/     Terminal loop, state, input, rendering, progress, checks
+src/lessons/          Lesson model, ordered catalog, one data file per topic
+src/web.rs + web/     Browser facade, HTTP, routing, sessions, handlers, renderers, book
+assets/               Embedded HTML templates and app/book stylesheets
+docs/                 Product spec and programming-book source
 exercises/src/        Learner-editable Rust exercises
 exercises/tests/      Focused tests for each lesson
 exercises/reference.md Codebase walkthrough linked at the end of every exercise
 solutions/            Reference implementations
-tools/                Function-page and PDF appendix generators
-output/pdf/           Bookmarkable 104-function appendix
+tools/                Recursive function-page and PDF appendix generators
+output/pdf/           Bookmarkable function appendix
 ```
+
+Each subsystem exposes a small public facade and keeps its helpers in focused child files. The [architecture chapter](docs/book/src/architecture.md) maps every responsibility. Regenerate the function pages and PDF after moving production functions so the book retains current source paths.
 
 The built-in sample game supports both app modes without network access. The browser server listens on `127.0.0.1:7878`.

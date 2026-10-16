@@ -6,7 +6,7 @@ The terminal path is an interactive workbook about the codebase. It borrows Rust
 
 The screen starts with the GTE logo and Question 0, `Find your way around GTE`. This starter is already implemented. The CLI runs its `intro_0` integration-test target and shows the passing test names before displaying the matching reference code. Learners can begin by reading the result, not by debugging a failing first compile.
 
-The current exercise is selected from the ordered list in `src/lessons.rs`. Progress is saved in `.gte-state.txt`; a new `intro-0` lesson is automatically treated as incomplete for an existing learner, so it becomes the first exercise on the next launch. `advance_next` moves to an incomplete exercise only after the focused check passes.
+The current exercise is selected from the ordered list in `src/lessons/catalog.rs`. Progress is saved in `.gte-state.txt`; a new `intro-0` lesson is automatically treated as incomplete for an existing learner, so it becomes the first exercise on the next launch. `advance_next` moves to an incomplete exercise only after the focused check passes.
 
 ## Keys and state transitions
 
@@ -32,7 +32,7 @@ That compiles the learner file directly into an integration-test binary. `run_le
 
 The separate `solutions/` folder is not compiled in place of the learner file. On a pass, the CLI reads the matching solution text for display. This means the exercise remains the code under test while a passing solution becomes available for comparison.
 
-The mapping is data-driven. A `Lesson` record in `src/lessons.rs` connects an id to its tier, prompt, test-derived check, solution path, and book anchor. For example, `archive-api` is transformed to `archive_api` for both `exercises/src/archive_api.rs` and `cargo test --test archive_api`; its solution is `solutions/archive_api.rs`. When adding an exercise, keep all names consistent and add one integration-test target. `LESSONS` order determines the progress bar and normal next/previous order.
+The mapping is data-driven. A `Lesson` record defined in `src/lessons/model.rs` connects an id to its tier, prompt, test-derived check, solution path, and book anchor. For example, `archive-api` is transformed to `archive_api` for both `exercises/src/archive_api.rs` and `cargo test --test archive_api`; its solution is `solutions/archive_api.rs`. When adding an exercise, keep all names consistent and add one integration-test target. Put its metadata in the matching `src/lessons/` topic file. `LESSONS` order determines the progress bar and normal next/previous order.
 
 The runner captures both streams from the Cargo child process. A zero exit status means the exercise passed. Cargo's standard test lines are kept so the solution screen can show the names of the tests and the `test result:` summary. A nonzero status returns to the exercise screen with compiler errors or failed assertions intact. This means `PartialEq` diagnostics from Rust itself remain visible to the learner instead of being replaced by a custom message.
 
@@ -66,6 +66,6 @@ The exercise also makes the function return a label for each variant. The matchi
 
 ## Use the book next to the terminal
 
-Press `G` to get the current exercise's Guidebook reference address. Every prompt's anchor points to `exercises/reference.md`, which is embedded as the final Guidebook chapter. The book describes the full production modules; the exercise target is a deliberately small practice version of one behavior.
+Press `G` to get the current exercise's Guidebook reference address. Every prompt's anchor points to `exercises/reference.md`, which is embedded as the final overview chapter before the function reference. The book describes the full production modules; the exercise target is a deliberately small practice version of one behavior.
 
-Read the [exercise-to-code map](/guide/reference#practice-files-tests-and-solutions) for all targets, or continue to the [capstone](/guide/capstone).
+Read the [exercise-to-code map](/guide/reference#exercise-files-tests-and-solutions) for all targets, or continue to the [capstone](/guide/capstone).

@@ -1,6 +1,6 @@
 # Chess.com Public Data
 
-`src/api.rs` is the network boundary between GTE and Chess.com. It reads public game archives through Chess.com's Published-Data API. It does not sign in, change profiles, or submit moves.
+`src/api.rs` exposes the network boundary between GTE and Chess.com. It reads public game archives through Chess.com's Published-Data API. It does not sign in, change profiles, or submit moves.
 
 ## Why archives come before games
 
@@ -46,6 +46,6 @@ The production web route uses the same result but renders a notice and a demo fa
 
 The API client sends only the requested public username and URL to Chess.com's public endpoint. No account credentials are needed. The implementation is serial to keep the request flow small and avoid launching an unnecessary burst of requests.
 
-The archive endpoint can be stale or unavailable; the prototype has no cache. It only accepts standard chess records with PGN. Recent-archive link lookup can miss older games. The exercise `archive_api` tests the list slicing and username rules with local strings, while the full app uses the network functions in `api.rs`.
+The archive endpoint can be stale or unavailable; the prototype has no cache. It only accepts standard chess records with PGN. Recent-archive link lookup can miss older games. The exercise `archive_api` tests the list slicing and username rules with local strings, while the full app uses the focused modules under `src/api/`.
 
 For the rest of the record-to-board path, continue to [PGN and Board State](/guide/board-state). For exact function responsibilities, see [the API section of reference.md](/guide/reference#chesscom-archive-data).
