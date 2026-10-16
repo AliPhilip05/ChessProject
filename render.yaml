@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: aliphilip-chess
+    runtime: rust
+    plan: free
+    region: virginia
+    buildCommand: cargo build --release --locked --bin gte
+    startCommand: ./target/release/gte --web
+    healthCheckPath: /
+    envVars:
+      - key: BIND_ADDRESS
+        value: 0.0.0.0

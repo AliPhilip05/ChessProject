@@ -15,16 +15,18 @@ pub(super) enum HttpResponse {
 }
 
 pub fn serve() {
-    let listener = match TcpListener::bind("127.0.0.1:7878") {
+    let host = std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "127.0.0.1".to_owned());
+    let port = std::env::var("PORT").unwrap_or_else(|_| "7878".to_owned());
+    let address = format!("{host}:{port}");
+    let listener = match TcpListener::bind(&address) {
         Ok(listener) => listener,
         Err(error) => {
             eprintln!("Could not start the ChessProject web app: {error}");
             return;
         }
     };
-    println!("ChessProject is running at http://127.0.0.1:7878");
-    println!("Guidebook: http://127.0.0.1:7878/guide");
-    println!("Press Ctrl+C to stop the local server.");
+    println!("ChessProject is listening at http://{address}");
+    println!("Guidebook: http://{address}/guide");
 
     for incoming in listener.incoming() {
         match incoming {
